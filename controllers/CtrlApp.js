@@ -3,6 +3,7 @@
 let mongoose = require('mongoose'),
 	 Product = require('../models/SchemaProduct'),
 	Category = require('../models/SchemaCategory'),
+	  School = require('../models/SchemaSchool'),
 		User = require('../models/SchemaUser'),
 	   token = require('../services/token'),
 	  bcrypt = require('bcrypt'),
@@ -13,7 +14,7 @@ module.exports = {
 	signupSeller : async (req,res)=>{
 		try
 		{
-			let {email,names,lastNames,phone,admin} =  req.body;
+			let {email,names,lastNames,phone,school} =  req.body;
 
 			let user = await User.findOne({email},{email:true});
 
@@ -25,7 +26,7 @@ module.exports = {
 				lastNames,
 				phone,
 				ci,
-				refAdmin : admin,
+				school,
 				rol : 'seller'
 			})
 
@@ -38,8 +39,8 @@ module.exports = {
 				lastNames : user.lastNames,
 				phone : user.phone,
 				ci : user.ci,
+				school : user.school,
 				rol : user.rol,
-				refAdmin : user.refAdmin
 			})
 
 		}
@@ -64,8 +65,11 @@ module.exports = {
 		try
 		{	
 			let image = await cloudinary.v2.uploader.upload(req.file.path);
-			let user = User.updateOne({_id:req.user},{$set:{avatar:image}});
-			if(user.ok>0 && user.n>0) return res.status(201).send({avatar:image});
+
+			let user = User.updateOne({_id:req.user},{$set:{avatar:image.secure_url}});
+
+			if(user.ok>0 && user.n>0) return res.status(201).send({avatar:image.secure_url});
+
 			res.status(404).send({message:'user not found'});
 
 
@@ -144,12 +148,13 @@ module.exports = {
 		try
 		{
 			let image = await cloudinary.v2.uploader.upload(req.file.path);
-			let {category,name,price} = req.body;
+			let {category,name,price,school} = req.body;
 
 			let newProduct  = new Product({
 				category,
 				name,
 				price,
+				school,
 				image:image.secure_url
 			})	
 
@@ -160,6 +165,7 @@ module.exports = {
 				category: product.category,
 				name: product.category,
 				price: product.price,
+				school : product.school,
 				image:product.image
 			})
 		}
@@ -227,7 +233,7 @@ module.exports = {
 	signupParent :  async (re,res)=>{
 		try
 		{
-			let {email,names,lastNames,codeCi,ci,phone,countryCode} = req.body;
+			let {email,names,lastNames,codeCi,ci,phone,countryCode,school} = req.body;
 
 			let user = await User.findOne({email},{email:true});
 
@@ -241,6 +247,7 @@ module.exports = {
 				codeCi,
 				ci,
 				countryCode,
+				school,
 				rol : 'representative'
 			})
 
@@ -249,13 +256,61 @@ module.exports = {
 			res.status(201).send({
 				_id:user._id,
 				token : token.create(user,360),
+				email:user.email,
 				names : user.names,
 				lastNames : user.lastNames,
 				countryCode: user.countryCode,
 				phone : user.phone,
 				ci : user.ci,
+				school : user.school,
 				rol : user.rol
 			})
+		}
+		catch(err)
+		{
+			res.status(500).send({err});
+		}
+	},
+	createRepresented : async (req,res)=>{
+		try
+		{
+			let {email,names,lastNames,representative} = req.body;
+
+			let user = await User.findOne({email},{email:true});
+
+			if(user) return res.status(401).send({error : 'mail already exists'});
+
+			let newUser = new User({
+				email: email.toLocaleLowerCase(),
+				names,
+				lastNames,
+				representative,
+				rol : 'represented'
+			})
+
+			user =  newUser.save();
+
+			res.status(201).send({
+				_id:user._id,
+				token : token.create(user,360),
+				email:user.email,
+				names : user.names,
+				lastNames : user.lastNames,				
+				rol : user.rol
+			})
+
+		}
+		catch(err)
+		{
+			res.status(500).send({err});
+		}
+	},
+	deleteRepresented :  async (req,res)=>{
+		try
+		{
+			let user = await User.deleteOne({_id:req.query._id});
+			if(user.ok>0 && user.n>0) return res.status(204).send({message:'delete user'});
+			res.status(404).send({message:'resource not found'});
 		}
 		catch(err)
 		{
@@ -281,10 +336,9 @@ module.exports = {
                 lastNames : person.lastNames,
                 email : person.email,
                 avatar : person.avatar,
-               	balance : (person.balance != 0) ? person.balance : null,
+               	balance : person.balance,
                	rol : person.rol,
                	representative : (person.representative == 'represented') ? person.representative  : null,
-               	refAdmin : (person.representative == 'seller') ?  person.refAdmin : null
             });
 
 		}
@@ -292,5 +346,42 @@ module.exports = {
 		{
 			res.status(500).send({err});
 		}
+	},
+	createSchool : async (req,res)=>{
+		try
+		{
+
+			let image = await cloudinary.v2.uploader.upload(req.file.path);
+
+			let school = new School({
+				name : req.body.name,
+				avatar : image.secure_url
+			})
+
+			user =  newUser.save();
+
+			res.status(201).send({
+				_id : school._id,
+				name :  school.name,
+				avatar : school.avatar
+			})		
+		}
+		catch(err)
+		{
+			res.status(500).send({err});
+		}
+	},
+	deleteSchool : async (req,res)=>{
+		try
+		{
+			let school = await deleteOne({_id:req.query._id});
+			if(user.ok>0 && user.n>0) return res.status(204).send({message:'delete success'});
+			res.status(404).send({message:'resource not found'});
+		}
+		catch(err)
+		{
+			res.status(500).send({err});
+		}
 	}
+
 }

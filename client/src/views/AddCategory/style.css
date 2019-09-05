@@ -1,0 +1,155 @@
+div.add-category section.ctn{
+	width: calc(70% - 50px);
+	margin:80px auto;
+}
+
+
+div.add-category section.ctn div.panel{
+	background-color: rgba(255,235,208,.65);
+	position: fixed;
+	width: calc(70% - 70px);
+	height: calc(100% - 200px);
+	border-radius: 15px;
+	padding: 10px;
+	box-shadow: 0 0 6px rgba(0,0,0,.4);
+	overflow-y: auto;
+}
+
+div.add-category section.ctn div.panel .btn{
+	position: absolute;
+	bottom:10px;
+	right: 10px;
+	background-color: #e44a4c !important;
+}
+
+div.add-category img.bg-img{
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top:0;
+	bottom: 0;
+	z-index: -1
+}
+div.add-category div.ctn-category{
+	padding-bottom: 20px;
+}
+
+div.add-category div.item-category{
+	background-color: white;
+	padding: 10px 20px 10px 10px;
+	border-radius: 5px;
+	margin-right: 15px;
+	margin-top: 20px;
+	float:left;
+	position: relative;
+	border:1px solid #c7c7c7;
+}
+
+div.add-category div.item-category div.icon-close{
+	position: absolute;
+	top: -7px;
+	right: -7px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+}
+
+div.add-category div.modal-delete,div.add-category div.modal-add{
+	display:flex;
+	background-color:rgba(252,180,160,0.45);
+	width: 100%;
+	height: 100%;
+	justify-content: center;
+	align-items: center;
+	position: fixed;
+	top:0;
+	bottom:0;
+	z-index: 100000;
+	overflow-y: auto;
+}
+
+div.add-category div.modal-delete div.ctn{
+	background-color: #f7f3f0;
+	width: calc(80% - 50px);
+	border-radius: 20px;
+	padding: 5px 10px 10px 10px;
+	max-width: 260px;
+	position: relative;
+	box-shadow: 0 0 4px #737373;
+	position: relative;
+}
+
+div.add-category div.modal-add .form-control{
+	background-color: #f7f3f0;
+	width: calc(80% - 50px);
+	border-radius: 20px;
+	padding: 5px 10px 30px 10px;
+	max-width: 260px;
+	position: relative;
+	box-shadow: 0 0 4px #737373;
+	position: relative;
+
+}
+
+div.add-category div.modal-add .form-control div.ctn-input{
+	width: 100%;
+	position: relative;
+	margin-top: 20px;
+}
+
+div.add-category div.modal-add .form-control div.ctn-input input{
+	width: calc(100% - 20px);
+	height: 40px;
+	border-radius:40px;
+	border:2px solid #d48945;
+	padding: 4px 10px;
+	outline: none
+}
+
+div.add-category div.modal-add .form-control div.ctn-btn{
+	margin-top: 20px;
+	width: 100%;
+}
+
+div.add-category div.modal-add .form-control div.ctn-btn .secondary{
+	width: 100%;
+}
+
+
+div.add-category div.modal-add .form-control div.icon-close{
+	width: 30px;
+	height: 30px;
+	background-color: white;
+	position: absolute;
+	top: -7px;
+	right: -7px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+}
+
+
+/*MEDIA QUERIES*/
+
+@media screen and (max-width: 600px) {
+  div.add-category section.ctn{
+  	padding: 5px 5px 0px 5px;
+  	width: calc(95% - 10px);
+  }
+  div.add-category section.ctn div.panel{
+  	width: calc(95% - 20px);
+  	left: 10px;
+  }
+
+  div.add-category div.modal-add .form-control{
+  	width: calc(90% - 55px);
+  	padding-left: 25px;
+	padding-right: 25px;
+  }
+
+
+}

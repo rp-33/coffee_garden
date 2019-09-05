@@ -17,7 +17,11 @@ const {
 	signupSeller,
 	editAvatarUser,
 	signupParent,
-	login
+	login,
+	createRepresented,
+	deleteRepresented,
+	createSchool,
+	deleteSchool
 } = require('../controllers/CtrlApp')
 
 /* GET home page. */
@@ -38,6 +42,9 @@ router.post('/signupParent',signupParent);
 
 router.post('/login',login);
 
+router.post('/createRepresented',createRepresented);
+
+router.post('/createSchool',upload.single('file'),createSchool);
 
 /* PUT home page. */
 
@@ -54,5 +61,9 @@ router.put('/editAvatarUser',upload.single('file'),editAvatarUser);
 router.delete('/deleteToCategory',deleteToCategory);
 
 router.delete('/deleteToProduct',deleteToProduct);
+
+router.delete('/deleteRepresented',deleteRepresented);
+
+router.delete('/deleteSchool',deleteSchool);
 
 module.exports = router;

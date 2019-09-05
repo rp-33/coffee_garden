@@ -1,0 +1,31 @@
+/*Head*/
+.head{
+	background-color:#f6f6f6 !important;
+}
+
+.head img.logo{
+	width:80px;
+	height: 45px;
+	margin-bottom: 7px;
+}
+
+.head .right{
+	display: flex;
+	flex-grow: 1;
+	flex-direction: row;
+	justify-content: flex-end;
+}
+
+.head .right div.credit{
+	background-color: #eb8f6a;
+	color: white;
+	padding:0px 12px;
+	height: 35px;
+	border-radius: 20px;
+	text-align: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top:4px;
+	margin-right: 10px
+}

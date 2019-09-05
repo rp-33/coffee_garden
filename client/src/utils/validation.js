@@ -1,5 +1,3 @@
-'use strict';
-
 import validate from 'validate.js';
 
 const validateCompare = (value1,value2,minimum)=>{

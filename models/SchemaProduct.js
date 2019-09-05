@@ -4,8 +4,11 @@ let mongoose = require('mongoose'),
 	  Schema = mongoose.Schema;
 
 let productSchema =  new Schema({
+	school : {
+    	type : Schema.ObjectId, ref: "School"
+    },
 	category: { 
-		type: Schema.ObjectId, ref: "Category" 
+		type: String
 	},
 	name :{
 		type : String
@@ -19,7 +22,7 @@ let productSchema =  new Schema({
 	status : {
 		type: Boolean,
 		default : true
-	}
+	},
 })
 
 module.exports =  mongoose.model('Product',productSchema);

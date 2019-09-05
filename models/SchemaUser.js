@@ -47,8 +47,8 @@ let userSchema = new Schema({
 		type: String,
         enum: ['represented','representative','seller']
     },
-    refAdmin : {
-		type: Schema.ObjectId, ref: "Admin" 
+    school : {
+    	type : Schema.ObjectId, ref: "School"
     }
 })
 

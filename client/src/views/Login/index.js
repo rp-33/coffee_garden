@@ -62,9 +62,10 @@ class Login extends Component{
         					iniciar sessión
      					</Fab>
 					</div>
+		
 					<div className="ctn-text">
 						<div style={{marginTop:'10px'}}> 
-							<a style={{fontWeight:'bold',color:'#8e8c89'}}>Registrarse</a>
+							<a href="#" style={{fontWeight:'bold',color:'#8e8c89',textDecoration:'none'}}>Registrarse</a>
 						</div>
 						<div style={{marginTop:'10px'}}> 
 							<a href="#" style={{color:'#c7c7c7'}}>Terminos y condiciones</a>

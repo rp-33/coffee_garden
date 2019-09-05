@@ -17,7 +17,7 @@ let adminSchema =  new Schema({
 	},
 	rol:{
 		type : String,
-		enum : ['admin','canteen']
+		enum : ['admin']
 	}
 })
 

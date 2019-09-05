@@ -1,0 +1,214 @@
+div.dashboard {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+
+div.dashboard img.bg-img{
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top:0;
+	bottom: 0;
+	z-index: -1
+}
+
+
+div.dashboard section.ctn{
+	width: calc(70% - 50px);
+	padding: 5px 25px 0px 25px;
+	margin:100px auto;
+}
+
+div.dashboard section.ctn div.ctn-inf{
+	color:#e2474b;
+	display: flex;
+	flex-direction: row
+}
+
+div.dashboard section.ctn div.ctn-inf > div{
+	background-color: rgba(252,180,160,0.45);
+	margin:0 10px;
+	padding:12px 7px;
+	border-radius: 5px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+div.dashboard section.ctn div.ctn-inf > div:first-child{
+	width: 110px
+}
+
+div.dashboard section.ctn div.ctn-inf > div span{
+	font-weight: bold;
+	font-size: 1.1em;
+}
+
+div.dashboard section.panel{
+	margin-top:20px;
+	width: 100%;
+}
+
+div.dashboard section.panel > div.ctn-product {
+	display: flex;
+	margin-top:10px;
+}
+
+div.dashboard section.panel > div.ctn-product div.type {
+	background-color: rgba(252,180,160,0.45);
+	margin:0 10px;
+	width: 180px;
+	height: 53px;
+	margin-top:2px;
+	border-radius: 5px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color:#e2474b;
+}
+
+div.dashboard section.panel > div.ctn-product div.type span{
+	font-weight: bold;
+	font-size: 1.1em;
+}
+
+div.dashboard section.panel > div.ctn-product div.item-product{
+	width: 100%;
+	height: 58px;
+	overflow-y: hidden;
+}
+
+div.dashboard section.panel > div.ctn-product div.product{
+	width: 55px;
+	height: 58px;
+	border-radius: 10px;
+	background-color: white;
+	margin-right: 10px;
+	float: left;
+	cursor: pointer;
+}
+
+div.dashboard section.panel > div.ctn-product div.product img{
+	width: 100%;
+	height: 100%;
+	border-radius: 10px;
+	box-shadow: 0px 0px 1px rgba(0,0,0,.5)
+}
+
+div.dashboard div.drawer{
+	background-color: white;
+	width: auto
+}
+
+div.dashboard div.modal-add-product{
+	display:flex;
+	background-color:rgba(252,180,160,0.45);
+	width: 100%;
+	height: 100%;
+	justify-content: center;
+	align-items: center;
+	position: fixed;
+	top:0;
+	bottom:0;
+	z-index: 10000;
+	overflow-y: auto;
+}
+
+
+div.dashboard div.modal-add-product .form-control{
+	background-color: #f7f3f0;
+	width: calc(80% - 50px);
+	border-radius: 20px;
+	padding: 5px 25px 30px 25px;
+	max-width: 260px;
+	position: relative;
+	box-shadow: 0 0 4px #737373;
+	position: relative;
+}
+
+div.dashboard div.modal-add-product .form-control div.icon-close{
+	width: 30px;
+	height: 30px;
+	background-color: white;
+	position: absolute;
+	top: -7px;
+	right: -7px;
+	border-radius: 50%;
+	z-index: 1000;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+}
+
+
+div.dashboard div.modal-add-product .form-control div.ctn-img{
+	width: 100%;
+	height: 150px;
+	border-radius: 10px;
+	
+}
+
+div.dashboard div.modal-add-product .form-control div.ctn-img img{
+	width: 100%;
+	height: 100%;
+	border-radius: 10px;
+}
+
+div.dashboard div.modal-add-product .form-control div.ctn-input{
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+}
+div.dashboard div.modal-add-product .form-control div.ctn-input div{
+	display: flex;
+	flex:1;
+	background-color: #f1f1f1;
+	height: 30px;
+	border:1px;
+	border-radius: 5px;
+	border:1px solid #c7c7c7;
+	color:#e2474b;
+	align-items: center;
+	justify-content: center;
+}
+
+div.dashboard section.ctn  div.ctn-date{
+	display: flex;
+	flex-direction: row;
+	padding: 0 10px;
+}
+
+div.dashboard section.ctn div.ctn-date >div{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 55px;
+	height:50px;
+	border-radius: 5px;
+	background-color: rgba(252,180,160,0.45);
+	text-transform: uppercase;
+	cursor: pointer;
+	margin-right: 15px;
+	color:#e2474b;
+	font-weight: bold;
+	font-size: 1.1em
+}
+
+div.dashboard div.modal-add-product .form-control div.ctn-btn{
+	display: flex;
+	flex:1;
+	width: 100%;
+	justify-content: center;
+	align-items: center;
+}
+
+/*MEDIA QUERIES*/
+
+@media screen and (max-width: 600px) {
+  div.dashboard section.ctn{
+  	padding: 5px 5px 0px 5px;
+  	width: calc(95% - 10px);
+  }
+}

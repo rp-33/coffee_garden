@@ -8,7 +8,7 @@ import Fade from '@material-ui/core/Fade';
 import Grid from '@material-ui/core/Grid';
 import {validateCompare} from '../../utils/validation';
 import logo from '../../assets/logo.png';
-import bgImg from '../../assets/background.jpg'
+import bgImg from '../../assets/background.jpg';
 import './style.css';
 
 class Signup extends Component{
