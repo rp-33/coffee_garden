@@ -11,7 +11,7 @@ div.login{
 
 div.login form{
 	background-color: #f7f3f0;
-	width: 80%;
+	width: calc(90% - 50px);
 	border:5px solid #e34a48;
 	border-radius: 50px;
 	padding: 5px 25px 30px 25px;
@@ -59,6 +59,12 @@ div.login form div.ctn-text{
 	display: flex;
 	align-items: center;
 	flex-direction: column;
+}
+
+div.login form div.ctn-loading {
+	width: 100%;
+	display: flex;
+	justify-content: center;
 }
 
 div.login form div.ctn-icon{

@@ -7,10 +7,9 @@ import Hidden from '@material-ui/core/Hidden';
 import InformationIcon from '@material-ui/icons/PriorityHigh';
 import MenuIcon from '@material-ui/icons/Menu';
 import PropTypes from 'prop-types';
-import logo from '../assets/logo.png';
-import './styles/head.css';
+import logo from '../../assets/logo.png';
 
-const Head = ({handleDrawer,opacity})=>{
+const Head = ({handleDrawer,opacity,handleLogout})=>{
 	return(
 		<AppBar position="fixed" className="head" style={{opacity}}>
 			<Toolbar>
@@ -20,13 +19,7 @@ const Head = ({handleDrawer,opacity})=>{
 						<Fab aria-label="lonchera" size="small" style={{backgroundColor:'white',marginLeft:10}}>
         					<InformationIcon style={{color:'#fab54f'}}/>
       					</Fab>
-      					<Fab aria-label="add-balance" size="small" style={{backgroundColor:'white',marginLeft:10}}>
-        					<InformationIcon style={{color:'#fab54f'}}/>
-      					</Fab>
-      					<Fab aria-label="add-soon" size="small" style={{backgroundColor:'white',marginLeft:10}}>
-        					<InformationIcon style={{color:'#fab54f'}}/>
-      					</Fab>
-      					<Fab aria-label="config" size="small" style={{backgroundColor:'white',marginLeft:10}}>
+      					<Fab onClick = {()=>handleLogout()} aria-label="add-balance" size="small" style={{backgroundColor:'white',marginLeft:10}}>
         					<InformationIcon style={{color:'#fab54f'}}/>
       					</Fab>
       				</div>
@@ -46,7 +39,8 @@ const Head = ({handleDrawer,opacity})=>{
 
 Head.propTypes = {
 	handleDrawer : PropTypes.func.isRequired,
-	opacity : PropTypes.number.isRequired
+	opacity : PropTypes.number.isRequired,
+	handleLogout : PropTypes.func.isRequired
 }
 
 export default Head;

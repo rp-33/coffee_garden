@@ -1,0 +1,241 @@
+div.create-product {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+
+div.create-product section.ctn{
+	width: calc(70% - 50px);
+	padding: 5px 25px 0px 25px;
+	margin:100px auto;
+}
+
+div.create-product section.ctn div.ctn-canteen{
+	margin-bottom: 20px;
+	width: 200px;
+	border:2px solid #d48945;
+	color:#d48945;
+	border-radius: 35px;
+	height: 50px;
+	padding-right: 20px;
+	padding-left: 20px;
+	background-color: white;
+	cursor: pointer;
+}
+
+
+div.create-product section.ctn div.ctn-inf{
+	color:#e2474b;
+	display: flex;
+	flex-direction: row
+}
+
+div.create-product section.ctn div.ctn-inf > div{
+	background-color: rgba(252,180,160,0.45);
+	margin:0 10px;
+	padding:12px 7px;
+	border-radius: 5px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+div.create-product section.ctn div.ctn-inf > div:first-child{
+	width: 110px
+}
+
+div.create-product section.ctn div.ctn-inf > div span{
+	font-weight: bold;
+	font-size: 1.1em;
+}
+
+div.create-product section.panel{
+	margin-top:20px;
+	width: 100%;
+}
+
+div.create-product section.panel > div.ctn-product {
+	display: flex;
+	margin-top:10px;
+}
+
+div.create-product section.panel > div.ctn-product div.type {
+	background-color: rgba(252,180,160,0.45);
+	margin:0 10px;
+	min-width: 90px;
+	height: 53px;
+	margin-top:2px;
+	border-radius: 5px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color:#e2474b;
+}
+
+div.create-product section.panel > div.ctn-product div.type span{
+	font-weight: bold;
+	font-size: 1.1em;
+}
+
+div.create-product section.panel > div.ctn-product div.item-product{
+	max-width: 100%;
+	width: auto;
+	height: 57px;
+	display: flex;
+	align-items: center;
+	overflow-x: auto;
+	overflow-y: hidden;
+}
+
+div.create-product section.panel > div.ctn-product div.product{
+	min-width: 55px;
+	max-width: 55px;
+	width: 55px;
+	height: 57px;
+	border-radius: 10px;
+	background-color: white;
+	margin-right: 7.5px;
+	cursor: pointer;
+}
+
+div.create-product section.panel > div.ctn-product  div.add-product{
+	display: flex;
+	min-width: 55px;
+	height: 58px;
+	background-color: #e44a4c;
+	border-radius: 10px;
+	justify-content: center;
+	align-items: center;
+	color:white;
+	cursor: pointer;
+	margin-left: 5px;
+}
+
+div.create-product section.panel > div.ctn-product  div.add-product span{
+	font-size: 2em;
+	font-weight: bold;
+}
+
+div.create-product section.panel > div.ctn-product div.product img{
+	width: 100%;
+	height: 100%;
+	border-radius: 10px;
+	box-shadow: 0px 0px 1px rgba(0,0,0,.5)
+}
+
+
+div.create-product div.modal-add-product{
+	display:flex;
+	background-color:rgba(252,180,160,0.45);
+	width: 100%;
+	height: 100%;
+	justify-content: center;
+	align-items: center;
+	position: fixed;
+	top:0;
+	bottom:0;
+	z-index: 10000;
+	overflow-y: auto;
+}
+
+
+div.create-product div.modal-add-product .form-control{
+	background-color: #f7f3f0;
+	width: calc(80% - 50px);
+	border-radius: 20px;
+	padding: 5px 25px 30px 25px;
+	max-width: 260px;
+	position: relative;
+	box-shadow: 0 0 4px #737373;
+	position: relative;
+}
+
+div.create-product div.modal-add-product .form-control div.icon-close{
+	width: 30px;
+	height: 30px;
+	background-color: white;
+	position: absolute;
+	top: -7px;
+	right: -7px;
+	border-radius: 50%;
+	z-index: 1000;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+}
+
+div.create-product div.modal-add-product .form-control div.ctn-file{
+	display: flex;
+	width: 100%;
+	height: 150px;
+	border-radius: 10px;
+	justify-content: center;
+	align-items: center;
+	background-color: #f1f1f1;
+}
+
+div.create-product div.modal-add-product .form-control div.ctn-file img{
+	width: 100px;
+	height: 100px;
+	cursor: pointer;
+	margin-left: 10px
+}
+
+div.create-product div.modal-add-product .form-control div.ctn-img{
+	width: 100%;
+	height: 150px;
+	border-radius: 10px;
+	position: relative;
+}
+
+div.create-product div.modal-add-product .form-control div.ctn-img img{
+	width: 100%;
+	height: 100%;
+	border-radius: 10px;
+}
+
+div.create-product div.modal-add-product .form-control div.ctn-img .icon{
+	color:#e44a4c;
+	position:absolute;
+	top:-5px;
+	right:-7px;
+	background-color: white;
+	border-radius: 50%;
+	z-index: 1000;
+	cursor: pointer;
+}
+
+
+div.create-product div.modal-add-product .form-control div.ctn-input {
+	margin-top:20px;
+}
+
+div.create-product div.modal-add-product .form-control div.ctn-input input{
+	width: calc(100% - 20px);
+	height: 40px;
+	border-radius:40px;
+	border:2px solid #d48945;
+	padding: 4px 10px;
+	outline: none
+}
+
+div.create-product div.modal-add-product .form-control div.ctn-btn{
+	display: flex;
+	flex:1;
+	width: 100%;
+	justify-content: center;
+	align-items: center;
+}
+
+div.create-product div.modal-add-product .form-control div.ctn-btn div.ctn-loading{
+	margin-top:20px;
+}
+
+/*MEDIA QUERIES*/
+
+@media screen and (max-width: 600px) {
+  div.create-product section.ctn{
+  	padding: 5px 5px 0px 5px;
+  	width: calc(95% - 10px);
+  }
+}

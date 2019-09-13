@@ -1,9 +1,16 @@
 import React,{Component} from 'react';
+import {Link} from 'react-router-dom';
+import history from '../../routes/history';
+import {connect} from 'react-redux';
 import Fab from '@material-ui/core/Fab';
 import IconButton from '@material-ui/core/IconButton';
 import InformationIcon from '@material-ui/icons/PriorityHigh';
 import ArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
 import ArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import BarMessage from '../../presentation/BarMessage';
+import {login} from '../../services/api';
+import {action_login} from '../../actions/user';
 import logo from '../../assets/logo.png';
 import escudo from '../../assets/escudo.png';
 import './style.css';
@@ -13,7 +20,9 @@ class Login extends Component{
 		super(props);
 		this.state = {
 			email : '',
-			password : ''
+			password : '',
+			errorLogin : '',
+			loading : false
 		}
 	}
 
@@ -24,9 +33,40 @@ class Login extends Component{
 		})
 	}
 
-	handleSubmit(event){
-		event.preventDefault();
-		console.log('send form')
+	async handleSubmit(event){
+		try
+		{
+			event.preventDefault();
+			
+			this.setState({loading:true});
+
+			let {email,password} = this.state;
+
+			let {status,data} = await login(email,password);
+
+			if(status == 200)
+			{
+				this.props.handleLogin(data);
+				history.push('/'+data.rol);
+			}
+			else
+			{
+
+				this.setState({
+					loading:false,
+					erroLogin : data.error
+				})	
+			}
+		}
+		catch(err)
+		{
+			alert(err)
+			this.setState({
+				loading:false,
+				erroLogin : 'Error en el servidor'
+			})
+		}
+		
 	}
 
 	render(){
@@ -37,6 +77,11 @@ class Login extends Component{
 					<div className="ctn-logo">
 						<img src={logo} alt="logo" />
 					</div>
+					{this.state.erroLogin &&
+						<BarMessage 
+							title = {this.state.erroLogin}
+						/>
+					}
 					<div className="ctn-input">
 						<input 
 							type="email" 
@@ -58,14 +103,21 @@ class Login extends Component{
 						/>
 					</div>
 					<div className="ctn-btn">
-						<Fab type="submit" variant="extended" size="large" fullWidth color="secondary" className="secondary">
-        					iniciar sessión
-     					</Fab>
+						{this.state.loading
+						?
+							<div className="ctn-loading">
+								<CircularProgress color="secondary"/>
+							</div>
+						:
+							<Fab type="submit" variant="extended" size="large" fullWidth color="secondary" className="secondary">
+        						iniciar sessión
+     						</Fab>
+     					}
 					</div>
 		
 					<div className="ctn-text">
 						<div style={{marginTop:'10px'}}> 
-							<a href="#" style={{fontWeight:'bold',color:'#8e8c89',textDecoration:'none'}}>Registrarse</a>
+							<Link to="/signup" style={{fontWeight:'bold',color:'#8e8c89',textDecoration:'none'}}>Registrarse</Link>
 						</div>
 						<div style={{marginTop:'10px'}}> 
 							<a href="#" style={{color:'#c7c7c7'}}>Terminos y condiciones</a>
@@ -96,4 +148,12 @@ class Login extends Component{
 	}
 }
 
-export default Login;
+const mapDispatchToProps = dispatch =>{
+	return{
+		handleLogin(data){
+			dispatch(action_login(data))
+		}
+	}
+}
+
+export default connect(null,mapDispatchToProps)(Login);

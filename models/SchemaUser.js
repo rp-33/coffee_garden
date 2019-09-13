@@ -45,7 +45,7 @@ let userSchema = new Schema({
 	},
 	rol :{ 
 		type: String,
-        enum: ['represented','representative','seller']
+        enum: ['admin','represented','representative','seller']
     },
     school : {
     	type : Schema.ObjectId, ref: "School"

@@ -5,11 +5,11 @@ const router = require('express-promise-router')(),
 	  Auth = require('../middlewares/Auth');
 
 const {
-	addToCategory,
-	deleteToCategory,
-	editToCategory,
+	createCategory,
+	deleteCategory,
+	editCategory,
 	findAllCategory,
-	addToProduct,
+	createProduct ,
 	deleteToProduct,
 	editToProduct,
 	findAllProducts,
@@ -21,7 +21,8 @@ const {
 	createRepresented,
 	deleteRepresented,
 	createSchool,
-	deleteSchool
+	deleteSchool,
+	findAllSchool
 } = require('../controllers/CtrlApp')
 
 /* GET home page. */
@@ -30,11 +31,13 @@ router.get('/findAllCategory',findAllCategory);
 
 router.get('/findAllProducts',findAllProducts);
 
+router.get('/findAllSchool',Auth,findAllSchool);
+
 /* POST home page. */
 
-router.post('/addToCategory',addToCategory);
+router.post('/createCategory',createCategory);
 
-router.post('/addToProduct',upload.single('file'),addToProduct);
+router.post('/createProduct',upload.single('file'),createProduct);
 
 router.post('/signupSeller ',signupSeller);
 
@@ -48,7 +51,7 @@ router.post('/createSchool',upload.single('file'),createSchool);
 
 /* PUT home page. */
 
-router.put('/editToCategory',editToCategory);
+router.put('/editCategory',editCategory);
 
 router.put('/editToProduct',editToProduct);
 
@@ -58,12 +61,12 @@ router.put('/editAvatarUser',upload.single('file'),editAvatarUser);
 
 /* DELETE home page. */
 
-router.delete('/deleteToCategory',deleteToCategory);
+router.delete('/deleteCategory',deleteCategory);
 
 router.delete('/deleteToProduct',deleteToProduct);
 
 router.delete('/deleteRepresented',deleteRepresented);
 
-router.delete('/deleteSchool',deleteSchool);
+router.delete('/deleteSchool',Auth,deleteSchool);
 
 module.exports = router;

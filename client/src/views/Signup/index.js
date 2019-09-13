@@ -1,7 +1,6 @@
 import React,{Component} from 'react';
+import {Link} from 'react-router-dom';
 import Fab from '@material-ui/core/Fab';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
 import Radio from '@material-ui/core/Radio';
 import CheckIcon from '@material-ui/icons/Check';
 import Fade from '@material-ui/core/Fade';
@@ -191,7 +190,9 @@ class Signup extends Component{
         					registrar
      					</Fab>
 					</div>
-
+					<p style={{textAlign:'center',marginTop:'20px'}}>
+						<Link to="/" style={{color:'black'}}>Iniciar session</Link>
+					</p>
 				</form>
 
 			</div>

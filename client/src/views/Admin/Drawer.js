@@ -7,7 +7,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import SendIcon from '@material-ui/icons/Send';
 import PropTypes from 'prop-types';
 
-const Drawer = ({open,handleClose})=>{
+const Drawer = ({open,handleClose,handleLogout})=>{
 
 	return(
 		<SwipeableDrawer
@@ -17,29 +17,17 @@ const Drawer = ({open,handleClose})=>{
       	>
         	<div className="drawer">
         		<List>
-        			<ListItem button>
+              <ListItem button>
+                <ListItemIcon>
+                    <SendIcon style={styles.icon} />
+                </ListItemIcon>
+                <ListItemText primary="Configuraciones" />
+              </ListItem>
+        			<ListItem button onClick = {()=>handleLogout()}>
         				<ListItemIcon>
           					<SendIcon style={styles.icon} />
         				</ListItemIcon>
-        				<ListItemText primary="item 1" />
-      				</ListItem>
-      				<ListItem button>
-        				<ListItemIcon>
-          					<SendIcon  style={styles.icon} />
-        				</ListItemIcon>
-        				<ListItemText primary="item 1" />
-      				</ListItem>
-      				<ListItem button>
-        				<ListItemIcon>
-          					<SendIcon style={styles.icon} />
-        				</ListItemIcon>
-        				<ListItemText primary="item 1" />
-      				</ListItem>
-      				<ListItem button>
-        				<ListItemIcon>
-          					<SendIcon style={styles.icon} />
-        				</ListItemIcon>
-        				<ListItemText primary="item 1" />
+        				<ListItemText primary="Salir" />
       				</ListItem>
 
         		</List>
@@ -58,7 +46,8 @@ const styles = {
 
 Drawer.propTypes = {
 	open : PropTypes.bool.isRequired,
-	handleClose : PropTypes.func.isRequired
+	handleClose : PropTypes.func.isRequired,
+  handleLogout : PropTypes.func.isRequired
 }
 
 export default Drawer;

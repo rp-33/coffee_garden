@@ -3,18 +3,19 @@ import Slide from '@material-ui/core/Slide';
 import Paper from '@material-ui/core/Paper';
 import Fab from '@material-ui/core/Fab';
 import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import CancelIcon from '@material-ui/icons/Cancel';
+import {createSchool} from '../../services/api';
+import FileReader from '../../services/reader';
 
 class ModalAdd extends Component{
 	constructor(props){
 		super(props);
 		this.state = {
 			name : '',
-			file : {
-				name:'',
-				type:''
-			},
+			file : {},
 			base64 : '',
+			loading : false
 		}
 	}
 
@@ -28,18 +29,13 @@ class ModalAdd extends Component{
 
 	handleImage(event){
 		var file = event.target.files[0];
-  		var reader = new FileReader();
-  		reader.onloadend = (ev) =>{
-    		this.setState({
-    			base64 :reader.result,
-    			file : {
-    				name : file.name,
-    				type : file.type
-    			}
-    		})
-  		};
-
-  		reader.readAsDataURL(file);
+		FileReader(file)
+		.then((base64)=>{
+			this.setState({
+				base64,
+				file
+			})
+		})
 
 	}
 
@@ -49,9 +45,28 @@ class ModalAdd extends Component{
 		})
 	}
 
-	hanldeSubmit(event){
-		event.preventDefault();
-		console.log('send')
+	async handleSubmit(event){
+		try
+		{
+			event.preventDefault();
+			this.setState({loading:true})
+			let {name,file} = this.state;
+			let {status,data} = await createSchool(name,file);
+			this.setState({
+				name :'',
+				base64 : '',
+				file : {},
+				loading:false
+			});
+			if(status == 201)
+			{
+				this.props.handleSubmit(data);
+			}
+		}
+		catch(err)
+		{
+			console.log(err);
+		}
 	}
 
 	render(){
@@ -64,7 +79,7 @@ class ModalAdd extends Component{
                         	<CancelIcon fontSize="large" style={{color:'#e44a4c'}}/>
                     	</div>
          				<h2 style={{textAlign:'center',color:'#e44a4c'}}>Agregar Cantina</h2>
-         				<form autoComplete="off" onSubmit = {this.hanldeSubmit.bind()}>
+         				<form autoComplete="off" onSubmit = {this.handleSubmit.bind(this)}>
          					<div className="ctn-input">
 								<input 
 								type="text" 
@@ -99,11 +114,18 @@ class ModalAdd extends Component{
       							</label>
 							</div>
 							}
-							<div className="ctn-btn">
-								<Fab enabled = {this.state.base64} type="submit" variant="extended" size="large" fullWidth color="secondary" className="secondary">
-        							guardar
-     							</Fab>
-							</div>
+							{this.state.loading
+							?
+								<div className="ctn-loading">
+									<CircularProgress color="secondary"/>
+								</div>
+							:
+								<div className="ctn-btn">
+									<Fab disabled = {!this.state.base64} type="submit" variant="extended" size="large" fullWidth color="secondary" className="secondary">
+        								guardar
+     								</Fab>
+								</div>
+							}
          				</form>
          			</Paper>
          		</div>

@@ -1,14 +1,26 @@
 div.add-category section.ctn{
 	width: calc(70% - 50px);
-	margin:80px auto;
+	margin:120px auto;
 }
 
+div.add-category section.ctn div.ctn-cantina{
+	margin-bottom: 20px;
+	width: 200px;
+	border:2px solid #d48945;
+	color:#d48945;
+	border-radius: 35px;
+	height: 50px;
+	padding-right: 20px;
+	padding-left: 20px;
+	background-color: white;
+	cursor: pointer;
+}
 
 div.add-category section.ctn div.panel{
 	background-color: rgba(255,235,208,.65);
 	position: fixed;
 	width: calc(70% - 70px);
-	height: calc(100% - 200px);
+	height: calc(100% - 280px);
 	border-radius: 15px;
 	padding: 10px;
 	box-shadow: 0 0 6px rgba(0,0,0,.4);
@@ -35,25 +47,17 @@ div.add-category div.ctn-category{
 }
 
 div.add-category div.item-category{
+	display: flex;
 	background-color: white;
-	padding: 10px 20px 10px 10px;
+	padding: 10px 5px 10px 5px;
 	border-radius: 5px;
 	margin-right: 15px;
 	margin-top: 20px;
 	float:left;
 	position: relative;
 	border:1px solid #c7c7c7;
-}
-
-div.add-category div.item-category div.icon-close{
-	position: absolute;
-	top: -7px;
-	right: -7px;
-	border-radius: 50%;
-	display: flex;
 	align-items: center;
-	justify-content: center;
-	cursor: pointer;
+	justify-content: space-around;
 }
 
 div.add-category div.modal-delete,div.add-category div.modal-add{
@@ -81,6 +85,14 @@ div.add-category div.modal-delete div.ctn{
 	position: relative;
 }
 
+div.add-category div.modal-delete div.ctn div.ctn-loading{
+	display: flex;
+	width: 100%;
+	min-height: 120px;
+	justify-content: center;
+	align-items: center;
+}
+
 div.add-category div.modal-add .form-control{
 	background-color: #f7f3f0;
 	width: calc(80% - 50px);
@@ -91,6 +103,19 @@ div.add-category div.modal-add .form-control{
 	box-shadow: 0 0 4px #737373;
 	position: relative;
 
+}
+
+div.add-category div.modal-add .form-control div.toast-error{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 50px;
+	background-color:rgba(0,0,0,.8);
+	opacity: 0.8;
+	text-align: center;
+	color:white;
+	border-radius: 5px;
 }
 
 div.add-category div.modal-add .form-control div.ctn-input{
@@ -111,6 +136,13 @@ div.add-category div.modal-add .form-control div.ctn-input input{
 div.add-category div.modal-add .form-control div.ctn-btn{
 	margin-top: 20px;
 	width: 100%;
+}
+
+div.add-category div.modal-add .form-control div.ctn-btn  div.ctn-loading {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	margin-top: 15px;
 }
 
 div.add-category div.modal-add .form-control div.ctn-btn .secondary{
@@ -139,6 +171,7 @@ div.add-category div.modal-add .form-control div.icon-close{
   div.add-category section.ctn{
   	padding: 5px 5px 0px 5px;
   	width: calc(95% - 10px);
+  	margin-top:80px;
   }
   div.add-category section.ctn div.panel{
   	width: calc(95% - 20px);

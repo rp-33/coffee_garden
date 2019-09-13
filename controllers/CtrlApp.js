@@ -79,23 +79,27 @@ module.exports = {
 			res.status(500).send({err})
 		}
 	},
-	addToCategory : async (req,res)=>{
+	createCategory : async (req,res)=>{
 		try
 		{
 
-			let find = await Category.findOne({name:req.query.name.toLocaleLowerCase()});
+			let {name,school} = req.body
 
-			if(find) return res.status(204).send({message:'exist category'});
+			let find = await Category.findOne({name:name.toLocaleLowerCase()});
+
+			if(find) return res.status(204).send();
 
 			const newCategory = new Category({
-				name: req.query.name.toLocaleLowerCase()
+				name,
+				school
 			})
 
 			const category = await newCategory.save();
 
 			res.status(201).send({
 				_id: category._id,
-				name : category.name
+				name : category.name,
+				school : category.school
 			})
 		}
 		catch(err)
@@ -104,12 +108,12 @@ module.exports = {
 		}
 
 	},
-	deleteToCategory : async (req,res)=>{
+	deleteCategory : async (req,res)=>{
 		try
 		{
 
 			const result =  await Category.deleteOne({_id:req.query._id.toLocaleLowerCase()});
-			if(result.ok>0 && result.n>0) return res.status(204).send({message:'delete message'});
+			if(result.ok>0 && result.n>0) return res.status(204).send();
 			res.status(404).send({message:'resource not found'});
 
 		}
@@ -118,12 +122,14 @@ module.exports = {
 			res.status(500).send({err})
 		}
 	},
-	editToCategory : async (req,res)=>{
+	editCategory: async (req,res)=>{
 		try
 		{
-			const result = await Category.updateOne({_id:req.query._id},{$set:{name:req.query.name}});
+
+			let {_id,name} = req.query;
+			const result = await Category.updateOne({_id},{$set:{name}});
 			if(result.ok>0 && result.n>0) return res.status(204).send({message:'success'});
-			res.status(404).send({message:'resource not found'});
+			res.status(404).send({message:'recurso no encontrado'});
 
 		}
 		catch(err)
@@ -133,9 +139,10 @@ module.exports = {
 	},
 	findAllCategory : async (req,res)=>{
 
-		try{
-			const result = await Category.find({});
-			if(!result) return res.status(204).send({message:'empty resource'});
+		try
+		{
+			const result = await Category.find({school:req.query.school},{product:false});
+			if(!result) return res.status(404).send({message:'recurso no encontrado'});
 			res.status(200).send(result);
 		}
 		catch(err)
@@ -144,33 +151,36 @@ module.exports = {
 		}
 
 	},
-	addToProduct : async (req,res)=>{
+	 createProduct  : async (req,res)=>{
 		try
 		{
 			let image = await cloudinary.v2.uploader.upload(req.file.path);
-			let {category,name,price,school} = req.body;
 
-			let newProduct  = new Product({
-				category,
-				name,
-				price,
-				school,
-				image:image.secure_url
-			})	
+			let {_id,name,price} = req.body;
 
-			let product = await newProduct.save();
+			let result = await Category.findOneAndUpdate({_id},{$push:{products:{
+																			name,
+																			price:parseInt(price),
+																			image : image.secure_url
+																			}	
+																		}}
+																		,
+																		{new: true});
 
-			res.status(201).send({
-				_id:product._id,
-				category: product.category,
-				name: product.category,
-				price: product.price,
-				school : product.school,
-				image:product.image
-			})
+
+			let product = result.products[result.products.length - 1];
+
+			if(product) return res.status(201).send({
+														_id : product._id,
+														image : product.image
+													});
+
+			res.status(404).send({message:'recurso no encontrado'});
+
 		}
 		catch(err)
 		{
+			console.log(err)
 			res.status(500).send({err})
 		}
 	},
@@ -219,11 +229,12 @@ module.exports = {
 		}
 	},
 	findAllProducts : async (req,res)=>{
+		
 		try
 		{
-			let products = await Product.find({status:true});
-			if(!products) return res.status(204).send();
-			res.status(200).send(products)
+			const result = await Category.find({school:req.query.school});
+			if(!result) return res.status(404).send({message:'recurso no encontrado'});
+			res.status(200).send(result);
 		}
 		catch(err)
 		{
@@ -323,24 +334,48 @@ module.exports = {
 
 			const person = await User.findOne({"email" : req.body.email.toLocaleLowerCase()});
 
-            if(!person) return res.status(401).send({error:'Mail invalid or does not exist'});
+            if(!person) return res.status(401).send({error:'Correo es incorrecto o no existe'});
 
-            if(!bcrypt.compareSync(req.body.password.toLocaleLowerCase(),person.password)) return res.status(403).send({error:'password invalidate'});
+            if(!bcrypt.compareSync(req.body.password.toLocaleLowerCase(),person.password)) return res.status(403).send({error:'contraseña incorrecta'});
 
-            const connect =  await User.updateOne({"email" : req.body.email.toLocaleLowerCase()},{$set:{connected:true}});
+            if(person.rol == "admin")
+            {
+            	res.status(200).send({
+            		_id: person._id,
+            		token : token.create(person,360),
+                	email : person.email,
+                	rol : person.rol,
+                	isAuthenticated : true
+            	})
+            }
+            else
+            {
+            	res.status(200).send({
+                	_id : person._id,
+                	token : token.create(person,360),
+                	names : person.names,
+                	lastNames : person.lastNames,
+                	email : person.email,
+                	avatar : person.avatar,
+               		balance : person.balance,
+               		rol : person.rol,
+               		isAuthenticated : true,
+               		representative : (person.representative == 'represented') ? person.representative  : null,
+            	});
+            }
 
-            res.status(200).send({
-                _id : person._id,
-                token : token.create(person,360),
-                names : person.names,
-                lastNames : person.lastNames,
-                email : person.email,
-                avatar : person.avatar,
-               	balance : person.balance,
-               	rol : person.rol,
-               	representative : (person.representative == 'represented') ? person.representative  : null,
-            });
-
+		}
+		catch(err)
+		{
+			console.log(err)
+			res.status(500).send({err});
+		}
+	},
+	findAllSchool : async (req,res)=>{
+		try
+		{
+			let schools = await School.find({});
+			res.status(200).send(schools);
 		}
 		catch(err)
 		{
@@ -353,17 +388,17 @@ module.exports = {
 
 			let image = await cloudinary.v2.uploader.upload(req.file.path);
 
-			let school = new School({
+			let newSchool = new School({
 				name : req.body.name,
 				avatar : image.secure_url
 			})
 
-			user =  newUser.save();
+			newSchool.save();
 
 			res.status(201).send({
-				_id : school._id,
-				name :  school.name,
-				avatar : school.avatar
+				_id : newSchool._id,
+				name :  newSchool.name,
+				avatar : newSchool.avatar
 			})		
 		}
 		catch(err)
@@ -374,8 +409,9 @@ module.exports = {
 	deleteSchool : async (req,res)=>{
 		try
 		{
-			let school = await deleteOne({_id:req.query._id});
-			if(user.ok>0 && user.n>0) return res.status(204).send({message:'delete success'});
+
+			let school = await School.deleteOne({_id:req.query._id});
+			if(school.ok>0 && school.n>0) return res.status(204).send({message:'delete success'});
 			res.status(404).send({message:'resource not found'});
 		}
 		catch(err)
