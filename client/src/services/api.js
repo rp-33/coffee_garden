@@ -1,9 +1,6 @@
 import axios from 'axios';
 import {getStore} from './store';
 
-
-let store = getStore();
-
 const login = (email,password)=>{
 
 	return axios({
@@ -34,8 +31,7 @@ const findAllSchool = ()=>{
 
 	return axios({
 		method:'get',
-		url :'/app/findAllSchool',
-		headers: {'Authorization': "bearer " + store.token}
+		url :'/app/findAllSchool'
 	})
 	.then((response)=>{return response})
 	.catch((err)=>{return err.response})
@@ -50,7 +46,7 @@ const deleteSchool = (_id) =>{
 		params : {
 			_id
 		},
-		headers: {'Authorization': "bearer " + store.token}
+		headers: {'Authorization': "bearer " + getStore().token}
 	})
 	.then((response)=>{return response})
 	.catch((err)=>{return err.response})
@@ -65,7 +61,7 @@ const createCategory = (name,school)=>{
 			name,
 			school
 		},
-		headers: {'Authorization': "bearer " + store.token}
+		headers: {'Authorization': "bearer " + getStore().token}
 	})
 	.then((response)=>{return response})
 	.catch((err)=>{return err.response})
@@ -80,7 +76,7 @@ const findAllCategory = (school) =>{
 		params : {
 			school
 		},
-		headers: {'Authorization': "bearer " + store.token}
+		headers: {'Authorization': "bearer " + getStore().token}
 	})
 	.then((response)=>{return response})
 	.catch((err)=>{return err.response})
@@ -94,7 +90,7 @@ const deleteCategory = (_id)=>{
 		params :{
 			_id
 		},
-		headers: {'Authorization': "bearer " + store.token}
+		headers: {'Authorization': "bearer " + getStore().token}
 	})
 	.then((response)=>{return response})
 	.catch((err)=>{return err.response})
@@ -108,7 +104,7 @@ const editCategory = (_id,name)=>{
 			_id,
 			name
 		},
-		headers: {'Authorization': "bearer " + store.token}
+		headers: {'Authorization': "bearer " + getStore().token}
 	})
 	.then((response)=>{return response})
 	.catch((err)=>{return err.response})
@@ -122,7 +118,7 @@ const findAllProducts = (school) =>{
 		params : {
 			school
 		},
-		headers: {'Authorization': "bearer " + store.token}
+		headers: {'Authorization': "bearer " + getStore().token}
 	})
 	.then((response)=>{return response})
 	.catch((err)=>{return err.response})

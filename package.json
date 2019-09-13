@@ -1,6 +1,7 @@
 {
   "name": "coffee-garden",
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "main": "server.js",
   "private": true,
   "scripts": {
     "client-install": "npm install --prefix client",
@@ -29,5 +30,9 @@
   "devDependencies": {
     "concurrently": "^4.1.1",
     "nodemon": "^1.19.1"
+  },
+  "engines": {
+    "node": "10.15.3",
+    "npm": "6.4.1"
   }
 }

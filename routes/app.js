@@ -31,7 +31,7 @@ router.get('/findAllCategory',findAllCategory);
 
 router.get('/findAllProducts',findAllProducts);
 
-router.get('/findAllSchool',Auth,findAllSchool);
+router.get('/findAllSchool',findAllSchool);
 
 /* POST home page. */
 
