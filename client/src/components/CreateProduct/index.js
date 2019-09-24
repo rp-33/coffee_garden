@@ -72,13 +72,14 @@ class CreateProduct extends Component{
 		return(
 			<div className="create-product" >
 
-				<ModalAddProduct
-					open = {this.state.modalAdd}
-					_id = {this.state._id}
-					handleClose = {(modalAdd)=>this.setState({modalAdd})}
-					handleSubmit = {this.handleAddProduct.bind(this)}
-				/>
-
+				{this.state.modalAdd &&
+					<ModalAddProduct
+						open = {this.state.modalAdd}
+						_id = {this.state._id}
+						handleClose = {(modalAdd)=>this.setState({modalAdd})}
+						handleSubmit = {this.handleAddProduct.bind(this)}
+					/>
+				}
 				<section className="ctn">
 
 					<Link to="/admin/">		

@@ -9,7 +9,7 @@ import ArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
 import ArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import BarMessage from '../../presentation/BarMessage';
-import {login} from '../../services/api';
+import {login,findAllSchool} from '../../services/api';
 import {action_login} from '../../actions/user';
 import logo from '../../assets/logo.png';
 import escudo from '../../assets/escudo.png';
@@ -22,7 +22,29 @@ class Login extends Component{
 			email : '',
 			password : '',
 			errorLogin : '',
-			loading : false
+			loading : false,
+			school : []
+		}
+	}
+
+	componentDidMount(){
+		this.getSchool();
+	}
+
+
+	async getSchool(){
+		try
+		{
+			let {status,data} = await findAllSchool();
+			if(status==200){
+				this.setState({
+					school : data
+				})
+			}
+		}
+		catch(err)
+		{
+			console.log(err);
 		}
 	}
 
@@ -47,6 +69,7 @@ class Login extends Component{
 			if(status == 200)
 			{
 				this.props.handleLogin(data);
+				console.log(data)
 				history.push('/'+data.rol);
 			}
 			else
@@ -60,7 +83,6 @@ class Login extends Component{
 		}
 		catch(err)
 		{
-			alert(err)
 			this.setState({
 				loading:false,
 				erroLogin : 'Error en el servidor'
@@ -130,16 +152,11 @@ class Login extends Component{
 
 				<div className="cnt-client">
 					<p style={{color:'#e44a4c',fontWeight:'bold'}}>Nuestros clientes</p>
-					<div style={{display:'flex',flexDirection:'row'}}>
-						<IconButton aria-label="back"><ArrowLeftIcon fontSize="large" style={{color:'#e44a4c',fontSize:'2em'}} /></IconButton>
-						<div>
+					<div style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
 						{
-							[1,2,3,4].map((item,i)=>
-								<img key={item} src={escudo} alt="logo"/>
+							this.state.school.map((item,i)=>
+								<img key={i} src={item.avatar} alt="logo" style={{borderRadius:'10px'}}/>
 						)}
-						</div>
-						<IconButton aria-label="next"><ArrowRightIcon fontSize="large" style={{color:'#e44a4c',fontSize:'2em'}} /></IconButton>	
-				
 					</div>
 				</div>
 

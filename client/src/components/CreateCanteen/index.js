@@ -1,16 +1,14 @@
 import React,{Component} from 'react';
-import {Link} from 'react-router-dom';
 import Snackbar from '@material-ui/core/Snackbar';
 import Fab from '@material-ui/core/Fab';
-import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import AddIcon from '@material-ui/icons/Add';
-import IconButton from '@material-ui/core/IconButton';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
 import ModalAdd from './ModalAdd';
 import ModalDelete from './ModalDelete';
 import {createSchool,findAllSchool,deleteSchool} from '../../services/api';
+import CardCanteen from './CardCanteen';
+import ModalEditName from './ModalEditName';
+import ModalEditAvatar from './ModalEditAvatar'
 import './style.css';
 
 class CreateCanteen extends Component{
@@ -22,7 +20,14 @@ class CreateCanteen extends Component{
 			name : '',
 			_id : '',
 			data : [],
-			isLoading : false
+			isLoading : false,
+			modalEditName : false,
+			modalEditAvatar : false,
+			school : {
+				_id : '',
+				name:'',
+				avatar: ''
+			}
 		}
 	}
 
@@ -96,6 +101,39 @@ class CreateCanteen extends Component{
 		});
 	}
 
+	handleEditNameSuccess(_id,name){
+		const index = this.state.data.findIndex(item => item._id === _id);
+		this.setState(previoState =>{
+			return{
+				modalEditName:false,
+				data:[
+                    ...previoState.data.slice(0,index),// Copia el objeto antes de modificarlo
+                    Object.assign({},previoState.data[index], {
+                   		name
+                    }),
+                    ...previoState.data.slice(index + 1)
+                ]
+			}
+		})
+	}
+
+	handleEditAvatarSuccess(_id,avatar){
+		const index = this.state.data.findIndex(item => item._id === _id);
+		this.setState(previoState =>{
+			return{
+				modalEditAvatar:false,
+				data:[
+                    ...previoState.data.slice(0,index),// Copia el objeto antes de modificarlo
+                    Object.assign({},previoState.data[index], {
+                   		avatar
+                    }),
+                    ...previoState.data.slice(index + 1)
+                ]
+			}
+		})
+	}
+
+
 	render(){
 		return(
 			<div className="add-canteen">
@@ -114,6 +152,25 @@ class CreateCanteen extends Component{
 					isLoading = {this.state.isLoading}
 				/>
 
+				{this.state.modalEditName &&
+					<ModalEditName 
+						open = {this.state.modalEditName}
+						handleClose = {(modalEditName)=>this.setState({modalEditName})}
+						item = {this.state.school}
+						handleSuccess = {this.handleEditNameSuccess.bind(this)}
+					/>
+				}
+
+				{this.state.modalEditAvatar &&
+					<ModalEditAvatar
+						open = {this.state.modalEditAvatar}
+						handleClose = {(modalEditAvatar)=>this.setState({modalEditAvatar})}
+						_id = {this.state.school._id}
+						handleSuccess = {this.handleEditAvatarSuccess.bind(this)}
+					/>
+				}
+
+
 				<section className="ctn">
 					<h2>Cantinas</h2>
 					<div className="panel">
@@ -121,22 +178,13 @@ class CreateCanteen extends Component{
 							{this.state.data.map((item,i)=>
 								<Grid key={i} item xs={6} sm={4} md={3} lg={2}>
 
-									<Paper className="item-grid">
-										<div className="inf-user">
-											<Link to= {`/admin/product/${item._id}`}>
-												<img src={item.avatar} alt="avatar"/>
-											</Link>
-											<span>{item.name}</span>
-										</div>
-										<div className="ctn-icon-option">
-											<IconButton aria-label="edit" color="primary">
-												<EditIcon fontSize="medium" />
-											</IconButton>	
-											<IconButton onClick = {this.handleModalDelete.bind(this,item._id,item.name)} aria-label="delete" color="secondary">
-												<DeleteIcon fontSize="medium" />
-											</IconButton>		
-										</div>
-									</Paper>
+									<CardCanteen 
+										item = {item}
+										handleModalDelete = {this.handleModalDelete.bind(this)}
+										handleModalEditName = {(modalEditName,school)=>this.setState({modalEditName,school})}	
+										handleModalEditAvatar = {(modalEditAvatar,school)=>this.setState({modalEditAvatar,school})}
+																			
+									/>
 
 								</Grid>
 							)}

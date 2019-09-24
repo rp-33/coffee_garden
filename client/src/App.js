@@ -6,6 +6,7 @@ import PublicRoute from './routes/PublicRoute';
 import Login from './views/Login/';
 import Signup from './views/Signup';
 import Admin from './views/Admin';
+import Representative from './views/Representative';
 import NoMatch from './components/NoMatch';
 
 
@@ -28,6 +29,10 @@ const  App = ()=> {
       			path="/admin"
       			component={Admin}
     		/>
+        <PrivateRoute
+            path="/representative"
+            component={Representative}
+        />
     		<Route component={NoMatch} />
    		</Switch>
 

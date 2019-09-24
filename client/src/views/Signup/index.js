@@ -1,11 +1,18 @@
 import React,{Component} from 'react';
 import {Link} from 'react-router-dom';
+import {connect} from 'react-redux';
+import history from '../../routes/history';
 import Fab from '@material-ui/core/Fab';
 import Radio from '@material-ui/core/Radio';
 import CheckIcon from '@material-ui/icons/Check';
 import Fade from '@material-ui/core/Fade';
 import Grid from '@material-ui/core/Grid';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Hidden from '@material-ui/core/Hidden';
+import BarMessage from '../../presentation/BarMessage';
 import {validateCompare} from '../../utils/validation';
+import {findAllSchool,signup} from '../../services/api';
+import {action_signup} from '../../actions/user';
 import logo from '../../assets/logo.png';
 import bgImg from '../../assets/background.jpg';
 import './style.css';
@@ -14,6 +21,8 @@ class Signup extends Component{
 	constructor(props){
 		super(props);
 		this.state = {
+			schools : [],
+			school : 'seleccione una cantina',
 			names : '',
 			lastNames : '',
 			email:'',
@@ -23,7 +32,31 @@ class Signup extends Component{
 			term : false,
 			countryCode : 58,
 			phone:'',
-			codeCi : 'V'
+			codeCi : 'V',
+			error:'',
+			isLoading : false
+		}
+	}
+
+	componentDidMount(){
+		this.getSchool();
+	}
+
+
+	async getSchool(){
+		try
+		{
+			let {status,data} = await findAllSchool();
+			console.log(data)
+			if(status==200){
+				this.setState({
+					schools : data
+				})
+			}
+		}
+		catch(err)
+		{
+			console.log(err);
 		}
 	}
 
@@ -34,9 +67,35 @@ class Signup extends Component{
 		})
 	}
 
-	handleSubmit(event){
-		event.preventDefault();
-		console.log('send form')
+	async handleSubmit(event){
+		try
+		{
+			event.preventDefault();
+			this.setState({
+				isLoading:true,
+				error:''
+			})
+			let {email,names,lastNames,codeCi,ci,phone,countryCode,school,password} = this.state;
+			let {status,data} = await signup(email,names,lastNames,codeCi,ci,phone,countryCode,school,password);
+			if(status==204){
+				this.setState({
+					error : "correo ya existe"
+				})
+			}else if(status==201){
+				this.props.handleSignup(data);
+				history.push('/'+data.rol);
+			}
+		}
+		catch(error)
+		{
+			console.log(error)
+		}
+		finally
+		{
+			this.setState({
+				isLoading:false
+			})
+		}
 	}
 
 
@@ -50,6 +109,13 @@ class Signup extends Component{
 					<div className="ctn-logo">
 						<img src={logo} alt="logo" />
 					</div>
+					<Hidden xsDown>
+						{this.state.error &&
+						<BarMessage 
+							title = {this.state.error}
+						/>
+						}
+					</Hidden>
 					<Grid container spacing={3}>
 					    <Grid item xs={12} sm={6}>
 							<div className="ctn-input">
@@ -119,7 +185,7 @@ class Signup extends Component{
         						</select>
         						<input 
 								type="number" 
-								placeholder="Documento de identidad" 
+								placeholder=" Documento de identidad" 
 								required 
 								value = {this.state.ci}
 								name="ci"
@@ -130,10 +196,21 @@ class Signup extends Component{
 						<Grid item xs={12} sm={6}>
 							<div className="ctn-cantina">
 								<select
+								required
 								className="select"
-          						value="placeholder"
+								placeholder="seleccione una cantina"
+          						value={this.state.school}
         						>
-        							<option disabled value="placeholder">seleccione una cantina</option>
+        							<option disabled value="seleccione una cantina">seleccione una cantina</option>
+        							{
+        								this.state.schools.map((item,i)=>
+        									<option 
+        									value={item._id} 
+        									onClick={()=>this.setState({school:item._id})}
+        									>
+        										{item.name}
+        									</option>
+        							)}
         						</select>
 							</div>
 						</Grid>
@@ -184,15 +261,43 @@ class Signup extends Component{
 							<a href="#" style={{color:'#c7c7c7'}}>Terminos y condiciones</a>
 						</p>
 					</div>
-
+					{
+						(this.state.term && 
+						validateCompare(this.state.password,this.state.repPassword,5) &&
+						this.state.school != "seleccione una cantina"
+						) 
+					&&
 					<div className="ctn-btn">
-						<Fab disabled={!validateCompare(this.state.password,this.state.repPassword,5)} type="submit" variant="extended" size="large" fullWidth color="secondary" className="secondary">
-        					registrar
-     					</Fab>
+						{this.state.isLoading
+						?
+							<div className="ctn-loading">
+								<CircularProgress color="secondary"/>
+							</div>
+						:
+							<Fab  
+							type="submit" 
+							variant="extended" 
+							size="large" 
+							color="secondary" 
+							className="secondary"
+							>
+        						registrar
+     						</Fab>
+     					}
 					</div>
+					}
 					<p style={{textAlign:'center',marginTop:'20px'}}>
 						<Link to="/" style={{color:'black'}}>Iniciar session</Link>
 					</p>
+
+					<Hidden smUp>
+						{this.state.error &&
+						<BarMessage 
+							title = {this.state.error}
+						/>
+						}
+					</Hidden>
+
 				</form>
 
 			</div>
@@ -200,4 +305,12 @@ class Signup extends Component{
 	}
 }
 
-export default Signup;
+const mapDispatchToProps = dispatch =>{
+	return{
+		handleSignup(data){
+			dispatch(action_signup(data))
+		}
+	}
+}
+
+export default connect(null,mapDispatchToProps)(Signup);

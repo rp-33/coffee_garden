@@ -13,10 +13,15 @@ let orderSchema = new Schema({
 	date : {
 		type : Date
 	},
-	product:{
-		type: Schema.ObjectId, ref: "Product" 
+	name : {
+		type:String
+	},
+	price :{
+		type :Number
+	},
+	image : {
+		type : String
 	}
-
 })
 
 module.exports = mongoose.model('Order',orderSchema);

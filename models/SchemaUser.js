@@ -24,7 +24,8 @@ let userSchema = new Schema({
 		type:String
 	},
 	balance : {
-		type:Number
+		type:Number,
+		default :0
 	},
 	representative:{
 		type : Schema.ObjectId, ref: "User" 
@@ -52,6 +53,7 @@ let userSchema = new Schema({
     }
 })
 
+
 userSchema.pre('save',function(next){ 
 
     if (!this.isModified('password')) return next();
@@ -59,8 +61,7 @@ userSchema.pre('save',function(next){
     bcrypt.genSalt(10, (err, salt) => {
 
        if (err) return next(err); 
-
-       bcrypt.hash(this.password,salt,null,(hashError,hash)=>{
+       bcrypt.hash(this.password,salt,(hashError,hash)=>{
 
         if (hashError) return next(hashError);
         
@@ -72,6 +73,5 @@ userSchema.pre('save',function(next){
 
     });
 });
-
 
 module.exports = mongoose.model('User',userSchema);

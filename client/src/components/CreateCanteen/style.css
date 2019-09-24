@@ -5,7 +5,7 @@ div.add-canteen section.ctn{
 	position: relative;
 }
 
-div.add-canteen div.modal-add,div.add-canteen div.modal-delete{
+div.add-canteen div.modal-add,div.add-canteen div.modal-delete,div.add-canteen div.modal-edit-name,div.modal-edit-avatar{
 	display:flex;
 	background-color:rgba(252,180,160,0.45);
 	width: 100%;
@@ -20,7 +20,7 @@ div.add-canteen div.modal-add,div.add-canteen div.modal-delete{
 }
 
 
-div.add-canteen div.modal-add .form-control{
+div.add-canteen div.modal-add .form-control,div.add-canteen div.modal-edit-avatar .form-control{
 	background-color: #f7f3f0;
 	width: calc(80% - 50px);
 	border-radius: 20px;
@@ -46,28 +46,99 @@ div.add-canteen div.modal-add .form-control form div.ctn-input input{
 	padding: 4px 10px;
 	outline: none
 }
-div.add-canteen div.modal-add .form-control div.ctn-img{
+div.add-canteen div.modal-add .form-control div.ctn-img,div.add-canteen div.modal-edit-avatar .form-control div.ctn-img{
 	width: 100%;
 	height: 200px;
 	border-radius: 4px;
 	position: relative;
 	background-color: #f1f1f1
 }
-div.add-canteen div.modal-add .form-control div.ctn-img img{
+div.add-canteen div.modal-add .form-control div.ctn-img img,div.add-canteen div.modal-edit-avatar .form-control div.ctn-img img{
 	width: 100%;
 	height: 100%;
 	border-radius: 4px;
 }
 
-div.add-canteen div.modal-add .form-control div.ctn-img .icon{
+div.add-canteen div.modal-add .form-control div.ctn-img .icon,div.add-canteen div.modal-edit-avatar .form-control div.ctn-img .icon{
 	color:#e44a4c;
 	position:absolute;
 	top:-5px;
 	right:-7px;
 	background-color: white;
 	border-radius: 50%;
+	cursor: pointer;
 }
 
+div.add-canteen div.modal-edit-name .form-control{
+	background-color: #f7f3f0;
+	width: calc(80% - 50px);
+	border-radius: 20px;
+	padding: 5px 10px 30px 10px;
+	max-width: 260px;
+	position: relative;
+	box-shadow: 0 0 4px #737373;
+	position: relative;
+
+}
+
+div.add-canteen div.modal-edit-name .form-control div.toast-error{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 50px;
+	background-color:rgba(0,0,0,.8);
+	opacity: 0.8;
+	text-align: center;
+	color:white;
+	border-radius: 5px;
+}
+
+div.add-canteen div.modal-edit-name .form-control div.ctn-input{
+	width: 100%;
+	position: relative;
+	margin-top: 20px;
+}
+
+
+div.add-canteen div.modal-edit-name .form-control div.ctn-input input{
+	width: calc(100% - 20px);
+	height: 40px;
+	border-radius:40px;
+	border:2px solid #d48945;
+	padding: 4px 10px;
+	outline: none
+}
+
+div.add-canteen div.modal-edit-name .form-control div.ctn-btn,div.add-canteen div.modal-edit-avatar .form-control div.ctn-btn{
+	margin-top: 20px;
+	width: 100%;
+}
+
+div.add-canteen div.modal-edit-name .form-control div.ctn-btn  div.ctn-loading,div.add-canteen div.modal-edit-avatar .form-control div.ctn-btn  div.ctn-loading {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	margin-top: 15px;
+}
+
+div.add-canteen div.modal-edit-name .form-control div.ctn-btn .secondary,div.add-canteen div.modal-edit-avatar .form-control div.ctn-btn .secondary{
+	width: 100%;
+}
+
+div.add-canteen div.modal-edit-name .form-control div.icon-close,div.add-canteen div.modal-edit-avatar .form-control div.icon-close{
+	width: 30px;
+	height: 30px;
+	background-color: white;
+	position: absolute;
+	top: -7px;
+	right: -7px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+}
 
 div.add-canteen section.ctn div.panel{
 	background-color: rgba(255,235,208,.65);
@@ -101,7 +172,52 @@ div.add-canteen section.ctn div.panel .item-grid div.inf-user{
 	text-transform: capitalize;
 }
 
+div.add-canteen section.ctn div.panel .item-grid div.inf-user div.ctn-img{
+	width: 100%;
+	height: 120px;
+	margin-bottom:10px;
+}
 
+div.add-canteen section.ctn div.panel .item-grid div.inf-user div.ctn-img img{
+	width: 100%;
+	height: 100%;
+}
+
+div.add-canteen section.ctn div.panel .item-grid div.ctn-icon-option div.ctn-menu{
+	position:absolute; 
+	z-index: 1000;
+	top:50px;
+	left:-55px;
+}
+
+div.add-canteen section.ctn div.panel .item-grid div.ctn-icon-option div.ctn-menu div.eyelash{
+	position: absolute;
+	top:-18px;
+	right: 7px;
+	width: 0px;
+	height: 0px;
+	border-width: 10px;
+	border-color: transparent transparent white transparent;
+	border-style: solid
+}
+
+div.add-canteen section.ctn div.panel .item-grid div.ctn-icon-option div.menu{
+	background-color:white;
+	border-radius: 7px;
+	padding:3px 15px;
+	box-shadow: 0px 0px 8px rgba(0,0,0,.6)
+}
+
+
+
+div.add-canteen section.ctn div.panel .item-grid div.ctn-icon-option div.menu p{
+	font-weight: bold;
+	cursor: pointer;
+}
+
+div.add-canteen section.ctn div.panel .item-grid div.ctn-icon-option div.menu p:hover{
+	color:#f4762a;
+}
 
 div.add-canteen section.ctn div.panel .item-grid div.ctn-icon-option{
 	display: flex;

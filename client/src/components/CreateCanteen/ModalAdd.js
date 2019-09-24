@@ -41,7 +41,8 @@ class ModalAdd extends Component{
 
 	removeImage(){
 		this.setState({
-			base64 : ''
+			base64 : '',
+			file:{}
 		})
 	}
 

@@ -16,20 +16,6 @@ div.admin .head .right{
 	justify-content: flex-end;
 }
 
-div.admin  .head .right div.credit{
-	background-color: #eb8f6a;
-	color: white;
-	padding:0px 12px;
-	height: 35px;
-	border-radius: 20px;
-	text-align: center;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	margin-top:4px;
-	margin-right: 10px
-}
-
 div.admin img.bg-img{
 	position: fixed;
 	width: 100%;

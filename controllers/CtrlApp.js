@@ -5,6 +5,7 @@ let mongoose = require('mongoose'),
 	Category = require('../models/SchemaCategory'),
 	  School = require('../models/SchemaSchool'),
 		User = require('../models/SchemaUser'),
+	   Order = require('../models/SchemaOrder'),
 	   token = require('../services/token'),
 	  bcrypt = require('bcrypt'),
   cloudinary = require('../configuration/cloudinary');
@@ -151,7 +152,7 @@ module.exports = {
 		}
 
 	},
-	 createProduct  : async (req,res)=>{
+	createProduct  : async (req,res)=>{
 		try
 		{
 			let image = await cloudinary.v2.uploader.upload(req.file.path);
@@ -241,17 +242,19 @@ module.exports = {
 			res.status(500).send({err})
 		}
 	},
-	signupParent :  async (re,res)=>{
+	signup :  async (req,res)=>{
 		try
 		{
-			let {email,names,lastNames,codeCi,ci,phone,countryCode,school} = req.body;
+
+			let {email,names,lastNames,codeCi,ci,phone,countryCode,school,password} = req.body;
 
 			let user = await User.findOne({email},{email:true});
 
-			if(user) return res.status(401).send({error : 'mail already exists'});
+			if(user) return res.status(204).send();
 
-			let newUser = new User({
+			user = new User({
 				email: email.toLocaleLowerCase(),
+				password: password.toLocaleLowerCase(),
 				names,
 				lastNames,
 				phone,
@@ -259,55 +262,64 @@ module.exports = {
 				ci,
 				countryCode,
 				school,
-				rol : 'representative'
+				rol:'representative'
 			})
 
-			user =  newUser.save();
+			await user.save();
 
 			res.status(201).send({
-				_id:user._id,
-				token : token.create(user,360),
-				email:user.email,
-				names : user.names,
-				lastNames : user.lastNames,
-				countryCode: user.countryCode,
-				phone : user.phone,
-				ci : user.ci,
-				school : user.school,
-				rol : user.rol
-			})
+				_id : user._id,
+                token : token.create(user,360),
+                names : user.names,
+                lastNames : user.lastNames,
+                email : user.email,
+                avatar : user.avatar,
+               	rol : user.rol,
+               	school : user.school,
+               	isAuthenticated : true
+           	})
 		}
 		catch(err)
 		{
 			res.status(500).send({err});
 		}
 	},
-	createRepresented : async (req,res)=>{
+	findAllRepresented :async (req,res)=>{
 		try
 		{
-			let {email,names,lastNames,representative} = req.body;
+			let users =  await User.find({representative : req.user},{_id:true,names:true,lastNames:true,avatar:true})
+			if(users) res.status(200).send(users) 
+		}
+		catch(err)
+		{
+			res.status(500).send({err});
+		}
+	},
+	saveRepresented : async (req,res)=>{
+		try
+		{
+			let {names,lastNames,email,password,school} = req.body;
 
 			let user = await User.findOne({email},{email:true});
 
 			if(user) return res.status(401).send({error : 'mail already exists'});
 
 			let newUser = new User({
-				email: email.toLocaleLowerCase(),
+				email,
+				password,
 				names,
 				lastNames,
-				representative,
+				representative : req.user,
+				school,
 				rol : 'represented'
 			})
 
-			user =  newUser.save();
+			await newUser.save();
 
 			res.status(201).send({
-				_id:user._id,
-				token : token.create(user,360),
-				email:user.email,
-				names : user.names,
-				lastNames : user.lastNames,				
-				rol : user.rol
+				_id : newUser._id,
+				names : newUser.names,
+				lastNames : newUser.lastNames			
 			})
 
 		}
@@ -319,7 +331,7 @@ module.exports = {
 	deleteRepresented :  async (req,res)=>{
 		try
 		{
-			let user = await User.deleteOne({_id:req.query._id});
+			let user = await User.deleteOne({_id:req.query._id,representative:req.user});
 			if(user.ok>0 && user.n>0) return res.status(204).send({message:'delete user'});
 			res.status(404).send({message:'resource not found'});
 		}
@@ -357,10 +369,9 @@ module.exports = {
                 	lastNames : person.lastNames,
                 	email : person.email,
                 	avatar : person.avatar,
-               		balance : person.balance,
                		rol : person.rol,
                		isAuthenticated : true,
-               		representative : (person.representative == 'represented') ? person.representative  : null,
+               		school : person.school
             	});
             }
 
@@ -413,6 +424,70 @@ module.exports = {
 			let school = await School.deleteOne({_id:req.query._id});
 			if(school.ok>0 && school.n>0) return res.status(204).send({message:'delete success'});
 			res.status(404).send({message:'resource not found'});
+		}
+		catch(err)
+		{
+			res.status(500).send({err});
+		}
+	},
+	editNameSchool : async (req,res)=>{
+		try
+		{
+			let school = await School.findOne({name:req.query.name},{name:true});
+			if(school) return res.status(204).send();
+			school = await School.updateOne({_id:req.query._id},{$set:{name:req.query.name}});
+			if(school.ok>0 && school.n>0) return res.status(201).send({message:'success change'});
+			res.status(404).send({message:'resource not found'});
+		}
+		catch(err)
+		{
+			res.status(500).send({err});
+		}
+
+	},
+	editAvatarSchool : async (req,res)=>{
+		try
+		{
+			let image = await cloudinary.v2.uploader.upload(req.file.path);
+			let school = await School.updateOne({_id:req.body._id},{$set:{avatar:image.secure_url}});
+			if(school.ok>0 && school.n>0) return res.status(201).send({image:image.secure_url});
+			res.status(404).send({message:'resource not found'});
+		}
+		catch(err)
+		{
+			res.status(500).send({err});
+		}
+	},
+	findBalance : async (req,res)=>{
+		try
+		{
+			let balance = await User.findOne({_id:req.query.user},{balance:true,_id:false});
+			if(!balance) res.status(404).send({message:'resource not found'});
+			res.status(200).send(balance);
+		}
+		catch(err)
+		{
+			res.status(500).send({err});
+		}
+	},
+	saveOrder :  async (req,res)=>{
+		try
+		{
+			let {user,name,image,price,quantity,date} = req.body;
+
+			let order = new Order({
+				user,
+				quantity,
+				date,
+				name,
+				image,
+				price
+			})
+
+
+			await Order.save();
+
+			res.status(201).send({order})
 		}
 		catch(err)
 		{

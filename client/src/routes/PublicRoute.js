@@ -3,14 +3,14 @@ import {Route,Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
-const PublicRoute = ({component : Component,isAuthenticated})=>(
+const PublicRoute = ({component : Component,isAuthenticated,route})=>(
 
 	<Route 
 		render = {props =>
 			!isAuthenticated ? (
 				<Component {...props} />
 			) : (
-				<Redirect to= "/admin" />
+				<Redirect to= {`/${route}`} />
 			)
 		}
 	/>
@@ -27,7 +27,8 @@ PublicRoute.propTypes = {
 
 const mapStateToProps = (state,props)=>{
     return{
-        isAuthenticated : state.user.isAuthenticated
+        isAuthenticated : state.user.isAuthenticated,
+        route : state.user.rol
     }
 }
 

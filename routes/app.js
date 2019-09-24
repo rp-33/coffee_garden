@@ -16,13 +16,19 @@ const {
 	editImageProduct,
 	signupSeller,
 	editAvatarUser,
-	signupParent,
+	signup,
 	login,
 	createRepresented,
 	deleteRepresented,
 	createSchool,
 	deleteSchool,
-	findAllSchool
+	findAllSchool,
+	editNameSchool,
+	editAvatarSchool,
+	saveOrder,
+	findBalance,
+	saveRepresented,
+	findAllRepresented
 } = require('../controllers/CtrlApp')
 
 /* GET home page. */
@@ -33,6 +39,10 @@ router.get('/findAllProducts',findAllProducts);
 
 router.get('/findAllSchool',findAllSchool);
 
+router.get('/findBalance',findBalance);
+
+router.get('/findAllRepresented',Auth,findAllRepresented)
+
 /* POST home page. */
 
 router.post('/createCategory',createCategory);
@@ -41,13 +51,15 @@ router.post('/createProduct',upload.single('file'),createProduct);
 
 router.post('/signupSeller ',signupSeller);
 
-router.post('/signupParent',signupParent);
+router.post('/signup',signup);
 
 router.post('/login',login);
 
-router.post('/createRepresented',createRepresented);
-
 router.post('/createSchool',upload.single('file'),createSchool);
+
+router.post('/saveOrder',Auth,saveOrder);
+
+router.post('/saveRepresented',Auth,saveRepresented);
 
 /* PUT home page. */
 
@@ -59,13 +71,17 @@ router.put('/editImageProduct',upload.single('file'),editImageProduct);
 
 router.put('/editAvatarUser',upload.single('file'),editAvatarUser);
 
+router.put('/editNameSchool',editNameSchool);
+
+router.put('/editAvatarSchool',upload.single('file'),editAvatarSchool)
+
 /* DELETE home page. */
 
 router.delete('/deleteCategory',deleteCategory);
 
 router.delete('/deleteToProduct',deleteToProduct);
 
-router.delete('/deleteRepresented',deleteRepresented);
+router.delete('/deleteRepresented',Auth,deleteRepresented);
 
 router.delete('/deleteSchool',Auth,deleteSchool);
 
