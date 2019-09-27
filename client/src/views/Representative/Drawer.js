@@ -19,7 +19,7 @@ const Drawer = ({open,handleClose,handleLogout})=>{
       	>
         	<div className="drawer">
         		<List>
-              <Link to="/represented/add">
+              <Link to="/representative/add">
               	<ListItem button>                   
                	 		<ListItemIcon>
                   	<UserIcon style={styles.icon} />

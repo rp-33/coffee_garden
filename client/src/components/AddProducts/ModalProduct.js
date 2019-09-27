@@ -6,10 +6,9 @@ import IconButton from '@material-ui/core/IconButton';
 import ArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
 import ArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 import CancelIcon from '@material-ui/icons/Cancel';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import PropTypes from 'prop-types';
 
-const ModalProduct = ({open,product,isLoading,handleClose,quantity,handleAddQuantity,handleDecreaseQuantity,handleSave})=>{
+const ModalProduct = ({open,product,handleClose,quantity,handleAddQuantity,handleDecreaseQuantity,handleSave})=>{
 
 	return(
 		<Slide direction="up" in={open} mountOnEnter unmountOnExit>
@@ -25,29 +24,28 @@ const ModalProduct = ({open,product,isLoading,handleClose,quantity,handleAddQuan
          			</div>
 
                     <div className="ctn-input">
-                        <IconButton disabled = {quantity==1}  aria-label="back" style={{color:'#e2474b'}} onClick = {()=>handleDecreaseQuantity()}><ArrowLeftIcon fontSize="large" /></IconButton>
+                        <IconButton disabled = {quantity==1}  aria-label="back" style={{color:'#e2474b'}} onClick = {()=>handleDecreaseQuantity()}>
+                            <ArrowLeftIcon fontSize="large" />
+                        </IconButton>
                         <div className="input">
                         	<span style={{fontWeight:'bold'}}>{quantity}</span>
                         </div>
-                        <IconButton aria-label="next" style={{color:'#e2474b'}} onClick = {()=>handleAddQuantity()}><ArrowRightIcon fontSize="large" /></IconButton>  
+                        <IconButton aria-label="next" style={{color:'#e2474b'}} onClick = {()=>handleAddQuantity()}>
+                            <ArrowRightIcon fontSize="large" />
+                            </IconButton>  
                     </div>
                     <div className="ctn-btn">
-                     	{isLoading
-                     	?
-                     		<CircularProgress color="secondary"/>
-                     	:
-                        	<Fab 
-                        		onClick = {()=>handleSave()}
-                        		type="submit" 
-                        		variant="extended" 
-                        		size="large" fullWidth 
-                        		color="secondary" 
-                        		className="secondary" 
-                        		style={{marginTop:'20px'}}
-                        	>
-                            	Agregar
-                        	</Fab>
-                        }
+                        <Fab 
+                        	onClick = {()=>handleSave()}
+                        	type="submit" 
+                        	variant="extended" 
+                        	size="large" fullWidth 
+                        	color="secondary" 
+                        	className="secondary" 
+                        	style={{marginTop:'20px'}}
+                        >
+                            Agregar
+                        </Fab>
                     </div>
          		</Paper>
          	</div>

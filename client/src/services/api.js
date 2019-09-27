@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {getStore} from './store';
+import {getStoreUser} from './store';
 
 const login = (email,password)=>{
 
@@ -68,7 +68,7 @@ const deleteSchool = (_id) =>{
 		params : {
 			_id
 		},
-		headers: {'Authorization': "bearer " + getStore().token}
+		headers: {'Authorization': "bearer " + getStoreUser().token}
 	})
 	.then((response)=>{return response})
 	.catch((err)=>{return err.response})
@@ -83,7 +83,7 @@ const createCategory = (name,school)=>{
 			name,
 			school
 		},
-		headers: {'Authorization': "bearer " + getStore().token}
+		headers: {'Authorization': "bearer " + getStoreUser().token}
 	})
 	.then((response)=>{return response})
 	.catch((err)=>{return err.response})
@@ -98,7 +98,7 @@ const findAllCategory = (school) =>{
 		params : {
 			school
 		},
-		headers: {'Authorization': "bearer " + getStore().token}
+		headers: {'Authorization': "bearer " + getStoreUser().token}
 	})
 	.then((response)=>{return response})
 	.catch((err)=>{return err.response})
@@ -112,7 +112,7 @@ const deleteCategory = (_id)=>{
 		params :{
 			_id
 		},
-		headers: {'Authorization': "bearer " + getStore().token}
+		headers: {'Authorization': "bearer " + getStoreUser().token}
 	})
 	.then((response)=>{return response})
 	.catch((err)=>{return err.response})
@@ -126,7 +126,7 @@ const editCategory = (_id,name)=>{
 			_id,
 			name
 		},
-		headers: {'Authorization': "bearer " + getStore().token}
+		headers: {'Authorization': "bearer " + getStoreUser().token}
 	})
 	.then((response)=>{return response})
 	.catch((err)=>{return err.response})
@@ -140,7 +140,7 @@ const findAllProducts = (school) =>{
 		params : {
 			school
 		},
-		headers: {'Authorization': "bearer " + getStore().token}
+		headers: {'Authorization': "bearer " + getStoreUser().token}
 	})
 	.then((response)=>{return response})
 	.catch((err)=>{return err.response})
@@ -173,7 +173,7 @@ const editNameSchool = (_id,name)=>{
 			_id,
 			name
 		},
-		headers: {'Authorization': "bearer " + getStore().token}
+		headers: {'Authorization': "bearer " + getStoreUser().token}
 	})
 	.then((response)=>{return response})
 	.catch((err)=>{return err.response})
@@ -194,22 +194,21 @@ const editAvatarSchool = (_id,file)=>{
 	.catch((err)=>{return err.response})
 }
 
-const saveOrder = (user,name,image,price,quantity)=>{
+const saveOrder = (user,products,total,date)=>{
 	return axios({
 		method : 'post',
 		url : '/app/saveOrder',
 		data:{
 			user,
-			name,
-			image,
-			price,
-			quantity
+			products,
+			total,
+			date
 		},
-		headers: {'Authorization': "bearer " + getStore().token}
+		headers: {'Authorization': "bearer " + getStoreUser().token}
 	})
 	.then((response)=>{return response})
 	.catch((err)=>{return err.response})
-}//desarrollo
+}
 
 const findBalance = (user)=>{
 	return axios({
@@ -218,7 +217,7 @@ const findBalance = (user)=>{
 		params :{
 			user
 		},
-		headers: {'Authorization': "bearer " + getStore().token}
+		headers: {'Authorization': "bearer " + getStoreUser().token}
 	})
 	.then((response)=>{return response})
 	.catch((err)=>{return err.response})
@@ -235,7 +234,7 @@ const saveRepresented = (school,names,lastNames,email,password)=>{
 			email,
 			password
 		},
-		headers: {'Authorization': "bearer " + getStore().token}
+		headers: {'Authorization': "bearer " + getStoreUser().token}
 	})
 	.then((response)=>{return response})
 	.catch((err)=>{return err.response})
@@ -245,7 +244,7 @@ const findAllRepresented = ()=>{
 	return axios({
 		method : 'get',
 		url : '/app/findAllRepresented',
-		headers: {'Authorization': "bearer " + getStore().token}
+		headers: {'Authorization': "bearer " + getStoreUser().token}
 	})
 	.then((response)=>{return response})
 	.catch((err)=>{return err.response})
@@ -258,7 +257,75 @@ const deleteRepresented = (_id)=>{
 		params : {
 			_id
 		},
-		headers: {'Authorization': "bearer " + getStore().token}
+		headers: {'Authorization': "bearer " + getStoreUser().token}
+	})
+	.then((response)=>{return response})
+	.catch((err)=>{return err.response})
+}
+
+const findAllOrders = (user,date)=>{
+	return axios({
+		method : 'get',
+		url : '/app/findAllOrders',
+		params :{
+			user,
+			date
+		},
+		headers: {'Authorization': "bearer " + getStoreUser().token}
+	})
+	.then((response)=>{return response})
+	.catch((err)=>{return err.response})
+
+}
+
+const findAllRepresentative = (school)=>{
+		return axios({
+		method : 'get',
+		url : '/app/findAllRepresentative',
+		params :{
+			school
+		},
+		headers: {'Authorization': "bearer " + getStoreUser().token}
+	})
+	.then((response)=>{return response})
+	.catch((err)=>{return err.response})
+}
+
+const addBalance = (_id,balance)=>{
+	return axios({
+		method : 'put',
+		url : '/app/addBalance',
+		params :{
+			_id,
+			balance
+		},
+		headers: {'Authorization': "bearer " + getStoreUser().token}
+	})
+	.then((response)=>{return response})
+	.catch((err)=>{return err.response})
+}
+
+const findAllOrdersUser = (user)=>{
+	return axios({
+		method : 'get',
+		url : '/app/findAllOrdersUser',
+		params :{
+			user
+		},
+		headers: {'Authorization': "bearer " + getStoreUser().token}
+	})
+	.then((response)=>{return response})
+	.catch((err)=>{return err.response})
+}
+
+const queryUser = (ci)=>{
+	return axios({
+		method : 'get',
+		url : '/app/queryUser',
+		params :{
+			ci
+		},
+		headers: {'Authorization': "bearer " + getStoreUser().token}
 	})
 	.then((response)=>{return response})
 	.catch((err)=>{return err.response})
@@ -282,5 +349,10 @@ export {
 	findBalance,
 	saveRepresented,
 	findAllRepresented,
-	deleteRepresented
+	deleteRepresented,
+	findAllOrders,
+	findAllRepresentative,
+	addBalance,
+	findAllOrdersUser,
+	queryUser
 }

@@ -1,10 +1,13 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import SendIcon from '@material-ui/icons/Send';
+import FaceIcon from '@material-ui/icons/Face';
+import PowerIcon from '@material-ui/icons/PowerSettingsNew';
+import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import PropTypes from 'prop-types';
 
 const Drawer = ({open,handleClose,handleLogout})=>{
@@ -17,19 +20,28 @@ const Drawer = ({open,handleClose,handleLogout})=>{
       	>
         	<div className="drawer">
         		<List>
-              <ListItem button>
-                <ListItemIcon>
-                    <SendIcon style={styles.icon} />
-                </ListItemIcon>
-                <ListItemText primary="Configuraciones" />
-              </ListItem>
+              <Link to="/admin/">
+                <ListItem button>
+                  <ListItemIcon>
+                      <ShoppingBasketIcon style={styles.icon} />
+                  </ListItemIcon>
+                  <ListItemText primary="Cantinas" />
+                </ListItem>
+              </Link>
+              <Link to="/admin/search">
+                <ListItem button>
+                  <ListItemIcon>
+                      <FaceIcon style={styles.icon} />
+                  </ListItemIcon>
+                  <ListItemText primary="Representantes" />
+                </ListItem>
+              </Link>
         			<ListItem button onClick = {()=>handleLogout()}>
         				<ListItemIcon>
-          					<SendIcon style={styles.icon} />
+          					<PowerIcon style={styles.icon} />
         				</ListItemIcon>
         				<ListItemText primary="Salir" />
       				</ListItem>
-
         		</List>
         	</div>
       	</SwipeableDrawer>

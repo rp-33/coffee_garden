@@ -25,16 +25,14 @@ const Head = ({handleDrawer,opacity,handleLogout,balance})=>{
 						<div className="credit">
 							{balance != 0
 							?
-								<span>{balance} BSS</span>
+								<span>{balance} Bss</span>
 							:
-								<span>No dispone de saldo</span>
+								<span>0.00 bss</span>
 							}
 						</div>
 						<Link to="/representative">	
 							<Fab aria-label="lonchera" size="small" style={{backgroundColor:'white',marginLeft:10}}>
-        						<Badge badgeContent={4} color="secondary">
-                					<CartIcon style={{color:'#fab54f'}}/>
-              					</Badge>
+                				<CartIcon style={{color:'#fab54f'}}/>            					
       						</Fab>
       					</Link>
       					<Link to="/representative/add">	
@@ -52,16 +50,16 @@ const Head = ({handleDrawer,opacity,handleLogout,balance})=>{
 						<div className="credit">
 							{balance != 0
 							?
-								<span>{balance} BSS</span>
+								<span>{balance} Bss</span>
 							:
-								<span>No dispone de saldo</span>
+								<span>0.00 bss</span>
 							}
 						</div>
-						<Fab aria-label="lonchera" size="small" style={{backgroundColor:'white',marginLeft:10}}>
-        					<Badge badgeContent={4} color="secondary">
-                				<CartIcon style={{color:'#fab54f'}}/>
-              				</Badge>
-      					</Fab>
+						<Link to="/representative">	
+							<IconButton aria-label="seller" >
+        						<CartIcon style={{color:'#fab54f'}}/>
+      						</IconButton>
+      					</Link>
 						<IconButton aria-label="menu" style={{color:'#fbad31'}} onClick={()=>handleDrawer(true)}>
         					<MenuIcon />
       					</IconButton>

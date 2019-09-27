@@ -28,7 +28,12 @@ const {
 	saveOrder,
 	findBalance,
 	saveRepresented,
-	findAllRepresented
+	findAllRepresented,
+	findAllOrders,
+	findAllRepresentative,
+	addBalance,
+	findAllOrdersUser,
+	queryUser
 } = require('../controllers/CtrlApp')
 
 /* GET home page. */
@@ -41,7 +46,15 @@ router.get('/findAllSchool',findAllSchool);
 
 router.get('/findBalance',findBalance);
 
-router.get('/findAllRepresented',Auth,findAllRepresented)
+router.get('/findAllRepresented',Auth,findAllRepresented);
+
+router.get('/findAllOrders',Auth,findAllOrders);
+
+router.get('/findAllRepresentative',Auth,findAllRepresentative);
+
+router.get('/findAllOrdersUser',Auth,findAllOrdersUser);
+
+router.get('/queryUser',Auth,queryUser);
 
 /* POST home page. */
 
@@ -73,7 +86,9 @@ router.put('/editAvatarUser',upload.single('file'),editAvatarUser);
 
 router.put('/editNameSchool',editNameSchool);
 
-router.put('/editAvatarSchool',upload.single('file'),editAvatarSchool)
+router.put('/editAvatarSchool',upload.single('file'),editAvatarSchool);
+
+router.put('/addBalance',Auth,addBalance);
 
 /* DELETE home page. */
 

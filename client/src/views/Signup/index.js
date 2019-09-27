@@ -47,7 +47,7 @@ class Signup extends Component{
 		try
 		{
 			let {status,data} = await findAllSchool();
-			console.log(data)
+
 			if(status==200){
 				this.setState({
 					schools : data

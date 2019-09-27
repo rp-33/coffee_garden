@@ -1,6 +1,8 @@
 import React,{Component} from 'react';
+import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import Fade from '@material-ui/core/Fade';
+import Fab from '@material-ui/core/Fab';
 import DoneIcon from '@material-ui/icons/Done';
 import ModalProduct from './ModalProduct';
 import ListProduct from './ListProduct';
@@ -8,6 +10,10 @@ import {
 	findAllProducts
 } from '../../services/api';
 import {weekDay} from '../../utils/date';
+import {
+	action_addCart
+}from '../../actions/cart';
+import {searchProducts} from '../../utils/products';
 import './style.css';
 
 class AddProducts extends Component{
@@ -18,7 +24,6 @@ class AddProducts extends Component{
 			drawer : false,
 			modal : false,
 			quantity : 1,
-			isLoading : false,
 			selectDate : weekDay()[0],
 			productDetails:{
 				image : null,
@@ -72,16 +77,35 @@ class AddProducts extends Component{
 
 	handleSaveProduct(){
 
+		this.setState({
+			modal:false,
+			quantity : 1
+		});
+		let {
+			selectDate,
+			quantity,
+			productDetails,
+		} = this.state;
+
+		this.props.handleAddCart({
+			date : selectDate.date,
+			quantity,
+			name : productDetails.name,
+			price : productDetails.price,
+			image : productDetails.image
+		})
 	}
 
 	render(){
+
+		let shopping = searchProducts(this.props.cart,this.state.selectDate.date);
+
 		return(
 			<div className="add-products">
 
 				{this.state.modal &&
 					<ModalProduct 
 						open = {this.state.modal}
-						isLoading = {this.state.isLoading}
 						product = {this.state.productDetails}
 						quantity = {this.state.quantity}
 						handleAddQuantity = {this.handleAddQuantity.bind(this)}
@@ -106,7 +130,22 @@ class AddProducts extends Component{
                         )}                 
 					</div>
 					<div style={{marginLeft:'10px'}}>
-						<h2>No dispones de compras</h2>
+						{shopping
+						?
+							<Link to= {`/representative/shopping/${shopping}`}>
+								<Fab 
+                        			variant="extended" 
+                        			size="large"
+                        			color="secondary" 
+                        			className="secondary" 
+                        			style={{marginTop:'20px'}}
+                        		>
+                           			ver compras
+                        		</Fab>
+                        	</Link>
+						:
+							<h2>No dispones de compras</h2>
+						}
 					</div>
 					<section className="panel">
 					{this.state.categories.map((item,index)=>
@@ -124,6 +163,17 @@ class AddProducts extends Component{
 						</div>
 					)}
 					</section>
+					<Link to= {`/representative/orders/${this.state.selectDate.date}`}>
+						<Fab 
+                        	variant="extended" 
+                        	size="large"
+                        	color="secondary" 
+                        	className="secondary" 
+                        	style={{marginTop:'20px'}}
+                        >
+                           	ver ordenes de hoy
+                        </Fab>
+                    </Link>
 					
 				</section>
 
@@ -139,5 +189,13 @@ const mapStateToProps = (state,props)=>{
     }
 }
 
+const mapDispatchToProps = dispatch =>{
+	return{
+		handleAddCart(payload){
+			dispatch(action_addCart(payload))
+		}
+	}
+}
 
-export default connect(mapStateToProps,null)(AddProducts);
+
+export default connect(mapStateToProps,mapDispatchToProps)(AddProducts);

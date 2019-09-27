@@ -1,9 +1,9 @@
-const getStore = ()=>{
+const getStoreUser = ()=>{
 	const storage = JSON.parse(localStorage.getItem('users'));
 	return storage;
 }
 
-const setStore = (data)=>{
+const setStoreUser = (data)=>{
 	window.localStorage.setItem('users', JSON.stringify(data));
 }
 
@@ -12,7 +12,7 @@ const deleteStore = ()=>{
 }
 
 export {
-	getStore,
-	setStore,
+	getStoreUser,
+	setStoreUser,
 	deleteStore
 }

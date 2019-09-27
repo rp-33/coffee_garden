@@ -1,6 +1,8 @@
 import React,{Component} from 'react';
 import {Link} from 'react-router-dom';
 import Fab from '@material-ui/core/Fab';
+import BarChartIcon from '@material-ui/icons/BarChart';
+import EditIcon from '@material-ui/icons/Edit';
 import ListProduct from './ListProduct';
 import ModalAddProduct from './ModalAddProduct';
 import {
@@ -82,12 +84,11 @@ class CreateProduct extends Component{
 				}
 				<section className="ctn">
 
-					<Link to="/admin/">		
-						<div className="ctn-canteen">
-							<p>Seleccione una cantina</p>
-						</div>
-					</Link>
-
+					<div className="options">
+						<Fab aria-label="data" >
+       	 					<BarChartIcon />
+      					</Fab>
+      				</div>
 					<section className="panel">
 					{this.state.categories.map((item,index)=>
 

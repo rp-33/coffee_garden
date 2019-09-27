@@ -183,6 +183,15 @@ div.add-canteen section.ctn div.panel .item-grid div.inf-user div.ctn-img img{
 	height: 100%;
 }
 
+div.add-canteen section.ctn div.panel .item-grid div.ctn-icon-option{
+	width: 100%;
+	display: flex;
+}
+div.add-canteen section.ctn div.panel .item-grid div.ctn-icon-option >div{
+	display: flex;
+	flex:1;
+}
+
 div.add-canteen section.ctn div.panel .item-grid div.ctn-icon-option div.ctn-menu{
 	position:absolute; 
 	z-index: 1000;

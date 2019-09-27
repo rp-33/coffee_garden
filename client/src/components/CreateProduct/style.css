@@ -4,20 +4,6 @@ div.create-product section.ctn{
 	margin:100px auto;
 }
 
-div.create-product section.ctn div.ctn-canteen{
-	margin-bottom: 20px;
-	width: 200px;
-	border:2px solid #d48945;
-	color:#d48945;
-	border-radius: 35px;
-	height: 50px;
-	padding-right: 20px;
-	padding-left: 20px;
-	background-color: white;
-	cursor: pointer;
-}
-
-
 div.create-product section.ctn div.ctn-inf{
 	color:#e2474b;
 	display: flex;

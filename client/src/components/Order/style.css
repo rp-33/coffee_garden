@@ -1,0 +1,66 @@
+div.order section.ctn{
+	width: calc(80% - 50px);
+	margin:80px auto;
+	height: 100%;
+	position: relative;
+}
+
+div.order section.ctn div.panel{
+	background-color: rgba(255,235,208,.65);
+	position: fixed;
+	top:150px;
+	width: calc(80% - 70px);
+	height: calc(100% - 200px);
+	border-radius: 15px;
+	padding: 10px;
+	box-shadow: 0 0 6px rgba(0,0,0,.4);
+	overflow-y: auto;
+}
+
+div.order section.ctn div.panel div.cnt-vouched{
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-direction: row;
+}
+
+div.order section.ctn div.panel div.ctn-grid{
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	margin-top: 10px;
+	justify-content:center;
+}
+div.order section.ctn div.panel div.ctn-grid div{
+	font-weight: bold;
+	text-transform: capitalize;
+	padding: 0 5px;
+}
+div.order section.ctn div.panel div.ctn-grid div.right{
+	width: 75px;
+	justify-content: flex-end;
+}
+
+div.order section.ctn div.panel div.ctn-grid div.left{
+	width: 40px;
+}
+div.order section.ctn div.panel div.ctn-grid div.center{
+	display: flex;
+	flex:1;
+	justify-content: center;
+}
+
+/*MEDIA QUERIES*/
+
+@media screen and (max-width: 600px) {
+  div.order section.ctn{
+  	padding: 5px 5px 0px 5px;
+  	width: calc(95% - 10px);
+  	margin:60px auto;
+  }
+   div.order section.ctn div.panel{
+  	width: calc(95% - 20px);
+  	left: 10px;
+  }
+ }

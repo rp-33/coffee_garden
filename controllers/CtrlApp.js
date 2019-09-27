@@ -8,6 +8,7 @@ let mongoose = require('mongoose'),
 	   Order = require('../models/SchemaOrder'),
 	   token = require('../services/token'),
 	  bcrypt = require('bcrypt'),
+  randomatic = require('randomatic'),
   cloudinary = require('../configuration/cloudinary');
 
 module.exports = {
@@ -302,7 +303,7 @@ module.exports = {
 
 			let user = await User.findOne({email},{email:true});
 
-			if(user) return res.status(401).send({error : 'mail already exists'});
+			if(user) return res.status(401).send({error : 'correo ya existe!'});
 
 			let newUser = new User({
 				email,
@@ -473,26 +474,103 @@ module.exports = {
 	saveOrder :  async (req,res)=>{
 		try
 		{
-			let {user,name,image,price,quantity,date} = req.body;
+
+			let {products,total,user,date} = req.body;
+
+			let {balance} = await User.findOne({_id:user},{_id:false,balance:true});
+
+			if(balance < total) return res.status(204).send({message:'No dispone de suficiente saldo'})
 
 			let order = new Order({
-				user,
-				quantity,
+				vouched :  randomatic('0',6),
 				date,
-				name,
-				image,
-				price
+				user, 
+				products,
+				total : parseInt(total)
 			})
 
+			await order.save();
 
-			await Order.save();
+			balance = balance - total;
 
-			res.status(201).send({order})
+			await User.updateOne({_id:user},{$set:{balance}});
+
+			res.status(201).send({
+				balance
+			})
 		}
 		catch(err)
 		{
 			res.status(500).send({err});
 		}
+	},
+	findAllOrders : async (req,res)=>{
+		try
+		{	
+			let {user,date} = req.query;
+			let orders = await Order.find({user,date});
+			if(orders.length>0) res.status(200).send(orders)
+			res.status(204).send()
+		}
+		catch(err)
+		{
+			res.status(500).send({err});
+		}
+	},
+	findAllRepresentative : async (req,res)=>{
+		try
+		{
+			let {school} =  req.query;
+			let users = await User.find({school,rol:'representative'});
+			if(users.length>0) return res.status(200).send(users);
+			res.status(404).send({message:'resource no found'});
+		}
+		catch(err)
+		{
+			res.status(500).send({err})
+		}
+	},
+	addBalance : async (req,res)=>{
+		try
+		{
+			let {_id,balance} = req.query
+			let user = await User.updateOne({_id},{$set:{balance}});
+			if(user.ok>0 && user.n>0) return res.status(201).send({message:'success'});
+			res.status(404).send({message:'resource not found'});
+		}
+		catch(err)
+		{
+			res.status(500).send({err})
+		}
+	},
+	findAllOrdersUser : async (req,res)=>{
+		try
+		{
+			let {user,date} = req.query;
+			let orders = await Order.find({user});
+			if(orders.length>0) res.status(200).send(orders)
+			res.status(204).send()
+
+		}
+		catch(err)
+		{
+			res.status(500).send({err})
+		}
+	},
+	queryUser : async (req,res)=>{
+		try
+		{
+			let {ci} = req.query;
+			let users = await User.find({ci});
+			if(users.length>0) return res.status(200).send(users)
+			res.status(404).send()
+
+		}
+		catch(err)
+		{
+			res.status(500).send({err})
+		}
 	}
+
 
 }

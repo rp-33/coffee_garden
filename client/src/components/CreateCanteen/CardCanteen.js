@@ -2,6 +2,7 @@ import React,{Component} from 'react';
 import {Link} from 'react-router-dom';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
+import PersonIcon from '@material-ui/icons/PersonAdd';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Paper from '@material-ui/core/Paper';
 import Fade from '@material-ui/core/Fade';
@@ -50,8 +51,16 @@ class CardCanteen extends Component{
 					<span>{item.name}</span>
 				</div>
 				<div className="ctn-icon-option">
-					<div style={{position:'relative'}}>
-						<IconButton onClick={this.handleMenu.bind(this)} aria-controls="simple-menu" aria-haspopup="true" color="primary">
+					<div>
+						<IconButton aria-label="seller" >
+        					<PersonIcon/>
+      					</IconButton>
+      				</div>
+      				<div style={{position:'relative'}}>
+						<IconButton 
+							onClick={this.handleMenu.bind(this)} 
+							color="primary"
+						>
 							<EditIcon fontSize="medium" />
 						</IconButton>
 						<Fade in = {this.state.menu}>
@@ -64,9 +73,14 @@ class CardCanteen extends Component{
 							</div>
 						</Fade>
 					</div>
-					<IconButton onClick = {()=>handleModalDelete(item._id,item.name)} aria-label="delete" color="secondary">
+					<div>
+						<IconButton 
+						onClick = {()=>handleModalDelete(item._id,item.name)} 
+						aria-label="delete" 
+						color="secondary">
 						<DeleteIcon fontSize="medium" />
-					</IconButton>		
+						</IconButton>
+					</div>
 				</div>
 			</Paper>
 		)

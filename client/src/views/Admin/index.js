@@ -7,6 +7,8 @@ import Head from './Head';
 import CreateCanteen from '../../components/CreateCanteen';
 import CreateCategory from '../../components/CreateCategory';
 import CreateProduct from '../../components/CreateProduct';
+import ShoppingRepresentative from '../../components/ShoppingRepresentative';
+import Search from '../../components/Search';
 import NoMatch from '../../components/NoMatch';
 import {action_logout} from '../../actions/user';
 import bgImg from '../../assets/background.jpg';
@@ -50,6 +52,8 @@ class Admin extends Component{
 					<Route exact path="/admin" component={CreateCanteen}/> 
 					<Route path="/admin/category/:id" component={CreateCategory}/> 
 					<Route path="/admin/product/:id" component={CreateProduct}/> 
+					<Route path="/admin/search" component={Search}/> 
+					<Route path="/admin/shopping/representative/:id" component={ShoppingRepresentative}/> 
 					<Route component={NoMatch} />
 				</Switch>
 

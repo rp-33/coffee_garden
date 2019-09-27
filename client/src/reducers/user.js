@@ -7,8 +7,8 @@ import
 } from '../actions/user';
 
 import {
-	getStore,
-	setStore,
+	getStoreUser,
+	setStoreUser,
 	deleteStore
 } from '../services/store';
 
@@ -27,16 +27,16 @@ const user = {
 	school : ''
 }
 
-const initialState = getStore() || user;
+const initialState = getStoreUser() || user;
 
 export default (state = initialState, action) =>{
 
 	switch (action.type){
 		case action_login().type:
-			setStore(action.data);
+			setStoreUser(action.data);
 			return action.data;
 		case action_signup().type:
-			setStore(action.data);
+			setStoreUser(action.data);
 			return action.data;
 		case action_logout().type:
 			deleteStore();
