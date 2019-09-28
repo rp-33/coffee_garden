@@ -85,9 +85,11 @@ class CreateProduct extends Component{
 				<section className="ctn">
 
 					<div className="options">
-						<Fab aria-label="data" >
-       	 					<BarChartIcon />
-      					</Fab>
+						<Link to={`/admin/Statistics/${this.props.match.params.id}`}>
+							<Fab aria-label="data" >
+       	 						<BarChartIcon />
+      						</Fab>
+      					</Link>
       				</div>
 					<section className="panel">
 					{this.state.categories.map((item,index)=>

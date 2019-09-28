@@ -20,14 +20,6 @@ const Drawer = ({open,handleClose,handleLogout})=>{
       	>
         	<div className="drawer">
         		<List>
-              <Link to="/admin/">
-                <ListItem button>
-                  <ListItemIcon>
-                      <ShoppingBasketIcon style={styles.icon} />
-                  </ListItemIcon>
-                  <ListItemText primary="Cantinas" />
-                </ListItem>
-              </Link>
               <Link to="/admin/search">
                 <ListItem button>
                   <ListItemIcon>

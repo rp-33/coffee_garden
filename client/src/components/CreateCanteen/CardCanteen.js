@@ -52,9 +52,11 @@ class CardCanteen extends Component{
 				</div>
 				<div className="ctn-icon-option">
 					<div>
-						<IconButton aria-label="seller" >
-        					<PersonIcon/>
-      					</IconButton>
+						<Link to = {`/admin/seller/${item._id}`}>
+							<IconButton aria-label="seller" >
+        						<PersonIcon/>
+      						</IconButton>
+      					</Link>
       				</div>
       				<div style={{position:'relative'}}>
 						<IconButton 
@@ -91,7 +93,8 @@ class CardCanteen extends Component{
 CardCanteen.propTypes = {
 	item : PropTypes.shape({
 		name : PropTypes.string,
-		avatar : PropTypes.string
+		avatar : PropTypes.string,
+		_id : PropTypes.string
 	}).isRequired,
 	handleModalDelete : PropTypes.func.isRequired
 }

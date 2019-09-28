@@ -37,6 +37,11 @@ const Head = ({handleDrawer,opacity,handleLogout})=>{
 				</Hidden>
 				<Hidden smUp>
 					<div className="right">
+						<Link to="/admin/">	
+							<Fab aria-label="lonchera" size="small" style={{backgroundColor:'white',marginLeft:10}}>
+        						<ShoppingBasketIcon style={{color:'#fab54f'}}/>
+      						</Fab>
+      					</Link>
 						<IconButton aria-label="menu" style={{color:'#fbad31'}} onClick={()=>handleDrawer(true)}>
         					<MenuIcon />
       					</IconButton>

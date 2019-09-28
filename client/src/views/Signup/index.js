@@ -22,7 +22,7 @@ class Signup extends Component{
 		super(props);
 		this.state = {
 			schools : [],
-			school : 'seleccione una cantina',
+			school : '',
 			names : '',
 			lastNames : '',
 			email:'',
@@ -50,6 +50,7 @@ class Signup extends Component{
 
 			if(status==200){
 				this.setState({
+					school : data[0]._id,
 					schools : data
 				})
 			}
@@ -200,13 +201,12 @@ class Signup extends Component{
 								className="select"
 								placeholder="seleccione una cantina"
           						value={this.state.school}
+          						onChange = {(event)=>this.setState({school:event.target.value})}
         						>
-        							<option disabled value="seleccione una cantina">seleccione una cantina</option>
         							{
         								this.state.schools.map((item,i)=>
         									<option 
         									value={item._id} 
-        									onClick={()=>this.setState({school:item._id})}
         									>
         										{item.name}
         									</option>
@@ -262,10 +262,8 @@ class Signup extends Component{
 						</p>
 					</div>
 					{
-						(this.state.term && 
-						validateCompare(this.state.password,this.state.repPassword,5) &&
-						this.state.school != "seleccione una cantina"
-						) 
+						this.state.term && validateCompare(this.state.password,this.state.repPassword,5)
+						 
 					&&
 					<div className="ctn-btn">
 						{this.state.isLoading

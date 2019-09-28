@@ -14,7 +14,6 @@ const {
 	editToProduct,
 	findAllProducts,
 	editImageProduct,
-	signupSeller,
 	editAvatarUser,
 	signup,
 	login,
@@ -33,7 +32,12 @@ const {
 	findAllRepresentative,
 	addBalance,
 	findAllOrdersUser,
-	queryUser
+	queryUser,
+	createSeller,
+	findAllSeller,
+	deleteSeller,
+	queryOrder,
+	packOffOrder
 } = require('../controllers/CtrlApp')
 
 /* GET home page. */
@@ -56,13 +60,15 @@ router.get('/findAllOrdersUser',Auth,findAllOrdersUser);
 
 router.get('/queryUser',Auth,queryUser);
 
+router.get('/findAllSeller',Auth,findAllSeller)
+
+router.get('/queryOrder',queryOrder);
+
 /* POST home page. */
 
 router.post('/createCategory',createCategory);
 
 router.post('/createProduct',upload.single('file'),createProduct);
-
-router.post('/signupSeller ',signupSeller);
 
 router.post('/signup',signup);
 
@@ -73,6 +79,8 @@ router.post('/createSchool',upload.single('file'),createSchool);
 router.post('/saveOrder',Auth,saveOrder);
 
 router.post('/saveRepresented',Auth,saveRepresented);
+
+router.post('/createSeller',Auth,createSeller);
 
 /* PUT home page. */
 
@@ -90,6 +98,8 @@ router.put('/editAvatarSchool',upload.single('file'),editAvatarSchool);
 
 router.put('/addBalance',Auth,addBalance);
 
+router.put('/packOffOrder',Auth,packOffOrder);
+
 /* DELETE home page. */
 
 router.delete('/deleteCategory',deleteCategory);
@@ -99,5 +109,7 @@ router.delete('/deleteToProduct',deleteToProduct);
 router.delete('/deleteRepresented',Auth,deleteRepresented);
 
 router.delete('/deleteSchool',Auth,deleteSchool);
+
+router.delete('/deleteSeller',Auth,deleteSeller);
 
 module.exports = router;

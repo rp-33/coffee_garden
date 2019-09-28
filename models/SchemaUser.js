@@ -34,15 +34,13 @@ let userSchema = new Schema({
 		type:String
 	},
 	ci:{
-		type:String,
-		unique:true
+		type:String
 	},
 	countryCode :{
 		type:Number
 	},
 	phone:{
-		type:String,
-		unique:true
+		type:String
 	},
 	rol :{ 
 		type: String,

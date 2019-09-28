@@ -1,0 +1,27 @@
+/*Head*/
+div.seller .head{
+	background-color:#f6f6f6 !important;
+}
+
+div.seller .head img.logo{
+	width:80px;
+	height: 45px;
+	margin-bottom: 7px;
+}
+
+div.seller .head .right{
+	display: flex;
+	flex-grow: 1;
+	flex-direction: row;
+	justify-content: flex-end;
+}
+
+div.seller img.bg-img{
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top:0;
+	bottom: 0;
+	z-index: -1
+}
+

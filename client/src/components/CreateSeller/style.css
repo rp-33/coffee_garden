@@ -1,0 +1,170 @@
+div.create-seller section.ctn{
+	width: calc(80% - 50px);
+	margin:80px auto;
+	height: 100%;
+	position: relative;
+}
+
+div.create-seller section.ctn div.panel{
+	background-color: rgba(255,235,208,.65);
+	position: fixed;
+	width: calc(80% - 70px);
+	height: calc(100% - 200px);
+	border-radius: 15px;
+	padding: 10px;
+	box-shadow: 0 0 6px rgba(0,0,0,.4);
+	overflow-y: auto;
+}
+
+div.create-seller section.ctn div.panel .btn{
+	position: absolute;
+	bottom:10px;
+	right: 10px;
+	background-color: #e44a4c !important;
+}
+
+div.create-seller section.ctn div.panel .item-grid img{
+	width: 100%;
+	border-radius: 3px;
+}
+
+div.create-seller section.ctn div.panel .item-grid div.inf-user{
+	text-align:center;
+	color:#e44a4c;
+	font-weight:bold;
+	text-transform: capitalize;
+}
+
+div.create-seller section.ctn div.panel .item-grid div.inf-user div.ctn-avatar{
+	width: 100%;
+	height: 120px;
+	margin-bottom: 10px;
+}
+
+div.create-seller section.ctn div.panel .item-grid div.inf-user div.ctn-avatar img{
+	width: 100%;
+	height: 100%;
+}
+
+div.create-seller section.ctn div.panel .item-grid div.ctn-icon-option{
+	display: flex;
+	justify-content: flex-end;
+}
+
+/*modal-add-user modal-delete*/
+
+div.create-seller div.modal-add-user,div.create-seller div.modal-delete{
+	display:flex;
+	background-color:rgba(252,180,160,0.45);
+	width: 100%;
+	height: 100%;
+	justify-content: center;
+	align-items: center;
+	position: fixed;
+	top:0;
+	bottom:0;
+	z-index: 100000;
+	overflow-y: auto;
+}
+
+
+div.create-seller div.modal-add-user .form-control{
+	background-color: #f7f3f0;
+	width: calc(80% - 50px);
+	border-radius: 20px;
+	padding: 5px 10px 30px 10px;
+	max-width: 260px;
+	position: relative;
+	box-shadow: 0 0 4px #737373;
+	position: relative;
+}
+
+div.create-seller div.modal-add-user .form-control form div.ctn-input{
+	width: 100%;
+	position: relative;
+	margin-top: 20px;
+}
+
+div.create-seller div.modal-add-user .form-control form div.ctn-input input{
+	width: calc(100% - 20px);
+	height: 40px;
+	border-radius:40px;
+	border:2px solid #d48945;
+	padding: 4px 10px;
+	outline: none
+}
+
+div.create-seller div.modal-add-user .form-control form div.ctn-btn{
+	margin-top: 20px;
+	width: 100%;
+}
+
+div.create-seller div.modal-add-user .form-control form div.ctn-btn .secondary{
+	width: 100%;
+}
+
+div.create-seller div.modal-add-user .form-control form div.ctn-btn div.ctn-loading{
+	display: flex;
+	width:100%;
+	justify-content: center;
+	align-items: center;
+	margin-top:20px;
+}
+
+div.create-seller div.modal-add-user .form-control div.icon-close{
+	width: 30px;
+	height: 30px;
+	background-color: white;
+	position: absolute;
+	top: -7px;
+	right: -7px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+}
+
+div.create-seller div.modal-delete div.ctn{
+	background-color: #f7f3f0;
+	width: calc(80% - 50px);
+	border-radius: 20px;
+	padding: 5px 10px 10px 10px;
+	max-width: 260px;
+	position: relative;
+	box-shadow: 0 0 4px #737373;
+	position: relative;
+}
+
+div.create-seller div.modal-delete div.ctn div.ctn-loading{
+	display: flex;
+	width: 100%;
+	min-height: 120px;
+	justify-content: center;
+	align-items: center;
+}
+
+
+
+
+/*MEDIA QUERIES*/
+
+@media screen and (max-width: 600px) {
+  div.create-seller section.ctn{
+  	padding: 5px 5px 0px 5px;
+  	width: calc(95% - 10px);
+  	margin:60px auto;
+  }
+
+  div.create-seller section.ctn div.panel{
+  	width: calc(95% - 20px);
+  	left: 10px;
+  }
+
+  div.create-seller  div.modal-add-user .form-control{
+  	width: calc(90% - 55px);
+  	padding-left: 25px;
+	padding-right: 25px;
+  }
+
+}

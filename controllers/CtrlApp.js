@@ -12,45 +12,6 @@ let mongoose = require('mongoose'),
   cloudinary = require('../configuration/cloudinary');
 
 module.exports = {
-
-	signupSeller : async (req,res)=>{
-		try
-		{
-			let {email,names,lastNames,phone,school} =  req.body;
-
-			let user = await User.findOne({email},{email:true});
-
-			if(user) return res.status(401).send({error : 'mail already exists'});
-
-			let newUser = new User({
-				email: email.toLocaleLowerCase(),
-				names,
-				lastNames,
-				phone,
-				ci,
-				school,
-				rol : 'seller'
-			})
-
-			user =  newUser.save();
-
-			res.status(201).send({
-				_id:user._id,
-				token : token.create(user,360),
-				names : user.names,
-				lastNames : user.lastNames,
-				phone : user.phone,
-				ci : user.ci,
-				school : user.school,
-				rol : user.rol,
-			})
-
-		}
-		catch(err)
-		{
-			res.status(500).send({err})
-		}
-	},
 	deleteSeller : async (req,res)=>{
 		try
 		{
@@ -182,7 +143,6 @@ module.exports = {
 		}
 		catch(err)
 		{
-			console.log(err)
 			res.status(500).send({err})
 		}
 	},
@@ -379,7 +339,6 @@ module.exports = {
 		}
 		catch(err)
 		{
-			console.log(err)
 			res.status(500).send({err});
 		}
 	},
@@ -570,7 +529,78 @@ module.exports = {
 		{
 			res.status(500).send({err})
 		}
-	}
+	},
+	createSeller : async (req,res)=>{
+		try
+		{
+			let {names,lastNames,email,password,school,ci} = req.body;
 
+			let user = await User.findOne({email},{email:true});
+
+			if(user) return res.status(401).send({error : 'correo ya existe!'});
+
+			let newUser = new User({
+				email,
+				password,
+				names,
+				lastNames,
+				ci,
+				school,
+				rol : 'seller'
+			})
+
+			await newUser.save();
+
+			res.status(201).send({
+				_id : newUser._id,
+				names : newUser.names,
+				lastNames : newUser.lastNames			
+			})
+
+		}
+		catch(err)
+		{
+			res.status(500).send({err})
+		}
+	},
+	findAllSeller : async (req,res)=>{
+		try
+		{
+			let {school} = req.query;
+			let users = await User.find({school,rol:'seller'},{_id:true,names:true,lastNames:true,avatar:true,});
+			if(users.length>0) return res.status(200).send(users);
+			res.status(404).send({message:'recurso no encontrado'});
+		}
+		catch(err)
+		{
+			res.status(500).send({err})
+		}
+	},
+	queryOrder : async (req,res)=>{
+		try
+		{
+			let {vouched} = req.query;
+			let orders = await Order.findOne({vouched});
+			if(!orders) return res.status(404).send({message:'pedido no encontrado'});
+			res.status(200).send(orders);
+		}
+		catch(err)
+		{
+			res.status(500).send({err})
+		}
+	},
+	packOffOrder : async (req,res)=>{
+		try
+		{
+			let {vouched} = req.query;
+			let order = await Order.updateOne({vouched},{$set:{status:true}});
+			if(order.ok>0 && order.n>0) return res.status(204).send();
+			res.status(404).send({message:'user not found'});
+		}
+		catch(err)
+		{
+			res.status(500).send({err})
+		}
+	}
 
 }

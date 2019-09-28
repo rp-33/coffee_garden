@@ -331,6 +331,76 @@ const queryUser = (ci)=>{
 	.catch((err)=>{return err.response})
 }
 
+const createSeller = (school,names,lastNames,ci,email,password)=>{
+	return axios({
+		method : 'post',
+		url : '/app/createSeller',
+		data :{
+			school,
+			names,
+			lastNames,
+			ci,
+			email,
+			password
+		},
+		headers: {'Authorization': "bearer " + getStoreUser().token}
+	})
+	.then((response)=>{return response})
+	.catch((err)=>{return err.response})
+}
+
+const findAllSeller = (school)=>{
+	return axios({
+		method : 'get',
+		url : '/app/findAllSeller',
+		params :{
+			school
+		},
+		headers: {'Authorization': "bearer " + getStoreUser().token}
+	})
+	.then((response)=>{return response})
+	.catch((err)=>{return err.response})	
+}
+
+const deleteSeller = (_id)=>{
+	return axios({
+		method :'delete',
+		url : '/app/deleteSeller',
+		params : {
+			_id
+		},
+		headers: {'Authorization': "bearer " + getStoreUser().token}
+	})
+	.then((response)=>{return response})
+	.catch((err)=>{return err.response})
+}
+
+const queryOrder = (vouched)=>{
+	return axios({
+		method : 'get',
+		url : '/app/queryOrder',
+		params :{
+			vouched
+		},
+		headers: {'Authorization': "bearer " + getStoreUser().token}
+	})
+	.then((response)=>{return response})
+	.catch((err)=>{return err.response})
+}
+
+const packOffOrder = (vouched)=>{
+	return axios({
+		method : 'put',
+		url : '/app/packOffOrder',
+		params :{
+			vouched
+		},
+		headers: {'Authorization': "bearer " + getStoreUser().token}
+	})
+	.then((response)=>{return response})
+	.catch((err)=>{return err.response})
+}
+
 export {
 	login,
 	createSchool,
@@ -354,5 +424,10 @@ export {
 	findAllRepresentative,
 	addBalance,
 	findAllOrdersUser,
-	queryUser
+	queryUser,
+	createSeller,
+	findAllSeller,
+	deleteSeller,
+	queryOrder,
+	packOffOrder
 }

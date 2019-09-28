@@ -56,7 +56,6 @@ class AddRepresented extends Component{
 	}
 
 	handleSave(data){
-		console.log(data)
 		this.setState(previousState=>{
 			return{
 				modalAdd : false,

@@ -7,6 +7,7 @@ import Login from './views/Login/';
 import Signup from './views/Signup';
 import Admin from './views/Admin';
 import Representative from './views/Representative';
+import Seller from './views/Seller';
 import NoMatch from './components/NoMatch';
 
 
@@ -32,6 +33,10 @@ const  App = ()=> {
         <PrivateRoute
             path="/representative"
             component={Representative}
+        />
+        <PrivateRoute
+            path="/seller"
+            component={Seller}
         />
     		<Route component={NoMatch} />
    		</Switch>

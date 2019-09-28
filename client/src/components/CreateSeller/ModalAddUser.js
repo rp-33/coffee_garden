@@ -5,7 +5,7 @@ import Fab from '@material-ui/core/Fab';
 import CancelIcon from '@material-ui/icons/Cancel';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import BarMessage from '../../presentation/BarMessage'
-import {saveRepresented} from '../../services/api';
+import {createSeller} from '../../services/api';
 
 class ModalAddUser extends Component{
 	constructor(props){
@@ -16,6 +16,7 @@ class ModalAddUser extends Component{
 			lastNames : '',
 			email:'',
 			password:'',
+			ci : '',
 			error : ''			
 		}
 	}
@@ -35,8 +36,8 @@ class ModalAddUser extends Component{
 				isLoading:true,
 				error:''
 			});
-			let {names,lastNames,email,password} = this.state;
-			let {status,data} = await saveRepresented(this.props.school,names,lastNames,email,password);
+			let {names,lastNames,email,password,ci} = this.state;
+			let {status,data} = await createSeller(this.props.school,names,lastNames,ci,email,password);
 			if(status==201){
 				this.props.handleSave(data);
 			}else if(status==401){
@@ -69,7 +70,7 @@ class ModalAddUser extends Component{
          				<div className="icon-close" onClick = {()=>handleClose(false)}>
                         	<CancelIcon fontSize="large" style={{color:'#e44a4c'}}/>
                     	</div>
-         				<h2 style={{textAlign:'center',color:'#e44a4c'}}>Agregar Representado</h2>
+         				<h2 style={{textAlign:'center',color:'#e44a4c'}}>Agregar Vendedor</h2>
          				<form autoComplete="off" onSubmit = {this.handleSubmit.bind(this)}>
          					{this.state.error &&
          						<BarMessage 
@@ -93,6 +94,16 @@ class ModalAddUser extends Component{
 								required 
 								value = {this.state.lastNames}
 								name="lastNames"
+								onChange = {this.handleChange.bind(this)}
+								/>
+							</div>
+							<div className="ctn-input">
+								<input 
+								type="number" 
+								placeholder="Cedula de identidad" 
+								required 
+								value = {this.state.ci}
+								name="ci"
 								onChange = {this.handleChange.bind(this)}
 								/>
 							</div>

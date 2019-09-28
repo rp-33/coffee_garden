@@ -182,8 +182,7 @@ class CreateCanteen extends Component{
 										item = {item}
 										handleModalDelete = {this.handleModalDelete.bind(this)}
 										handleModalEditName = {(modalEditName,school)=>this.setState({modalEditName,school})}	
-										handleModalEditAvatar = {(modalEditAvatar,school)=>this.setState({modalEditAvatar,school})}
-																			
+										handleModalEditAvatar = {(modalEditAvatar,school)=>this.setState({modalEditAvatar,school})}																			
 									/>
 
 								</Grid>
