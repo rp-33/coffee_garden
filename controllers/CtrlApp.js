@@ -332,7 +332,8 @@ module.exports = {
                 	avatar : person.avatar,
                		rol : person.rol,
                		isAuthenticated : true,
-               		school : person.school
+               		school : person.school,
+               		representative : person.representative
             	});
             }
 

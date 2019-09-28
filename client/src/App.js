@@ -7,6 +7,7 @@ import Login from './views/Login/';
 import Signup from './views/Signup';
 import Admin from './views/Admin';
 import Representative from './views/Representative';
+import Represented from './views/Represented';
 import Seller from './views/Seller';
 import NoMatch from './components/NoMatch';
 
@@ -33,6 +34,10 @@ const  App = ()=> {
         <PrivateRoute
             path="/representative"
             component={Representative}
+        />
+        <PrivateRoute
+            path="/represented"
+            component={Represented}
         />
         <PrivateRoute
             path="/seller"

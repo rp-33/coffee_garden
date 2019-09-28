@@ -4,11 +4,6 @@ import history from '../../routes/history';
 import {connect} from 'react-redux';
 import Head from './Head';
 import Drawer from './Drawer';
-import AddProducts from '../../components/AddProducts'
-import AddRepresented from '../../components/AddRepresented';
-import Shopping from '../../components/Shopping';
-import Order from '../../components/Order';
-import NoMatch from '../../components/NoMatch';
 import {
 	action_logout,
 	action_balance
@@ -17,7 +12,7 @@ import {findBalance} from '../../services/api';
 import bgImg from '../../assets/background.jpg';
 import './style.css';
 
-class Representative extends Component{
+class Represented extends Component{
 	constructor(props){
 		super(props);
 		this.state = {
@@ -27,6 +22,7 @@ class Representative extends Component{
 		}
 	}
 
+	
 	componentDidMount(){
 		this._findBalance();
 	}
@@ -34,8 +30,8 @@ class Representative extends Component{
 	async _findBalance(){
 		try
 		{
-			let {_id} = this.props.user;
-			let {status,data} = await findBalance(_id);
+			let {representative} = this.props.user;
+			let {status,data} = await findBalance(representative);
 			if(status==200){
 				this.props.handleAddBalance(data.balance);
 			}
@@ -47,28 +43,17 @@ class Representative extends Component{
 
 	}
 
-	handleScroll(e){
-
-		this.setState({
-      		opacity : e.target.scrollTop > 80 ? 1 : 0.8
-      	})
-    	
-	}
-
-
 	handleLogout (){
 		this.setState({
 			drawer:false
 		});
 		this.props.handleLogout();
 		history.push('/');
-
 	}
 
 	render(){
 		return(
-			<div className="representative" style={{overflowY: this.state.modal ? 'hidden' : 'auto'}} onScroll={this.handleScroll.bind(this)}>
-				
+			<div className="represented">
 				<img src={bgImg} alt="fondo" className="bg-img" />
 
 				<Head 
@@ -83,20 +68,10 @@ class Representative extends Component{
 					handleClose = {(drawer)=>this.setState({drawer})}
 					handleLogout = {this.handleLogout.bind(this)}
 				/>
-
-				<Switch>
-					<Route exact path="/representative" component={AddProducts}/> 
-					<Route path="/representative/add" component={AddRepresented}/> 
-					<Route path="/representative/shopping/:date" component={Shopping}/> 
-					<Route path="/representative/orders/:date" component={Order}/> 
-					<Route component={NoMatch} />
-				</Switch>
-
 			</div>
 		)
 	}
 }
-
 
 const mapStateToProps = (state,props)=>{
     return{
@@ -116,4 +91,4 @@ const mapDispatchToProps = dispatch =>{
 	}
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(Representative);
+export default connect(mapStateToProps,mapDispatchToProps)(Represented);
