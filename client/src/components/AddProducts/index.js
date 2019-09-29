@@ -11,7 +11,8 @@ import {
 } from '../../services/api';
 import {weekDay} from '../../utils/date';
 import {
-	action_addCart
+	action_addCart,
+	action_incrProduct
 }from '../../actions/cart';
 import {searchProducts} from '../../utils/products';
 import './style.css';
@@ -77,23 +78,39 @@ class AddProducts extends Component{
 
 	handleSaveProduct(){
 
-		this.setState({
-			modal:false,
-			quantity : 1
-		});
 		let {
 			selectDate,
 			quantity,
 			productDetails,
 		} = this.state;
 
-		this.props.handleAddCart({
-			date : selectDate.date,
-			quantity,
-			name : productDetails.name,
-			price : productDetails.price,
-			image : productDetails.image
+		let position = this.props.cart.findIndex(item=>{
+			return item.image == productDetails.image
 		})
+
+		if(position==-1)
+		{
+
+			this.props.handleAddCart({
+				date : selectDate.date,
+				quantity,
+				name : productDetails.name,
+				price : productDetails.price,
+				image : productDetails.image
+			})
+		}
+		else
+		{
+			this.props.handleIncrProduct({
+				position,
+				quantity
+			})
+		}
+
+		this.setState({
+			modal:false,
+			quantity : 1
+		});
 	}
 
 	render(){
@@ -193,6 +210,9 @@ const mapDispatchToProps = dispatch =>{
 	return{
 		handleAddCart(payload){
 			dispatch(action_addCart(payload))
+		},
+		handleIncrProduct(payload){
+			dispatch(action_incrProduct(payload))
 		}
 	}
 }

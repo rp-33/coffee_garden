@@ -141,9 +141,6 @@ class Login extends Component{
 						<div style={{marginTop:'10px'}}> 
 							<Link to="/signup" style={{fontWeight:'bold',color:'#8e8c89',textDecoration:'none'}}>Registrarse</Link>
 						</div>
-						<div style={{marginTop:'10px'}}> 
-							<a href="#" style={{color:'#c7c7c7'}}>Terminos y condiciones</a>
-						</div>
 					</div>
 					<div className="ctn-icon">
 						<InformationIcon fontSize="large" style={{color:'#e44a4c'}}/>

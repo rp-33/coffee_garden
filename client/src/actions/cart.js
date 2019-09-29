@@ -19,8 +19,16 @@ const action_removeShopping = (date)=>{
 	}
 }
 
+const action_incrProduct = (payload)=>{
+	return{
+		type : 	'INCREASE_PRODUCT',
+		payload
+	}
+}
+
 export {
 	action_addCart,
 	action_removeCart,
-	action_removeShopping
+	action_removeShopping,
+	action_incrProduct
 }

@@ -2,7 +2,8 @@ import
 {
 	action_addCart,
 	action_removeCart,
-	action_removeShopping
+	action_removeShopping,
+	action_incrProduct
 } from '../actions/cart';
 
 const initialState = {
@@ -28,6 +29,17 @@ export default (state = initialState, action) =>{
 					return item.date != action.date
 				})
 			})
+		case action_incrProduct().type:
+			return {
+                ...state,
+                shopping : [
+                    ...state.shopping.slice(0, action.payload.position),// Copia el objeto antes de modificarlo
+                    Object.assign({}, state.shopping[action.payload.position], {
+                    	quantity : state.shopping[action.payload.position].quantity + action.payload.quantity 
+                    }),
+                    ...state.shopping.slice(action.payload.position + 1)
+                ]
+           	}
 		default :
 			return state;
 	}
