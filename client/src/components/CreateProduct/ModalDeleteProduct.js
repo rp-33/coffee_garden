@@ -3,26 +3,28 @@ import Slide from '@material-ui/core/Slide';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import PropTypes from 'prop-types';
-import {deleteRepresented} from '../../services/api';
+import {deleteProduct} from '../../services/api';
 
-class ModalDeleteUser extends Component{
+class ModalDeleteProduct extends Component{
     constructor(props){
         super(props);
         this.state = {
             isLoading : false
         }
     }
-
-    async handleDelete(){
+ 
+ 	async handleDelete(){
         try
         {
             this.setState({
                 isLoading : true
             });
 
-            let {status} = await deleteRepresented(this.props.user._id);
-            if(status==204){
-                this.props.handleSuccess(this.props.user._id);
+            let {_id,position,category} = this.props.product;
+            let {status} = await deleteProduct(category,_id);
+            if(status==204)
+            {
+    			this.props.handleSuccess(_id,position);
             }
 
         }
@@ -36,9 +38,10 @@ class ModalDeleteUser extends Component{
         }
 
     }
+    
 
     render(){
-        let {open,handleClose,user} = this.props;
+        let {open,handleClose,product} = this.props;
          return(
             <Slide direction="up" in={open} mountOnEnter unmountOnExit>
                 <div className="modal-delete">
@@ -46,12 +49,12 @@ class ModalDeleteUser extends Component{
                         {this.state.isLoading
                         ?
                         <div className="ctn-loading">
-                                <CircularProgress color="secondary"/>
+                            <CircularProgress color="secondary"/>
                         </div>
                         :
                         <div>
-                            <h2>Eliminar usuario</h2>
-                            <p>¿Deseas eliminar a {user.names} {user.lastNames} ?</p>
+                            <h2>Eliminar producto</h2>
+                            <p>¿Deseas eliminar {product.name}?</p>
                             <div style={{textAlign:'right'}}>
                                 <Button color="secondary" onClick = {()=>handleClose(false)}>cancelar</Button>
                                 <Button color="primary" onClick={this.handleDelete.bind(this)}>Aceptar</Button>
@@ -66,13 +69,13 @@ class ModalDeleteUser extends Component{
 }
 
 
-ModalDeleteUser.propTypes = {
+ModalDeleteProduct.propTypes = {
     open: PropTypes.bool.isRequired,
     handleClose : PropTypes.func.isRequired,
-    user : PropTypes.shape({
-        names : PropTypes.string,
-        lastNames : PropTypes.string
+    product : PropTypes.shape({
+    	_id : PropTypes.string,
+        name : PropTypes.string
     })
 }
 
-export default ModalDeleteUser;
+export default ModalDeleteProduct;

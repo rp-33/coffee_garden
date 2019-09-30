@@ -401,6 +401,36 @@ const packOffOrder = (vouched)=>{
 	.catch((err)=>{return err.response})
 }
 
+const findAllHistory = (user)=>{
+	return axios({
+		method : 'get',
+		url : '/app/findAllHistory',
+		params :{
+			user
+		},
+		headers: {'Authorization': "bearer " + getStoreUser().token}
+	})
+	.then((response)=>{return response})
+	.catch((err)=>{return err.response})
+
+}
+
+const deleteProduct = (category,product) =>{
+
+	return axios({
+		method :'delete',
+		url : '/app/deleteProduct',
+		params : {
+			category,
+			product
+		},
+		headers: {'Authorization': "bearer " + getStoreUser().token}
+	})
+	.then((response)=>{return response})
+	.catch((err)=>{return err.response})
+}
+
+
 export {
 	login,
 	createSchool,
@@ -429,5 +459,7 @@ export {
 	findAllSeller,
 	deleteSeller,
 	queryOrder,
-	packOffOrder
+	packOffOrder,
+	findAllHistory,
+	deleteProduct
 }

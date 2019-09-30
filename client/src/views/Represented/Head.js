@@ -10,6 +10,7 @@ import CartIcon from '@material-ui/icons/ShoppingCart';
 import UserIcon from '@material-ui/icons/Face';
 import MenuIcon from '@material-ui/icons/Menu';
 import Badge from '@material-ui/core/Badge';
+import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import PropTypes from 'prop-types';
 import logo from '../../assets/logo.png';
 
@@ -30,14 +31,14 @@ const Head = ({handleDrawer,opacity,handleLogout,balance})=>{
 								<span>0.00 bss</span>
 							}
 						</div>
-						<Link to="/representative">	
+						<Link to="/represented">	
 							<Fab aria-label="lonchera" size="small" style={{backgroundColor:'white',marginLeft:10}}>
                 				<CartIcon style={{color:'#fab54f'}}/>            					
       						</Fab>
       					</Link>
-      					<Link to="/representative/add">	
-      						<Fab aria-label="config" size="small" style={{backgroundColor:'white',marginLeft:10}}>
-        						<UserIcon style={{color:'#fab54f'}}/>
+      					<Link to="/represented/history">	
+							<Fab aria-label="lonchera" size="small" style={{backgroundColor:'white',marginLeft:10}}>
+                				<ShoppingBasketIcon style={{color:'#fab54f'}}/>            					
       						</Fab>
       					</Link>
       					<Fab onClick={()=>handleLogout()} aria-label="config" size="small" style={{backgroundColor:'white',marginLeft:10}}>
@@ -55,7 +56,7 @@ const Head = ({handleDrawer,opacity,handleLogout,balance})=>{
 								<span>0.00 bss</span>
 							}
 						</div>
-						<Link to="/representative">	
+						<Link to="/represented">	
 							<IconButton aria-label="seller" >
         						<CartIcon style={{color:'#fab54f'}}/>
       						</IconButton>

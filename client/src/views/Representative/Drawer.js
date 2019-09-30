@@ -7,6 +7,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import PowerIcon from '@material-ui/icons/PowerSettingsNew';
 import UserIcon from '@material-ui/icons/Face';
+import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import PropTypes from 'prop-types';
 
 const Drawer = ({open,handleClose,handleLogout})=>{
@@ -26,6 +27,14 @@ const Drawer = ({open,handleClose,handleLogout})=>{
                 	</ListItemIcon>
                 	<ListItemText primary="Representados" />                 
               	</ListItem>
+              </Link>
+              <Link to="/representative/history">
+                <ListItem button>                   
+                    <ListItemIcon>
+                    <ShoppingBasketIcon style={styles.icon} />
+                  </ListItemIcon>
+                  <ListItemText primary="Historial" />                 
+                </ListItem>
               </Link>
         			<ListItem button onClick = {()=>handleLogout()}>
         				<ListItemIcon>

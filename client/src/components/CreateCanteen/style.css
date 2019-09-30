@@ -151,13 +151,6 @@ div.add-canteen section.ctn div.panel{
 	overflow-y: auto;
 }
 
-div.add-canteen section.ctn div.panel .btn{
-	position: absolute;
-	bottom:10px;
-	right: 10px;
-	background-color: #e44a4c !important;
-}
-
 div.add-canteen section.ctn div.panel .item-grid img{
 	width: 100%;
 	border-radius: 3px 3px 0 0;

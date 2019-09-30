@@ -27,13 +27,6 @@ div.add-category section.ctn div.panel{
 	overflow-y: auto;
 }
 
-div.add-category section.ctn div.panel .btn{
-	position: absolute;
-	bottom:10px;
-	right: 10px;
-	background-color: #e44a4c !important;
-}
-
 div.add-category img.bg-img{
 	position: fixed;
 	width: 100%;

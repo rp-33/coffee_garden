@@ -59,6 +59,10 @@ class Search extends Component{
 				this.setState({
 					users : data
 				})
+			}else{
+				this.setState({
+					users : []
+				})
 			}
 		}
 		catch(err)
@@ -68,7 +72,8 @@ class Search extends Component{
 	}
 
 
-	handleSelectShool(school){
+	handleSelectShool(event){
+		let school = event.target.value;
 		this.setState({
 			school
 		},()=>{
@@ -144,13 +149,13 @@ class Search extends Component{
 							className="select"
 							placeholder="seleccione una cantina"
           					value={this.state.school}
+          					onChange = {this.handleSelectShool.bind(this)}
         				>
         					<option disabled value="seleccione una cantina">seleccione una cantina</option>
         					{
         						this.state.schools.map((item,i)=>
         							<option 
-        							value={item._id} 
-        								onClick={this.handleSelectShool.bind(this,item._id)}
+        								value={item._id}      								
         							>
         								{item.name}
         							</option>

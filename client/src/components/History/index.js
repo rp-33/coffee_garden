@@ -1,9 +1,9 @@
 import React,{Component} from 'react';
 import {connect} from 'react-redux';
-import {findAllOrders} from '../../services/api';
+import {findAllHistory} from '../../services/api';
 import './style.css';
 
-class Order extends Component{
+class History extends Component{
 	constructor(props){
 		super(props);
 		this.state = {
@@ -19,7 +19,7 @@ class Order extends Component{
 	async _findAllOrders(){
 		try
 		{
-			let {status,data} = await findAllOrders(this.props.user,this.props.match.params.date);
+			let {status,data} = await findAllHistory(this.props.user);
 			if(status==200){
 				this.setState({
 					orders:data
@@ -34,23 +34,15 @@ class Order extends Component{
 
 	render(){
 		return(
-			<div className="order">
+			<div className="history">
 				<section className="ctn">
-					<span style={{fontSize:'1.5em',fontWeight:'bold'}}>fecha: {this.props.match.params.date}</span>
+					<h2>Historial de compras</h2>
 					<div className="panel">
 						{this.state.orders.map((item,i)=>
 						<section key = {i}>
 							<div className="cnt-vouched">
 								<div>
 									<h4> Comprobante : <span style={{color:'#e44a4c'}}> {item.vouched} </span> </h4>						
-								</div>
-								<div>
-									{item.status
-									?
-										<h3 style={{fontWeight:'bold',color:'#f58351'}}> Despachado </h3>
-									: 			
-										<h3 style={{fontWeight:'bold',color:'#f58351'}}> No despachado </h3>			
-									}
 								</div>
 							</div>
 							<div className="ctn-grid">
@@ -94,4 +86,4 @@ const mapStateToProps = (state,props)=>{
 	}
 }
 
-export default connect(mapStateToProps,null)(Order);
+export default connect(mapStateToProps,null)(History);

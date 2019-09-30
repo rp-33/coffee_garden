@@ -75,6 +75,19 @@ div.create-product section.panel > div.ctn-product div.product{
 	background-color: white;
 	margin-right: 7.5px;
 	cursor: pointer;
+	position: relative;
+}
+div.create-product section.panel > div.ctn-product div.product img{
+	width: 100%;
+	height: 100%;
+}
+
+div.create-product section.panel > div.ctn-product div.product .icon-close{
+	position: absolute;
+	top: 1px;
+	right: -7px;
+	cursor: pointer;
+	color:#e44a4c;
 }
 
 div.create-product section.panel > div.ctn-product  div.add-product{
@@ -210,6 +223,43 @@ div.create-product div.modal-add-product .form-control div.ctn-btn{
 div.create-product div.modal-add-product .form-control div.ctn-btn div.ctn-loading{
 	margin-top:20px;
 }
+
+/*MODAL-DELETE*/
+
+div.create-product div.modal-delete{
+	display:flex;
+	background-color:rgba(252,180,160,0.45);
+	width: 100%;
+	height: 100%;
+	justify-content: center;
+	align-items: center;
+	position: fixed;
+	top:0;
+	bottom:0;
+	z-index: 100000;
+	overflow-y: auto;
+}
+
+
+div.create-product div.modal-delete div.ctn{
+	background-color: #f7f3f0;
+	width: calc(80% - 50px);
+	border-radius: 20px;
+	padding: 5px 10px 10px 10px;
+	max-width: 260px;
+	position: relative;
+	box-shadow: 0 0 4px #737373;
+	position: relative;
+}
+
+div.create-product div.modal-delete div.ctn div.ctn-loading{
+	display: flex;
+	width: 100%;
+	min-height: 120px;
+	justify-content: center;
+	align-items: center;
+}
+
 
 /*MEDIA QUERIES*/
 

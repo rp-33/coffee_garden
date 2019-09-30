@@ -33,7 +33,6 @@ export default (state = initialState, action) =>{
 
 	switch (action.type){
 		case action_login().type:
-			console.log(action.data)
 			setStoreUser(action.data);
 			return action.data;
 		case action_signup().type:

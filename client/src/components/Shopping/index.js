@@ -59,7 +59,7 @@ class Shopping extends Component{
 		});
 		this.props.handleDecrBalance(balance);
 		this.props.handleRemoveShopping(date);
-		history.push('/representative');
+		history.push(`/${this.props.rol}`);
 	}
 
 	render(){
@@ -119,7 +119,8 @@ class Shopping extends Component{
 
 const mapStateToProps = (state,props)=>{
 	return{
-		user : state.user._id,
+		user : state.user.representative || state.user._id,
+		rol : state.user.rol,
 		balance : state.user.balance,
 		cart : state.cart.shopping
 	}

@@ -37,7 +37,9 @@ const {
 	findAllSeller,
 	deleteSeller,
 	queryOrder,
-	packOffOrder
+	packOffOrder,
+	findAllHistory,
+	deleteProduct
 } = require('../controllers/CtrlApp')
 
 /* GET home page. */
@@ -48,7 +50,7 @@ router.get('/findAllProducts',findAllProducts);
 
 router.get('/findAllSchool',findAllSchool);
 
-router.get('/findBalance',findBalance);
+router.get('/findBalance',Auth,findBalance);
 
 router.get('/findAllRepresented',Auth,findAllRepresented);
 
@@ -62,7 +64,9 @@ router.get('/queryUser',Auth,queryUser);
 
 router.get('/findAllSeller',Auth,findAllSeller)
 
-router.get('/queryOrder',queryOrder);
+router.get('/queryOrder',Auth,queryOrder);
+
+router.get('/findAllHistory',Auth,findAllHistory);
 
 /* POST home page. */
 
@@ -111,5 +115,7 @@ router.delete('/deleteRepresented',Auth,deleteRepresented);
 router.delete('/deleteSchool',Auth,deleteSchool);
 
 router.delete('/deleteSeller',Auth,deleteSeller);
+
+router.delete('/deleteProduct',Auth,deleteProduct);
 
 module.exports = router;

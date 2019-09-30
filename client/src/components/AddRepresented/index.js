@@ -93,7 +93,7 @@ class AddRepresented extends Component{
 					<ModalDeleteUser 
 						user = {this.state.selectUser}
 						open = {this.state.modaldelete}
-						handleClose = {(modaldelete)=>this.setState({modaldelete})}this
+						handleClose = {(modaldelete)=>this.setState({modaldelete})}
 						handleSuccess = {this.handleDelete.bind(this)}
 					/>
 				}

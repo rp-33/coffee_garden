@@ -4,6 +4,11 @@ import history from '../../routes/history';
 import {connect} from 'react-redux';
 import Head from './Head';
 import Drawer from './Drawer';
+import AddProducts from '../../components/AddProducts/';
+import Shopping from '../../components/Shopping/';
+import Order from '../../components/Order/';
+import History from '../../components/History/';
+import NoMatch from '../../components/NoMatch';
 import {
 	action_logout,
 	action_balance
@@ -68,6 +73,14 @@ class Represented extends Component{
 					handleClose = {(drawer)=>this.setState({drawer})}
 					handleLogout = {this.handleLogout.bind(this)}
 				/>
+				<Switch>
+					<Route exact path="/represented" component={AddProducts}/> 
+					<Route path="/represented/shopping/:date" component={Shopping}/> 
+					<Route path="/represented/orders/:date" component={Order}/> 
+					<Route path="/represented/history" component={History}/> 
+					<Route component={NoMatch} />
+				</Switch>
+
 			</div>
 		)
 	}

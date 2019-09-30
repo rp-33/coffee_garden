@@ -5,6 +5,7 @@ import BarChartIcon from '@material-ui/icons/BarChart';
 import EditIcon from '@material-ui/icons/Edit';
 import ListProduct from './ListProduct';
 import ModalAddProduct from './ModalAddProduct';
+import ModalDeleteProduct from './ModalDeleteProduct';
 import {
 	findAllProducts,
 	createProduct
@@ -18,7 +19,14 @@ class CreateProduct extends Component{
 			modalAdd :false,
 			index : null,
 			_id : '',
-			categories : []
+			categories : [],
+			product : {
+				_id : '',
+				name : '',
+				category : '',
+				position : null,
+			},
+			modalDelete : false
 		}
 	}
 
@@ -70,6 +78,35 @@ class CreateProduct extends Component{
 		})
 	}
 
+	handleModalDelete({_id,name},position,category){
+		this.setState({
+			modalDelete : true,
+			product : {
+				_id,
+				name,
+				position,
+				category
+			}
+		})
+	}
+
+	handleDelete(_id,position){
+		this.setState(previousState =>{
+			return{
+				modalDelete :false,
+				categories : [
+					...previousState.categories.slice(0,position),
+					Object.assign({},previousState.categories[position],{
+						products : previousState.categories[position].products.filter((item,i)=>{
+							return item._id != _id
+						})
+					}),
+					...previousState.categories.slice(position + 1)
+				]
+			}
+		})
+	}
+
 	render(){
 		return(
 			<div className="create-product" >
@@ -82,6 +119,19 @@ class CreateProduct extends Component{
 						handleSubmit = {this.handleAddProduct.bind(this)}
 					/>
 				}
+
+
+				{this.state.modalDelete &&
+
+					<ModalDeleteProduct
+						product = {this.state.product}
+						open = {this.state.modalDelete}
+						handleClose = {(modalDelete)=>this.setState({modalDelete})}
+						handleSuccess = {this.handleDelete.bind(this)}
+					/>
+				}
+
+
 				<section className="ctn">
 
 					<div className="options">
@@ -100,19 +150,22 @@ class CreateProduct extends Component{
 							</div>
 							<div className="item-product">
 								<ListProduct 
+									handleDelete = {this.handleModalDelete.bind(this)}
 									list = {item.products}
+									category = {item.name}
+									position = {index}
 								/>
 								
 							</div>
-								<div className="add-product" onClick = {this.modalAddProduct.bind(this,index,item)}>
-									<span>+</span>
-								</div>
+							<div className="add-product" onClick = {this.modalAddProduct.bind(this,index,item)}>
+								<span>+</span>
+							</div>
 						</div>
 					)}
 					</section>
 					<Link to={`/admin/category/${this.props.match.params.id}`}>
 						<Fab type="submit" variant="extended" size="large" fullWidth color="secondary" className="secondary" style={{marginTop:'20px'}}>
-        					añadir categoria
+        					Categorias
      					</Fab>
      				</Link>
 				</section>

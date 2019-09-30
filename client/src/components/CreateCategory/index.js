@@ -204,11 +204,16 @@ class CreateCategory extends Component{
 
 				<section className="ctn">
 					<h2>Categorias del producto</h2>
-					<Link to="/admin/">		
-						<div className="ctn-cantina">
-							<p>Seleccione una cantina</p>
-						</div>
-					</Link>
+					<Fab 
+						onClick={()=>this.setState({modaladd:true})}
+						variant="extended" 
+						size="large" 
+						color="secondary" 
+						className="secondary"
+						style ={{marginBottom:'20px'}}
+					>
+        				Crear categorias
+     				</Fab>
 					<div className="panel">
 						<div className="ctn-category">
 							{this.state.categories.map((item,i)=>
@@ -221,9 +226,6 @@ class CreateCategory extends Component{
 								</div>
 							)}
 						</div>
-						 <Fab size="medium" color="secondary" aria-label="add" className="btn" onClick={()=>this.setState({modaladd:true})}>
-          					<AddIcon />
-        				</Fab>
 					</div>
 				</section>
 

@@ -35,7 +35,7 @@ class AddProducts extends Component{
 	}
 
 	componentDidMount(){
-		this.getProducts(this.props.user.school);
+		this.getProducts(this.props.school);
 	}
 
 	async getProducts(school){
@@ -149,7 +149,7 @@ class AddProducts extends Component{
 					<div style={{marginLeft:'10px'}}>
 						{shopping
 						?
-							<Link to= {`/representative/shopping/${shopping}`}>
+							<Link to= {`/${this.props.rol}/shopping/${shopping}`}>
 								<Fab 
                         			variant="extended" 
                         			size="large"
@@ -180,7 +180,7 @@ class AddProducts extends Component{
 						</div>
 					)}
 					</section>
-					<Link to= {`/representative/orders/${this.state.selectDate.date}`}>
+					<Link to= {`/${this.props.rol}/orders/${this.state.selectDate.date}`}>
 						<Fab 
                         	variant="extended" 
                         	size="large"
@@ -201,7 +201,8 @@ class AddProducts extends Component{
 
 const mapStateToProps = (state,props)=>{
     return{
-        user : state.user,
+    	rol : state.user.rol,
+        school : state.user.school,
         cart : state.cart.shopping
     }
 }

@@ -7,10 +7,10 @@ import Head from './Head';
 import CreateCanteen from '../../components/CreateCanteen';
 import CreateCategory from '../../components/CreateCategory';
 import CreateProduct from '../../components/CreateProduct';
-import ShoppingRepresentative from '../../components/ShoppingRepresentative';
 import CreateSeller from '../../components/CreateSeller';
 import Search from '../../components/Search';
 import Statistics from '../../components/Statistics';
+import ShoppingRepresentative from '../../components/ShoppingRepresentative';
 import NoMatch from '../../components/NoMatch';
 import {action_logout} from '../../actions/user';
 import bgImg from '../../assets/background.jpg';
@@ -56,7 +56,7 @@ class Admin extends Component{
 					<Route path="/admin/product/:id" component={CreateProduct}/> 
 					<Route path="/admin/search" component={Search}/> 
 					<Route path="/admin/seller/:school" component={CreateSeller}/> 
-					<Route path="/admin/Statistics/:school" component={Statistics}/> 
+					<Route path="/admin/Statistics/:school" component={Statistics}/>
 					<Route path="/admin/shopping/representative/:id" component={ShoppingRepresentative}/> 
 					<Route component={NoMatch} />
 				</Switch>

@@ -8,6 +8,7 @@ import AddProducts from '../../components/AddProducts'
 import AddRepresented from '../../components/AddRepresented';
 import Shopping from '../../components/Shopping';
 import Order from '../../components/Order';
+import History from '../../components/History/';
 import NoMatch from '../../components/NoMatch';
 import {
 	action_logout,
@@ -89,6 +90,7 @@ class Representative extends Component{
 					<Route path="/representative/add" component={AddRepresented}/> 
 					<Route path="/representative/shopping/:date" component={Shopping}/> 
 					<Route path="/representative/orders/:date" component={Order}/> 
+					<Route path="/representative/history" component={History}/> 
 					<Route component={NoMatch} />
 				</Switch>
 

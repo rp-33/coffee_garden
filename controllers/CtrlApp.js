@@ -1,7 +1,6 @@
 'use strict';
 
 let mongoose = require('mongoose'),
-	 Product = require('../models/SchemaProduct'),
 	Category = require('../models/SchemaCategory'),
 	  School = require('../models/SchemaSchool'),
 		User = require('../models/SchemaUser'),
@@ -422,7 +421,9 @@ module.exports = {
 	findBalance : async (req,res)=>{
 		try
 		{
+			console.log(req.query.user)
 			let balance = await User.findOne({_id:req.query.user},{balance:true,_id:false});
+			console.log(balance)
 			if(!balance) res.status(404).send({message:'resource not found'});
 			res.status(200).send(balance);
 		}
@@ -469,6 +470,19 @@ module.exports = {
 		{	
 			let {user,date} = req.query;
 			let orders = await Order.find({user,date});
+			if(orders.length>0) res.status(200).send(orders)
+			res.status(204).send()
+		}
+		catch(err)
+		{
+			res.status(500).send({err});
+		}
+	},
+	findAllHistory : async (req,res)=>{
+		try
+		{	
+			let {user,date} = req.query;
+			let orders = await Order.find({user,status:true});
 			if(orders.length>0) res.status(200).send(orders)
 			res.status(204).send()
 		}
@@ -600,6 +614,21 @@ module.exports = {
 		}
 		catch(err)
 		{
+			res.status(500).send({err})
+		}
+	},
+	deleteProduct : async (req,res)=>{
+		try
+		{
+			console.log(req.query)
+			let {category,product} = req.query;
+			let result = await Category.updateOne({name:category},{$pull:{products:{"_id":product} }});
+			if(result.ok>0 && result.n>0) return res.status(204).send({message:'delete product'});
+			res.status(404).send({message:'not found'});
+		}
+		catch(err)
+		{
+			console.log(err)
 			res.status(500).send({err})
 		}
 	}

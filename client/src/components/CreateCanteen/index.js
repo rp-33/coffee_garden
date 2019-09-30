@@ -172,7 +172,16 @@ class CreateCanteen extends Component{
 
 
 				<section className="ctn">
-					<h2>Cantinas</h2>
+					<Fab 
+						onClick = {()=>this.setState({modaladd:true})}
+						variant="extended" 
+						size="large" 
+						color="secondary" 
+						className="secondary"
+						style ={{marginBottom:'20px'}}
+					>
+        				Crear Cantinas
+     				</Fab>
 					<div className="panel">
 						<Grid container style={{flexGrow: 1}} spacing={2}>
 							{this.state.data.map((item,i)=>
@@ -189,10 +198,7 @@ class CreateCanteen extends Component{
 							)}
 
 						</Grid>
-					    <Fab onClick = {()=>this.setState({modaladd:true})} size="medium" color="secondary" aria-label="add" className="btn">
-          					<AddIcon />
-        				</Fab>
-						
+
 					</div>
 
 				</section>
