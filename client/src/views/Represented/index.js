@@ -14,6 +14,7 @@ import {
 	action_balance
 } from '../../actions/user';
 import {findBalance} from '../../services/api';
+import socket from '../../services/socket';
 import bgImg from '../../assets/background.jpg';
 import './style.css';
 
@@ -30,7 +31,19 @@ class Represented extends Component{
 	
 	componentDidMount(){
 		this._findBalance();
+		this._handleSocket();
 	}
+
+	_handleSocket(){
+		let {representative} = this.props.user;
+		socket.emit('connected',representative);
+		socket.on('balance',(balance)=>{
+			this.props.handleAddBalance(balance);
+		})
+
+
+	}
+
 
 	async _findBalance(){
 		try

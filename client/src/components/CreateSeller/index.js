@@ -99,7 +99,17 @@ class CreateSeller extends Component{
 				}
 
 				<section className="ctn">
-					<h2>vendedores</h2>
+					<Fab 
+						onClick = {()=>this.setState({modalAdd:true})} 
+						variant="extended" 
+						size="large" 
+						color="secondary" 
+						className="secondary"
+						style ={{marginBottom:'20px'}}
+					>
+        				Crear Vendedores
+     				</Fab>
+
 					<div className="panel">
 
 						<Grid container style={{flexGrow: 1}} spacing={2}>
@@ -138,16 +148,6 @@ class CreateSeller extends Component{
 							)}
 
 						</Grid>
-
-						<Fab
-							onClick = {()=>this.setState({modalAdd:true})} 
-							size="medium" 
-							color="secondary" 
-							aria-label="add" 
-							className="btn"
-						>
-          					<AddIcon />
-        				</Fab>
 					</div>
 
 				</section>

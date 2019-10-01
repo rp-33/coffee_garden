@@ -421,9 +421,7 @@ module.exports = {
 	findBalance : async (req,res)=>{
 		try
 		{
-			console.log(req.query.user)
 			let balance = await User.findOne({_id:req.query.user},{balance:true,_id:false});
-			console.log(balance)
 			if(!balance) res.status(404).send({message:'resource not found'});
 			res.status(200).send(balance);
 		}
@@ -620,7 +618,6 @@ module.exports = {
 	deleteProduct : async (req,res)=>{
 		try
 		{
-			console.log(req.query)
 			let {category,product} = req.query;
 			let result = await Category.updateOne({name:category},{$pull:{products:{"_id":product} }});
 			if(result.ok>0 && result.n>0) return res.status(204).send({message:'delete product'});
@@ -628,7 +625,6 @@ module.exports = {
 		}
 		catch(err)
 		{
-			console.log(err)
 			res.status(500).send({err})
 		}
 	}

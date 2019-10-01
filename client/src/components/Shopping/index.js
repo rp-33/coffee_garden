@@ -11,6 +11,7 @@ import {
 	action_removeShopping
 } from '../../actions/cart';
 import {action_balance} from '../../actions/user';
+import socket from '../../services/socket';
 import './style.css';
 
 class Shopping extends Component{
@@ -53,12 +54,15 @@ class Shopping extends Component{
 	}
 
 	handleSuccess(balance,date){
-		console.log(balance,date)
 		this.setState({
 			modalPay : false
 		});
 		this.props.handleDecrBalance(balance);
 		this.props.handleRemoveShopping(date);
+		socket.emit('balance',{
+			channel : this.props.user,
+			balance
+		});
 		history.push(`/${this.props.rol}`);
 	}
 
