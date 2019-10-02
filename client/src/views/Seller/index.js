@@ -3,6 +3,7 @@ import {Route,Switch} from "react-router-dom";
 import history from '../../routes/history';
 import {connect} from 'react-redux';
 import Head from './Head';
+import FindOrder from '../../components/FindOrder';
 import Sell from '../../components/Sell';
 import NoMatch from '../../components/NoMatch';
 import {action_logout} from '../../actions/user';
@@ -33,6 +34,7 @@ class Seller extends Component{
 
 				<Switch>
 					<Route exact path="/seller" component={Sell}/> 
+					<Route path="/seller/find" component={FindOrder}/> 
 					<Route component={NoMatch} />
 				</Switch>
 

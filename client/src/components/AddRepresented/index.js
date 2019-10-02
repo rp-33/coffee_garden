@@ -99,15 +99,26 @@ class AddRepresented extends Component{
 				}
 
 				<section className="ctn">
-					<h2>Representados</h2>
+					<div style={{width:'100%'}}>
+					<Fab 
+					    onClick = {()=>this.setState({modalAdd:true})} 
+					    variant="extended" 
+					    size="large" 
+					    color="secondary"  
+					    aria-label="add" 
+					    className="secondary"
+					>
+          				crear representado
+        			</Fab>
+        			</div>
 					<div className="panel">
 						<Grid container style={{flexGrow: 1}} spacing={2}>
 							{this.state.data.map((item,i)=>
 								<Grid item 
 									xs={6} 
 									sm={4}
-									md={3} 
-									lg={2} 
+									md={4} 
+									lg={3} 
 									onClick = {()=>this.setState({selectUser:item})}
 								>
 
@@ -132,9 +143,6 @@ class AddRepresented extends Component{
 							)}
 
 						</Grid>
-					    <Fab onClick = {()=>this.setState({modalAdd:true})} size="medium" color="secondary" aria-label="add" className="btn">
-          					<AddIcon />
-        				</Fab>
 						
 					</div>
 

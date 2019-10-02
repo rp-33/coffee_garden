@@ -1,7 +1,9 @@
 import React,{Component} from 'react';
-import {findAllOrdersUser} from '../../services/api';
+import {connect} from 'react-redux';
+import {findAllOrders} from '../../services/api';
+import './style.css';
 
-class ShoppingRepresentative extends Component{
+class Order extends Component{
 	constructor(props){
 		super(props);
 		this.state = {
@@ -9,14 +11,15 @@ class ShoppingRepresentative extends Component{
 		}
 	}
 
+
 	componentDidMount(){
-		this._findAllOrders(this.props.match.params.id);
+		this._findAllOrders();
 	}
 
-	async _findAllOrders(user){
+	async _findAllOrders(){
 		try
 		{
-			let {status,data} = await findAllOrdersUser(user);
+			let {status,data} = await findAllOrders(this.props.user,this.props.match.params.date);
 			if(status==200){
 				this.setState({
 					orders:data
@@ -31,32 +34,33 @@ class ShoppingRepresentative extends Component{
 
 	render(){
 		return(
-			<div className="order">
+			<div className="orders">
 				<section className="ctn">
+					<span style={{fontSize:'1.5em',fontWeight:'bold'}}>fecha: {this.props.match.params.date}</span>
 					<div className="panel">
 						{this.state.orders.map((item,i)=>
-						<section key = {i}>
+						<section key = {i} className="ctn-shopping">
 							<div className="cnt-vouched">
 								<div>
-									<h4> Comprobante : <span style={{color:'#e44a4c'}}> {item.vouched} </span> </h4>						
+									<h4 style={{color:'#e44a4c'}}> {item.vouched} </h4> 						
 								</div>
 								<div>
 									{item.status
 									?
 										<h3 style={{fontWeight:'bold',color:'#f58351'}}> Despachado </h3>
 									: 			
-										<h3 style={{fontWeight:'bold',color:'#f58351'}}> No Despachado </h3>			
+										<h3 style={{fontWeight:'bold',color:'#f58351'}}> No despachado </h3>			
 									}
 								</div>
 							</div>
 							<div className="ctn-grid">
-         						<div className="left">
+         						<div className="left" style={{fontWeight:'bold'}}>
          							cant
          						</div>
-         						<div className="center">	
+         						<div className="center" style={{fontWeight:'bold'}}>	
          							producto
          						</div>
-         						<div className="right">
+         						<div className="right" style={{fontWeight:'bold'}}>
          							precio(bss)
          						</div>
          					</div>
@@ -84,4 +88,10 @@ class ShoppingRepresentative extends Component{
 	}
 }
 
-export default ShoppingRepresentative;
+const mapStateToProps = (state,props)=>{
+	return{
+		user : state.user.representative || state.user._id
+	}
+}
+
+export default connect(mapStateToProps,null)(Order);

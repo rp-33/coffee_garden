@@ -12,6 +12,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Badge from '@material-ui/core/Badge';
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import PropTypes from 'prop-types';
+import Tooltip from '@material-ui/core/Tooltip';
 import logo from '../../assets/logo.png';
 
 const Head = ({handleDrawer,opacity,handleLogout,balance})=>{
@@ -32,18 +33,24 @@ const Head = ({handleDrawer,opacity,handleLogout,balance})=>{
 							}
 						</div>
 						<Link to="/represented">	
-							<Fab aria-label="lonchera" size="small" style={{backgroundColor:'white',marginLeft:10}}>
-                				<CartIcon style={{color:'#fab54f'}}/>            					
-      						</Fab>
+							<Tooltip title="comprar" aria-label="lonchera">
+								<Fab aria-label="lonchera" size="small" style={{backgroundColor:'white',marginLeft:10}}>
+                					<CartIcon style={{color:'#fab54f'}}/>            					
+      							</Fab>
+      						</Tooltip>
       					</Link>
       					<Link to="/represented/history">	
-							<Fab aria-label="lonchera" size="small" style={{backgroundColor:'white',marginLeft:10}}>
-                				<ShoppingBasketIcon style={{color:'#fab54f'}}/>            					
-      						</Fab>
+							<Tooltip title="historial de compra" aria-label="history">
+								<Fab aria-label="history" size="small" style={{backgroundColor:'white',marginLeft:10}}>
+                					<ShoppingBasketIcon style={{color:'#fab54f'}}/>     					
+      							</Fab>
+      						</Tooltip>
       					</Link>
-      					<Fab onClick={()=>handleLogout()} aria-label="config" size="small" style={{backgroundColor:'white',marginLeft:10}}>
-        					<PowerIcon style={{color:'#fab54f'}}/>
-      					</Fab>
+      					<Tooltip title="Cerrar session" aria-label="close">
+      						<Fab onClick={()=>handleLogout()} aria-label="config" size="small" style={{backgroundColor:'white',marginLeft:10}}>
+        						<PowerIcon style={{color:'#fab54f'}}/>
+      						</Fab>
+      					</Tooltip>
       				</div>
 				</Hidden>
 				<Hidden  smUp>

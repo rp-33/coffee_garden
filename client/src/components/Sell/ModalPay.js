@@ -14,7 +14,6 @@ class ModalPay extends Component{
 		super(props);
 		this.state = {
 			isLoading : false,
-			products : props.products,
 			error : ''
 		}
 	}
@@ -26,22 +25,7 @@ class ModalPay extends Component{
 				isLoading:true,
 				error:''
 			});
-			let {balance,products,user,date,handleSuccess} = this.props;
-			let total = totalPrice(products);
-			if(balance > total){
-				let {status,data} = await saveOrder(user,products,total,date);
-				if(status==201){
-					handleSuccess(data,date);
-				}else if(status==201){
-					this.setState({
-						error : 'Hemos comprobado que no dispones de saldo'
-					})
-				}
-			}else{
-				this.setState({
-					error : 'No dispone de saldo suficinte'
-				})
-			}
+	
 		}
 		catch(err)
 		{
@@ -57,7 +41,7 @@ class ModalPay extends Component{
 
 	render(){
 
-		let {open,handleClose} = this.props;
+		let {open,handleClose,products} = this.props;
 
 		return(
 		<Slide direction="up" in={open} mountOnEnter unmountOnExit>
@@ -83,7 +67,7 @@ class ModalPay extends Component{
          					precio
          				</div>
          			</div>
-         			{this.state.products.map((item,i)=>
+         			{products.map((item,i)=>
                     	<div className="ctn-grid">
          				<div className="left">
          					{item.quantity}
@@ -97,7 +81,7 @@ class ModalPay extends Component{
          			</div>
                    	)}
                    	<div className="price-total">
-                   		<span>{totalPrice(this.state.products)} BSS</span>
+                   		<span>{totalPrice(products)} BSS</span>
                    	</div>
                    	<div className="ctn-btn">
                    		{this.state.isLoading

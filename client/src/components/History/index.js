@@ -21,6 +21,7 @@ class History extends Component{
 		{
 			let {status,data} = await findAllHistory(this.props.user);
 			if(status==200){
+				console.log(data)
 				this.setState({
 					orders:data
 				})
@@ -39,20 +40,23 @@ class History extends Component{
 					<h2>Historial de compras</h2>
 					<div className="panel">
 						{this.state.orders.map((item,i)=>
-						<section key = {i}>
+						<section key = {i} className="ctn-shopping">
 							<div className="cnt-vouched">
 								<div>
-									<h4> Comprobante : <span style={{color:'#e44a4c'}}> {item.vouched} </span> </h4>						
+									<span style={{color:'#e44a4c',fontWeight:'bold'}}> {item.vouched} </span>					
+								</div>
+								<div>
+									<span style={{fontWeight:'bold'}}> {item.date} </span>					
 								</div>
 							</div>
 							<div className="ctn-grid">
-         						<div className="left">
+         						<div className="left" style={{fontWeight:'bold'}}>
          							cant
          						</div>
-         						<div className="center">	
-         							producto
+         						<div className="center" style={{fontWeight:'bold'}}>	
+         							productos
          						</div>
-         						<div className="right">
+         						<div className="right" style={{fontWeight:'bold'}}>
          							precio(bss)
          						</div>
          					</div>

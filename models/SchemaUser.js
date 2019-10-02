@@ -48,6 +48,10 @@ let userSchema = new Schema({
     },
     school : {
     	type : Schema.ObjectId, ref: "School"
+    },
+    vip : {
+    	type : Boolean,
+    	default : false
     }
 })
 

@@ -1,4 +1,4 @@
-div.order section.ctn{
+div.orders section.ctn{
 	width: calc(80% - 50px);
 	margin:80px auto;
 	height: 100%;
@@ -7,9 +7,10 @@ div.order section.ctn{
 	justify-content: center;
 }
 
-div.order section.ctn div.panel{
+div.orders section.ctn div.panel{
 	background-color: rgba(255,235,208,.65);
 	position: fixed;
+	top:120px;
 	width: calc(80% - 70px);
 	height: calc(100% - 170px);
 	max-width: 700px;
@@ -19,37 +20,41 @@ div.order section.ctn div.panel{
 	overflow-y: auto;
 }
 
+div.orders section.ctn div.panel section.ctn-shopping{
+	padding-bottom: 20px;
+	border-bottom:1px solid #eea587;
 
-div.order section.ctn div.panel section div.inf{
-	display: flex;
-	width: 100%;
-	flex-direction: row;
-	justify-content: space-between;
-	align-items: center;
-	height: 35px;
 }
 
-div.order section.ctn div.panel div.ctn-grid{
+div.orders section.ctn div.panel div.cnt-vouched{
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-direction: row;
+}
+
+div.orders section.ctn div.panel div.ctn-grid{
 	width: 100%;
 	display: flex;
 	flex-direction: row;
 	margin-top: 10px;
 	justify-content:center;
 }
-div.order section.ctn div.panel div.ctn-grid div{
+div.orders section.ctn div.panel div.ctn-grid div{
 	text-transform: capitalize;
 	padding: 0 5px;
 }
-div.order section.ctn div.panel div.ctn-grid div.right{
+div.orders section.ctn div.panel div.ctn-grid div.right{
 	width: 80px;
 	display: flex;
 	justify-content: flex-end;
 }
 
-div.order section.ctn div.panel div.ctn-grid div.left{
+div.orders section.ctn div.panel div.ctn-grid div.left{
 	width: 40px;
 }
-div.order section.ctn div.panel div.ctn-grid div.center{
+div.orders section.ctn div.panel div.ctn-grid div.center{
 	display: flex;
 	flex:1;
 	justify-content: center;
@@ -57,14 +62,14 @@ div.order section.ctn div.panel div.ctn-grid div.center{
 
 /*MEDIA QUERIES*/
 
-@media screen and (max-width: 600px) {
-  div.order section.ctn{
+@media screen and (max-width: 700px) {
+  div.orders section.ctn{
   	padding: 5px 5px 0px 5px;
   	width: calc(95% - 10px);
+  	margin:60px auto;
   }
-
-  div.order section.ctn div.panel{
+   div.orders section.ctn div.panel{
   	width: calc(95% - 20px);
   	left: 10px;
   }
-}
+ }

@@ -1,0 +1,87 @@
+div.find-order section.ctn{
+	width: calc(80% - 50px);
+	margin:80px auto;
+	height: 100%;
+	position: relative;
+}
+
+div.find-order section.ctn div.panel{
+	background-color: rgba(255,235,208,.65);
+	position: fixed;
+	width: calc(80% - 70px);
+	height: calc(100% - 200px);
+	max-width: 700px;
+	border-radius: 15px;
+	padding: 10px;
+	box-shadow: 0 0 6px rgba(0,0,0,.4);
+	overflow-y: auto;
+}
+
+div.find-order section.ctn div.ctn-input{
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+	margin-bottom:20px;
+
+}
+div.find-order section.ctn div.ctn-input input{
+	width: 210px;
+	height: 40px;
+	border-radius:40px;
+	border:2px solid #d48945;
+	padding: 4px 10px;
+	outline: none;
+	margin-right: 10px;
+}
+
+div.find-order section.ctn div.panel section div.inf{
+	display: flex;
+	width: 100%;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	height: 35px;
+}
+
+div.find-order section.ctn div.panel div.ctn-grid{
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	margin-top: 10px;
+	justify-content:center;
+}
+div.find-order section.ctn div.panel div.ctn-grid div{
+	text-transform: capitalize;
+	padding: 0 5px;
+}
+div.find-order section.ctn div.panel div.ctn-grid div.right{
+	width: 80px;
+	display: flex;
+	justify-content: flex-end;
+}
+
+div.find-order section.ctn div.panel div.ctn-grid div.left{
+	width: 40px;
+}
+div.find-order section.ctn div.panel div.ctn-grid div.center{
+	display: flex;
+	flex:1;
+	justify-content: center;
+}
+
+
+/*MEDIA QUERIES*/
+
+@media screen and (max-width: 600px) {
+  div.find-order section.ctn{
+  	padding: 5px 5px 0px 5px;
+  	width: calc(95% - 10px);
+  }
+
+  div.find-order section.ctn div.panel{
+  	width: calc(95% - 20px);
+  	left: 10px;
+  }
+}

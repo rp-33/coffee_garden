@@ -3,6 +3,8 @@ div.history section.ctn{
 	margin:80px auto;
 	height: 100%;
 	position: relative;
+	display: flex;
+	justify-content: center;
 }
 
 div.history section.ctn div.panel{
@@ -11,10 +13,17 @@ div.history section.ctn div.panel{
 	top:150px;
 	width: calc(80% - 70px);
 	height: calc(100% - 200px);
+	max-width: 700px;
 	border-radius: 15px;
 	padding: 10px;
 	box-shadow: 0 0 6px rgba(0,0,0,.4);
 	overflow-y: auto;
+}
+
+div.history section.ctn div.panel section.ctn-shopping{
+	padding-bottom: 20px;
+	border-bottom:1px solid #eea587;
+
 }
 
 div.history section.ctn div.panel div.cnt-vouched{
@@ -23,6 +32,7 @@ div.history section.ctn div.panel div.cnt-vouched{
 	justify-content: space-between;
 	align-items: center;
 	flex-direction: row;
+	margin-top: 10px;
 }
 
 div.history section.ctn div.panel div.ctn-grid{
@@ -33,12 +43,12 @@ div.history section.ctn div.panel div.ctn-grid{
 	justify-content:center;
 }
 div.history section.ctn div.panel div.ctn-grid div{
-	font-weight: bold;
 	text-transform: capitalize;
 	padding: 0 5px;
 }
 div.history section.ctn div.panel div.ctn-grid div.right{
 	width: 75px;
+	display: flex;
 	justify-content: flex-end;
 }
 

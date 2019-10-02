@@ -7,8 +7,7 @@ module.exports  = (io,socket)=>{
 	})
 
 	socket.on('balance',(payload)=>{
-		let {channel,balance} = payload;
-		socket.broadcast.to(channel).emit('balance',balance);
+		let {channel,balance,vouched} = payload;
+		socket.broadcast.to(channel).emit('balance',{balance,vouched});
 	})
-
 }

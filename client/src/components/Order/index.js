@@ -1,34 +1,47 @@
 import React,{Component} from 'react';
-import {connect} from 'react-redux';
-import {findAllOrders} from '../../services/api';
+import Fab from '@material-ui/core/Fab';
+import IconButton from '@material-ui/core/IconButton';
+import {
+	queryOrder,
+} from '../../services/api';
 import './style.css';
 
-class Order extends Component{
+class Sell extends Component{
 	constructor(props){
 		super(props);
 		this.state = {
-			orders : []
+			isLoading : false,
+			input:'',
+			date : '',
+			vouched : '',
+			status : null,
+			products : []
 		}
 	}
 
-
 	componentDidMount(){
-		this._findAllOrders();
+		this.handleQueryOrder(this.props.match.params.vouched);
 	}
 
-	async _findAllOrders(){
+
+	async handleQueryOrder(vouched){
 		try
 		{
-			let {status,data} = await findAllOrders(this.props.user,this.props.match.params.date);
-			if(status==200){
+			let {status,data} = await queryOrder(vouched);
+			if(status==200)
+			{
+				let {status,vouched,date,products} = data
 				this.setState({
-					orders:data
+					status,
+					vouched,
+					date,
+					products
 				})
 			}
 		}
 		catch(err)
 		{
-			alert(err);
+			alert(err)
 		}
 	}
 
@@ -36,36 +49,33 @@ class Order extends Component{
 		return(
 			<div className="order">
 				<section className="ctn">
-					<span style={{fontSize:'1.5em',fontWeight:'bold'}}>fecha: {this.props.match.params.date}</span>
 					<div className="panel">
-						{this.state.orders.map((item,i)=>
-						<section key = {i}>
-							<div className="cnt-vouched">
+						{this.state.products.length!=0 &&
+						<section>
+							<div className="date">
+								<h3 style={{color:'#f5722a'}}>
+									{this.state.date}
+								</h3>
+							</div>
+							<div className="inf">
 								<div>
-									<h4> Comprobante : <span style={{color:'#e44a4c'}}> {item.vouched} </span> </h4>						
-								</div>
-								<div>
-									{item.status
-									?
-										<h3 style={{fontWeight:'bold',color:'#f58351'}}> Despachado </h3>
-									: 			
-										<h3 style={{fontWeight:'bold',color:'#f58351'}}> No despachado </h3>			
-									}
+									<span style={{fontWeight:'bold'}}>Comprobante : </span>
+									<span style={{color:' #e44a4c'}}>{this.state.vouched}</span>
 								</div>
 							</div>
-							<div className="ctn-grid">
+							<div className="ctn-grid" style={{fontWeight:'bold'}}>
          						<div className="left">
          							cant
          						</div>
-         						<div className="center">	
+         						<div className="center" style={{fontWeight:'bold'}}>	
          							producto
          						</div>
-         						<div className="right">
+         						<div className="right" style={{fontWeight:'bold'}}>
          							precio(bss)
          						</div>
          					</div>
-         					{item.products.map((product,index)=>
-         						<div key={index} className="ctn-grid">
+         					{this.state.products.map((product,index)=>
+         					<div key={index} className="ctn-grid">
          						<div className="left">
          							{product.quantity}
          						</div>
@@ -77,10 +87,9 @@ class Order extends Component{
          						</div>
          					</div>
          					)}
-         				</section>
-						)}
-						
-
+							
+						</section>
+						}
 					</div>
 				</section>
 			</div>
@@ -88,10 +97,4 @@ class Order extends Component{
 	}
 }
 
-const mapStateToProps = (state,props)=>{
-	return{
-		user : state.user.representative || state.user._id
-	}
-}
-
-export default connect(mapStateToProps,null)(Order);
+export default Sell;

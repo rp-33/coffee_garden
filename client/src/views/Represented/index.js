@@ -6,9 +6,11 @@ import Head from './Head';
 import Drawer from './Drawer';
 import AddProducts from '../../components/AddProducts/';
 import Shopping from '../../components/Shopping/';
+import Orders from '../../components/Orders/';
 import Order from '../../components/Order/';
 import History from '../../components/History/';
 import NoMatch from '../../components/NoMatch';
+import Toast from '../../presentation/ToastOrder';
 import {
 	action_logout,
 	action_balance
@@ -24,7 +26,9 @@ class Represented extends Component{
 		this.state = {
 			drawer : false,
 			modal : false,
-			opacity : 0.8
+			opacity : 0.8,
+			toast : false,
+			vouched : ''
 		}
 	}
 
@@ -36,14 +40,18 @@ class Represented extends Component{
 
 	_handleSocket(){
 		let {representative} = this.props.user;
+
 		socket.emit('connected',representative);
-		socket.on('balance',(balance)=>{
+
+		socket.on('balance',(payload)=>{
+			let {balance,vouched} = payload;
 			this.props.handleAddBalance(balance);
+			this.setState({
+				vouched,
+				toast :true
+			})
 		})
-
-
 	}
-
 
 	async _findBalance(){
 		try
@@ -69,6 +77,14 @@ class Represented extends Component{
 		history.push('/');
 	}
 
+	handleSeeOrder(){
+		this.setState({
+			toast : false
+		},()=>{	
+			history.push(`/represented/order/${this.state.vouched}`);
+		})
+	}
+
 	render(){
 		return(
 			<div className="represented">
@@ -86,10 +102,20 @@ class Represented extends Component{
 					handleClose = {(drawer)=>this.setState({drawer})}
 					handleLogout = {this.handleLogout.bind(this)}
 				/>
+
+				<Toast 
+					open = {this.state.toast}
+					title = "han realizado una compra"
+					date = {this.state.date}
+					handleClose = {()=>this.setState({toast:false})}
+					handleAction = {this.handleSeeOrder.bind(this)}
+				/>
+
 				<Switch>
 					<Route exact path="/represented" component={AddProducts}/> 
 					<Route path="/represented/shopping/:date" component={Shopping}/> 
-					<Route path="/represented/orders/:date" component={Order}/> 
+					<Route path="/represented/orders/:date" component={Orders}/> 
+					<Route path="/represented/order/:vouched" component={Order}/> 
 					<Route path="/represented/history" component={History}/> 
 					<Route component={NoMatch} />
 				</Switch>
