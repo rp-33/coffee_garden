@@ -437,9 +437,10 @@ module.exports = {
 
 			let {products,total,user,date} = req.body;
 
-			let {balance} = await User.findOne({_id:user},{_id:false,balance:true});
+			let {balance,vip} = await User.findOne({_id:user},{_id:false,balance:true,vip:true});
 
-			if(balance < total) return res.status(204).send({message:'No dispone de suficiente saldo'})
+
+			if(!vip && balance < total) return res.status(204).send({message:'No dispone de suficiente saldo'})
 
 			let order = new Order({
 				vouched :  randomatic('0',6),

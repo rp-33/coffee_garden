@@ -28,20 +28,15 @@ class ModalPay extends Component{
 			});
 			let {balance,products,user,date,handleSuccess} = this.props;
 			let total = totalPrice(products);
-			if(balance > total){
-				let {status,data} = await saveOrder(user,products,total,date);
-				if(status==201){
-					handleSuccess(data,date);
-				}else if(status==201){
-					this.setState({
-						error : 'Hemos comprobado que no dispones de saldo'
-					})
-				}
-			}else{
+			let {status,data} = await saveOrder(user,products,total,date);
+			if(status==201){
+				handleSuccess(data,date);
+			}else if(status==204){
 				this.setState({
-					error : 'No dispone de saldo suficinte'
+					error : 'No dispones de saldo'
 				})
 			}
+	
 		}
 		catch(err)
 		{
