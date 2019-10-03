@@ -1,8 +1,10 @@
 div.find-order section.ctn{
 	width: calc(80% - 50px);
-	margin:80px auto;
+	margin:120px auto;
 	height: 100%;
 	position: relative;
+	display: flex;
+	justify-content: center;
 }
 
 div.find-order section.ctn div.panel{

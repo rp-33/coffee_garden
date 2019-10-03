@@ -80,6 +80,8 @@ class FindOrder extends Component{
 		return(
 			<div className="find-order">
 				<section className="ctn">
+					
+					<div className="panel">
 					<div className="ctn-input">
 						<input 
 							type ="number"
@@ -102,7 +104,6 @@ class FindOrder extends Component{
        						</Fab>
 						}
 					</div>
-					<div className="panel">
 						{this.state.products.length!=0 &&
 						<section>
 							<div className="date">
