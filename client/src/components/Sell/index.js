@@ -138,8 +138,13 @@ class Sell extends Component{
 		})
 	}
 
-	handleSuccess(){
-
+	handleSuccess(date){
+		this.setState(prevState=>{
+			return{
+				modalPay : false,
+				shopping : []
+			}
+		})
 	}
 
 	render(){

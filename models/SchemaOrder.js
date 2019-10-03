@@ -3,24 +3,6 @@
 let mongoose = require('mongoose'),
 	Schema =  mongoose.Schema;
 
-let productsSchema = new Schema({
-	quantity : {
-		type: Number
-	},
-	date : {
-		type : String
-	},
-	name : {
-		type:String
-	},
-	price :{
-		type :Number
-	},
-	image : {
-		type : String
-	}
-})
-
 let orderSchema = new Schema({
 	user : {
 		type: Schema.ObjectId, ref: "User" 
@@ -38,7 +20,21 @@ let orderSchema = new Schema({
 		type : Boolean,
 		default : false
 	},
-	products : [productsSchema]
+	products : {
+		type : Array,
+		quantity : {
+			type: Number
+		},
+		name : {
+			type:String
+		},
+		price :{
+			type :Number
+		},
+		image : {
+			type : String
+		}
+	}
 })
 
 module.exports = mongoose.model('Order',orderSchema);

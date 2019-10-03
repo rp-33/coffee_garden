@@ -5,6 +5,7 @@ let mongoose = require('mongoose'),
 	  School = require('../models/SchemaSchool'),
 		User = require('../models/SchemaUser'),
 	   Order = require('../models/SchemaOrder'),
+	Shopping = require('../models/SchemaShopping'),
 	   token = require('../services/token'),
 	  bcrypt = require('bcrypt'),
   randomatic = require('randomatic'),
@@ -606,8 +607,18 @@ module.exports = {
 	packOffOrder : async (req,res)=>{
 		try
 		{
-			let {vouched} = req.query;
+			let {vouched,date,products} = req.body;
+
 			let order = await Order.updateOne({vouched},{$set:{status:true}});
+
+			let shopping = new Shopping({
+				vouched,
+				date,
+				products : Array.from(products)
+			})
+
+			await shopping.save();
+
 			if(order.ok>0 && order.n>0) return res.status(204).send();
 			res.status(404).send({message:'user not found'});
 		}
@@ -623,6 +634,27 @@ module.exports = {
 			let result = await Category.updateOne({name:category},{$pull:{products:{"_id":product} }});
 			if(result.ok>0 && result.n>0) return res.status(204).send({message:'delete product'});
 			res.status(404).send({message:'not found'});
+		}
+		catch(err)
+		{
+			res.status(500).send({err})
+		}
+	},
+	saveShopping : async (req,res)=>{
+		try
+		{
+
+			let {products,date} = req.body;
+
+			let shopping = new Shopping({
+				vouched :  randomatic('0',6),
+				date,
+				products
+			})
+
+			await shopping.save();
+
+			res.status(201).send({message:'compra completada'})
 		}
 		catch(err)
 		{

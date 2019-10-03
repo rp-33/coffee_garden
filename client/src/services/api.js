@@ -388,12 +388,14 @@ const queryOrder = (vouched)=>{
 	.catch((err)=>{return err.response})
 }
 
-const packOffOrder = (vouched)=>{
+const packOffOrder = (vouched,date,products)=>{
 	return axios({
-		method : 'put',
+		method : 'post',
 		url : '/app/packOffOrder',
-		params :{
-			vouched
+		data :{
+			vouched,
+			date,
+			products
 		},
 		headers: {'Authorization': "bearer " + getStoreUser().token}
 	})
@@ -423,6 +425,21 @@ const deleteProduct = (category,product) =>{
 		params : {
 			category,
 			product
+		},
+		headers: {'Authorization': "bearer " + getStoreUser().token}
+	})
+	.then((response)=>{return response})
+	.catch((err)=>{return err.response})
+}
+
+const saveShopping = (date,products)=>{
+	console.log(date,products)
+	return axios({
+		method :'post',
+		url : '/app/saveShopping',
+		data : {
+			date,
+			products
 		},
 		headers: {'Authorization': "bearer " + getStoreUser().token}
 	})
@@ -461,5 +478,6 @@ export {
 	queryOrder,
 	packOffOrder,
 	findAllHistory,
-	deleteProduct
+	deleteProduct,
+	saveShopping
 }

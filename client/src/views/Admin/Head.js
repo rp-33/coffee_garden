@@ -9,6 +9,7 @@ import FaceIcon from '@material-ui/icons/Face';
 import PowerIcon from '@material-ui/icons/PowerSettingsNew';
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import MenuIcon from '@material-ui/icons/Menu';
+import Tooltip from '@material-ui/core/Tooltip';
 import PropTypes from 'prop-types';
 import logo from '../../assets/logo.png';
 
@@ -21,18 +22,24 @@ const Head = ({handleDrawer,opacity,handleLogout})=>{
 				<Hidden xsDown>
 					<div className="right">
 						<Link to="/admin/">	
-							<Fab aria-label="lonchera" size="small" style={{backgroundColor:'white',marginLeft:10}}>
-        						<ShoppingBasketIcon style={{color:'#fab54f'}}/>
-      						</Fab>
+							<Tooltip title="cantinas" aria-label="cantina">
+								<Fab aria-label="lonchera" size="small" style={{backgroundColor:'white',marginLeft:10}}>
+        							<ShoppingBasketIcon style={{color:'#fab54f'}}/>
+      							</Fab>
+      						</Tooltip>
       					</Link>
 						<Link to="/admin/search">	
-							<Fab aria-label="lonchera" size="small" style={{backgroundColor:'white',marginLeft:10}}>
-        						<FaceIcon style={{color:'#fab54f'}}/>
-      						</Fab>
+							<Tooltip title="representantes" aria-label="representantes">
+								<Fab aria-label="representantes" size="small" style={{backgroundColor:'white',marginLeft:10}}>
+        							<FaceIcon style={{color:'#fab54f'}}/>
+      							</Fab>
+      						</Tooltip>
       					</Link>
-      					<Fab onClick = {()=>handleLogout()} aria-label="add-balance" size="small" style={{backgroundColor:'white',marginLeft:10}}>
-        					<PowerIcon style={{color:'#fab54f'}}/>
-      					</Fab>
+      					<Tooltip title="cerrar session" aria-label="close">
+      						<Fab onClick = {()=>handleLogout()} aria-label="add-balance" size="small" style={{backgroundColor:'white',marginLeft:10}}>       			
+        						<PowerIcon style={{color:'#fab54f'}}/>      						
+      						</Fab>
+      					</Tooltip>
       				</div>
 				</Hidden>
 				<Hidden smUp>

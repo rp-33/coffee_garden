@@ -39,7 +39,8 @@ const {
 	queryOrder,
 	packOffOrder,
 	findAllHistory,
-	deleteProduct
+	deleteProduct,
+	saveShopping
 } = require('../controllers/CtrlApp')
 
 /* GET home page. */
@@ -86,6 +87,10 @@ router.post('/saveRepresented',Auth,saveRepresented);
 
 router.post('/createSeller',Auth,createSeller);
 
+router.post('/saveShopping',Auth,saveShopping);
+
+router.post('/packOffOrder',Auth,packOffOrder);
+
 /* PUT home page. */
 
 router.put('/editCategory',editCategory);
@@ -101,8 +106,6 @@ router.put('/editNameSchool',editNameSchool);
 router.put('/editAvatarSchool',upload.single('file'),editAvatarSchool);
 
 router.put('/addBalance',Auth,addBalance);
-
-router.put('/packOffOrder',Auth,packOffOrder);
 
 /* DELETE home page. */
 

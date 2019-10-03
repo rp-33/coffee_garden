@@ -70,9 +70,11 @@ const Head = ({handleDrawer,opacity,handleLogout,balance})=>{
 							}
 						</div>
 						<Link to="/representative">	
-							<IconButton aria-label="seller" >
-        						<CartIcon style={{color:'#fab54f'}}/>
-      						</IconButton>
+							<Tooltip title="comprar" aria-label="lonchera">
+								<IconButton aria-label="seller" >
+        							<CartIcon style={{color:'#fab54f'}}/>
+      							</IconButton>
+      						</Tooltip>
       					</Link>
 						<IconButton aria-label="menu" style={{color:'#fbad31'}} onClick={()=>handleDrawer(true)}>
         					<MenuIcon />

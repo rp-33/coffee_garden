@@ -36,6 +36,7 @@ class ItemUser extends Component{
 			<div className="ctn-grid">
 				<div>{item.ci}</div>
 				<div>{item.names} {item.lastNames}</div>
+				<div>{item.balance}</div>
 				<div  
 					onClick = {this.handleMenu.bind(this)}
 				>

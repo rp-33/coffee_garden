@@ -31,7 +31,8 @@ class FindOrder extends Component{
 	async handlePackOffOrder(){
 		try
 		{
-			let {status,data} = await packOffOrder(this.state.vouched); 
+			let {vouched,date,products} = this.state;
+			let {status,data} = await packOffOrder(vouched,date,products); 
 			if(status==204){
 				this.setState({
 					status : true
@@ -40,7 +41,7 @@ class FindOrder extends Component{
 		}
 		catch(err)
 		{
-
+			alert(err)
 		}
 	}
 
@@ -53,7 +54,7 @@ class FindOrder extends Component{
 			let {status,data} = await queryOrder(this.state.input);
 			if(status==200)
 			{
-				let {status,vouched,date,products} = data
+				let {status,vouched,date,products} = data;
 				this.setState({
 					status,
 					vouched,
@@ -69,7 +70,8 @@ class FindOrder extends Component{
 		finally
 		{
 			this.setState({
-				isLoading:false
+				isLoading:false,
+				input : ''
 			})
 		}
 	}

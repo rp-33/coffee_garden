@@ -57,10 +57,14 @@ div.search section.ctn div.panel div.ctn-grid{
 
 div.search section.ctn div.panel div.ctn-grid div{
 	text-transform: capitalize;
+
 }
 
 div.search section.ctn div.panel div.ctn-grid div:nth-child(1){
 	width: 100px;
+		overflow:hidden;
+    white-space:nowrap;
+    text-overflow: ellipsis;
 }
 div.search section.ctn div.panel div.ctn-grid div:nth-child(2){
 	flex:1;
@@ -68,6 +72,13 @@ div.search section.ctn div.panel div.ctn-grid div:nth-child(2){
 }
 
 div.search section.ctn div.panel div.ctn-grid div:nth-child(3){
+	width: 80px;
+		overflow:hidden;
+    white-space:nowrap;
+    text-overflow: ellipsis;
+}
+
+div.search section.ctn div.panel div.ctn-grid div:nth-child(4){
 	width: 20px;
 	display: flex;
 	justify-content: flex-end;

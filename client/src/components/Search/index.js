@@ -194,6 +194,7 @@ class Search extends Component{
 							<div className="ctn-grid">
 								<div style={{color:'#e44a4c',fontWeight:'bold'}}>cedula</div>
 								<div style={{color:'#e44a4c',fontWeight:'bold'}}>nombre y apellido</div>
+								<div style={{color:'#e44a4c',fontWeight:'bold'}}>saldo</div>
 								<div/>
 							</div>
 							{

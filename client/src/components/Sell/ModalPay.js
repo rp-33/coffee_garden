@@ -6,8 +6,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Fab from '@material-ui/core/Fab';
 import PropTypes from 'prop-types';
 import BarMessage from '../../presentation/BarMessage';
-import {saveOrder} from '../../services/api';
 import {totalPrice} from '../../utils/products';
+import {saveShopping} from '../../services/api';
 
 class ModalPay extends Component{
 	constructor(props){
@@ -25,6 +25,12 @@ class ModalPay extends Component{
 				isLoading:true,
 				error:''
 			});
+			let {date,products,handleSuccess} = this.props;
+			let {status,data} = await saveShopping(date,products);
+			if(status==201)
+			{
+				handleSuccess(date);
+			}
 	
 		}
 		catch(err)
@@ -99,6 +105,21 @@ class ModalPay extends Component{
 		</Slide>
 		)
 	}
+}
+
+ModalPay.propTypes = {
+	open : PropTypes.func.isRequired,
+	products : PropTypes.arrayOf(
+		PropTypes.shape({
+      		quantity : PropTypes.number,
+      		name : PropTypes.string,
+      		price : PropTypes.number,
+      		image : PropTypes.string
+    	})
+	),
+	date : PropTypes.string.isRequired,
+	handleSuccess : PropTypes.func.isRequired,
+	handleClose : PropTypes.func.isRequired
 }
 
 
