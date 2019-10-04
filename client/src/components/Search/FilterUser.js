@@ -1,10 +1,10 @@
-import React,{Component} from 'react';
+import React,{Component,Fragment} from 'react';
 import {Link} from 'react-router-dom';
 import SettingIcon from '@material-ui/icons/SettingsApplications';
 import Fade from '@material-ui/core/Fade';
 import PropTypes from 'prop-types';
 
-class ItemUser extends Component{
+class FilterUser extends Component{
 	constructor(props){
 		super(props);
 		this.state = {
@@ -41,6 +41,8 @@ class ItemUser extends Component{
 		let {item,value} = this.props;
 
 		return(
+		<Fragment>
+			{item.balance<0 &&
 			<div className="ctn-grid">
 				<div>{item.ci}</div>
 				<div>{item.names} {item.lastNames}</div>
@@ -64,8 +66,10 @@ class ItemUser extends Component{
 
 				</div>
 			</div>
+			}
+		</Fragment>
 		)
 	}
 }
 
-export default ItemUser
+export default FilterUser

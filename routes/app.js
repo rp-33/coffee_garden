@@ -40,7 +40,8 @@ const {
 	packOffOrder,
 	findAllHistory,
 	deleteProduct,
-	saveShopping
+	saveShopping,
+	changeVip
 } = require('../controllers/CtrlApp')
 
 /* GET home page. */
@@ -106,6 +107,8 @@ router.put('/editNameSchool',editNameSchool);
 router.put('/editAvatarSchool',upload.single('file'),editAvatarSchool);
 
 router.put('/addBalance',Auth,addBalance);
+
+router.put('/changeVip',changeVip);
 
 /* DELETE home page. */
 

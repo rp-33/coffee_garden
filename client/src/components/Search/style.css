@@ -113,6 +113,67 @@ div.search section.ctn div.panel .ctn-grid div.ctn-menu div.eyelash{
 	border-style: solid
 }
 
+/*modal-vip*/
+
+div.search div.modal-vip{
+	display:flex;
+	background-color:rgba(252,180,160,0.45);
+	width: 100%;
+	height: 100%;
+	justify-content: center;
+	align-items: center;
+	position: fixed;
+	top:0;
+	bottom:0;
+	z-index: 100000;
+	overflow-y: auto;
+}
+
+
+div.search div.modal-vip .form-control{
+	background-color: #f7f3f0;
+	width: calc(80% - 50px);
+	border-radius: 20px;
+	padding: 5px 10px 30px 10px;
+	max-width: 260px;
+	position: relative;
+	box-shadow: 0 0 4px #737373;
+	position: relative;
+}
+
+
+div.search div.modal-vip .form-control div.ctn-btn{
+	margin-top: 20px;
+	width: 100%;
+}
+
+div.search div.modal-vip .form-control div.ctn-btn  div.ctn-loading {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	margin-top: 15px;
+}
+
+div.search div.modal-vip .form-control div.ctn-btn .secondary{
+	width: 100%;
+}
+
+
+div.search div.modal-vip .form-control div.icon-close{
+	width: 30px;
+	height: 30px;
+	background-color: white;
+	position: absolute;
+	top: -7px;
+	right: -7px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+}
+
+
 /*modal-balance*/
 
 div.search div.modal-balance{
@@ -154,7 +215,7 @@ div.search div.modal-balance .form-control div.ctn-input input{
 	border-radius:40px;
 	border:2px solid #d48945;
 	padding: 4px 10px;
-	outline: none
+	outline: none;
 }
 
 div.search div.modal-balance .form-control div.ctn-btn{

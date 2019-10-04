@@ -5,23 +5,26 @@ import Paper from '@material-ui/core/Paper';
 import Fab from '@material-ui/core/Fab';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import BarMessage from '../../presentation/BarMessage';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
 import PropTypes from 'prop-types';
-import {addBalance} from '../../services/api';
+import {changeVip} from '../../services/api';
 
 class ModalBalance extends Component{
 	constructor(props){
 		super(props);
 		this.state = {
-			value : '',
+			value : props.user.vip ? 'vip' : 'novip',
 			error : '',
 			isLoading : false
 		}
 	}
 
 	handleChange(event){
-		let {value,name} = event.target;
 		this.setState({
-			[name] : value
+			value : event.target.value
 		})
 	}
 
@@ -29,11 +32,11 @@ class ModalBalance extends Component{
 		try
 		{
 			this.setState({isLoading:true});
-			let {handleClose,user,handleSuccess} = this.props;
-			let balance = parseInt(user.balance) + parseInt(this.state.value);
-			let {status,data} =  await addBalance(user._id,balance);
-			if(status == 201){
-				handleSuccess(user._id,balance);
+			let {handleClose,user} = this.props;
+			let vip = this.state.value == 'vip' ? true : false;
+			let {status,data} =  await changeVip(user._id,vip);
+			if(status == 204){
+				handleClose(false);
 			}else if(status==404){
 				this.setState({
 					error : 'El usuario no existe'
@@ -57,27 +60,30 @@ class ModalBalance extends Component{
 
 		return(
 		<Slide direction="up" in={open} mountOnEnter unmountOnExit>
-			<div className="modal-balance">
+			<div className="modal-vip">
 				<Paper className="form-control">
 					<div className="icon-close" onClick = {()=>handleClose(false)}>
                     	<CancelIcon fontSize="large" style={{color:'#e44a4c'}}/>
                		</div>
-         			<h2 style={{textAlign:'center',color:'#e44a4c'}}>Agregar saldo</h2>
+         			<h2 style={{textAlign:'center',color:'#e44a4c'}}>VIP</h2>
          				{this.state.error &&
          					<BarMessage 
 								title = {this.state.error}
 							/>
          				}
-         				<div className="ctn-input">
-							<input 
-							type="number" 
-							placeholder="Ingrese el monto"
-							value = {this.state.value}
-							name="value"
-							onChange = {this.handleChange.bind(this)}
-							/>
-						</div>
-						{this.state.value != '' &&
+
+         				<FormControl component="fieldset">
+        					<RadioGroup 
+        						aria-label="vip" 
+        						name="vip" 
+        						value={this.state.value} 
+        						onChange={this.handleChange.bind(this)}
+        					>
+          						<FormControlLabel value="vip" control={<Radio />} label="Usuario vip" />
+          						<FormControlLabel value="novip" control={<Radio />} label="Usuario no vip" />
+        					</RadioGroup>
+      					</FormControl>
+
 						<div className="ctn-btn">	
 							{this.state.isLoading	
 							?
@@ -90,7 +96,7 @@ class ModalBalance extends Component{
      							</Fab>     
      						}						
      					</div>
-     					}
+     					
          		</Paper>
 			</div>
 		</Slide>
@@ -102,8 +108,7 @@ ModalBalance.propTypes = {
 	open : PropTypes.bool.isRequired,
 	handleClose :  PropTypes.func.isRequired,
 	user : PropTypes.shape({
-		_id : PropTypes.string,
-		balance : PropTypes.string
+		_id : PropTypes.string
 	}).isRequired
 }
 

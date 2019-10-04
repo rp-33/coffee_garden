@@ -433,7 +433,6 @@ const deleteProduct = (category,product) =>{
 }
 
 const saveShopping = (date,products)=>{
-	console.log(date,products)
 	return axios({
 		method :'post',
 		url : '/app/saveShopping',
@@ -447,6 +446,19 @@ const saveShopping = (date,products)=>{
 	.catch((err)=>{return err.response})
 }
 
+const changeVip = (_id,vip)=>{
+	return axios({
+		method :'put',
+		url : '/app/changeVip',
+		params : {
+			_id,
+			vip
+		},
+		headers: {'Authorization': "bearer " + getStoreUser().token}
+	})
+	.then((response)=>{return response})
+	.catch((err)=>{return err.response})
+}
 
 export {
 	login,
@@ -479,5 +491,6 @@ export {
 	packOffOrder,
 	findAllHistory,
 	deleteProduct,
-	saveShopping
+	saveShopping,
+	changeVip
 }

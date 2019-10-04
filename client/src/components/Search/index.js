@@ -1,9 +1,12 @@
 import React,{Component} from 'react';
-import IconButton from '@material-ui/core/IconButton';
+import Fab from '@material-ui/core/Fab';
 import SearchIcon from '@material-ui/icons/Search';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Switch from '@material-ui/core/Switch';
 import ItemUser from './ItemUser';
+import FilterUser from './FilterUser';
 import ModalBalance from './ModalBalance';
+import ModalVip from './ModalVip';
 import {
 	findAllSchool,
 	findAllRepresentative,
@@ -19,11 +22,14 @@ class Search extends Component{
 			school : 'seleccione una cantina',
 			users : [],
 			modalBalance : false,
+			modalVip : false,
 			error :false,
 			cedula : '',
+			valueDebt : false,
 			user : {
 				_id : '',
-				balance : ''
+				balance : '',
+				vip : ''
 			}
 		}
 	}
@@ -83,10 +89,20 @@ class Search extends Component{
 
 	handleBalance(modalBalance,{_id,balance}){
 		this.setState({
-			modalBalance:true,
+			modalBalance,
 			user : {
 				_id,
 				balance
+			}
+		});
+	}
+
+	handleModalVip(modalVip,{_id,vip}){
+		this.setState({
+			modalVip,
+			user : {
+				_id,
+				vip
 			}
 		});
 	}
@@ -131,6 +147,30 @@ class Search extends Component{
 		})
 	}
 
+	handleSuccessBalance(_id,balance){
+		let position = this.state.users.findIndex(item=>{
+			return item._id == _id
+		})
+
+		this.setState(prevState=>{
+				return {
+                ...prevState,
+                users : [
+                    ...prevState.users.slice(0,position),// Copia el objeto antes de modificarlo
+                    Object.assign({}, prevState.users[position], {
+                    	balance : balance
+                    }),
+                    ...prevState.users.slice(position + 1)
+                ], 
+				modalBalance:false,
+           		}
+			})
+	}
+
+	findDebt(){
+
+	}
+
 	render(){
 		return(
 			<div className="search">
@@ -138,6 +178,15 @@ class Search extends Component{
 					<ModalBalance 
 						open = {this.state.modalBalance}
 						handleClose = {(modalBalance)=>this.setState({modalBalance})}
+						user = {this.state.user}
+						handleSuccess = {this.handleSuccessBalance.bind(this)}
+					/>
+				}
+
+				{this.state.modalVip &&
+					<ModalVip
+						open = {this.state.modalVip}
+						handleClose = {(modalVip)=>this.setState({modalVip})}
 						user = {this.state.user}
 					/>
 				}
@@ -179,10 +228,29 @@ class Search extends Component{
 								?
        							 	<CircularProgress size={20} color="secondary" style={{margin:'0 14px'}} />
        							:
-       								<IconButton disabled={this.state.cedula.length==0} aria-label="search" onClick={this.handleQueryUser.bind(this)}>
-          								<SearchIcon />
-       							 	</IconButton>
+
+       								<Fab 
+       									style={{marginLeft:'10px'}}
+       									disabled={this.state.cedula.length==0} 
+       									color="secondary" 
+       									className="secondary"
+       									onClick={this.handleQueryUser.bind(this)}
+       								>
+       									<SearchIcon/>
+       								</Fab>
 								}
+							</div>
+						}
+
+						{this.state.school != 'seleccione una cantina' &&
+							<div>
+								<Switch
+        							checked={this.state.valueDebt}  
+        							onChange={(event)=>this.setState({valueDebt:event.target.checked})}   							
+        							value="valueDebt"
+        							inputProps={{ 'aria-label': 'secondary checkbox' }}
+     							/>
+     							<span>filtrar por morosos</span>
 							</div>
 						}
 
@@ -190,6 +258,7 @@ class Search extends Component{
 							<h4>no hubo coincidencia</h4>
 						}
 
+						{this.state.users.length>0 &&
 						<section style={{marginTop:'40px'}}>
 							<div className="ctn-grid">
 								<div style={{color:'#e44a4c',fontWeight:'bold'}}>cedula</div>
@@ -199,14 +268,25 @@ class Search extends Component{
 							</div>
 							{
 							this.state.users.map((item,i)=>
+								this.state.valueDebt
+								?
+								<FilterUser 
+									key = {i}
+									item = {item}
+									handleBalance = {this.handleBalance.bind(this)}
+									handleVip = {this.handleModalVip.bind(this)}
+								/>
+								:
 								<ItemUser 
 									key = {i}
 									item = {item}
 									handleBalance = {this.handleBalance.bind(this)}
+									handleVip = {this.handleModalVip.bind(this)}
 								/>
 								
 							)}
 						</section>
+						}
 					</div>
 				</section>
 			</div>

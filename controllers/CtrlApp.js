@@ -661,6 +661,21 @@ module.exports = {
 		{
 			res.status(500).send({err})
 		}
+	},
+	changeVip : async(req,res)=>{
+		try
+		{
+			let {_id,vip} = req.query;
+			console.log(req.query)
+			let user = await User.updateOne({_id},{$set:{vip}});
+			if(user.ok>0 && user.n>0) return res.status(204).send({message:'exitoso'});
+			res.status(404).send({message:'usuario no encontrado'});
+
+		}
+		catch(err)
+		{
+			res.status(500).send({err})
+		}
 	}
 
 }
