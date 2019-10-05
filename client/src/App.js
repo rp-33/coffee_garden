@@ -15,7 +15,15 @@ import NoMatch from './components/NoMatch';
 class App extends Component{
   constructor(props){
     super(props);
-    history.push(`/${props.rol}`);
+  }
+
+  componentDidMount(){
+    this._route(this.props.rol,window.location.pathname);
+  }
+
+  _route(rol,pathname){
+    let rolURl= `/${rol}`;
+    if(pathname.indexOf(rolURl)==-1) history.push(rolURl);   
   }
 
   render(){
