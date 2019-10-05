@@ -14,7 +14,7 @@ div.statistics section.ctn div.panel{
 	border-radius: 15px;
 	padding: 10px;
 	box-shadow: 0 0 6px rgba(0,0,0,.4);
-	overflow-y: auto
+	overflow-y: auto;
 }
 
 div.statistics section.ctn  div.ctn-cantina select{
@@ -42,7 +42,48 @@ div.statistics section.ctn div.panel input{
 	outline: none
 }
 
+div.statistics section.ctn div.panel section.ctn-shopping{
+	padding-bottom: 20px;
+	border-bottom:1px solid #eea587;
 
+}
+
+div.statistics section.ctn div.panel div.cnt-vouched{
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-direction: row;
+	margin-top: 10px;
+}
+
+div.statistics section.ctn div.panel div.ctn-grid{
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	margin-top: 10px;
+	justify-content:center;
+}
+div.statistics section.ctn div.panel div.ctn-grid div{
+	text-transform: capitalize;
+	padding: 0 5px;
+}
+div.statistics section.ctn div.panel div.ctn-grid div.right{
+	width: 75px;
+	display: flex;
+	justify-content: flex-end;
+}
+
+div.statistics section.ctn div.panel div.ctn-grid div.left{
+	width: 40px;
+}
+div.statistics section.ctn div.panel div.ctn-grid div.center{
+	display: flex;
+	flex:1;
+	justify-content: center;
+}
+
+/*MEDIA QUERIES*/
 
 @media screen and (max-width: 600px) {
   div.statistics section.ctn{

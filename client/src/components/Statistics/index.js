@@ -1,12 +1,11 @@
 import React,{Component} from 'react';
 import Fab from '@material-ui/core/Fab';
-import SearchIcon from '@material-ui/icons/Search';
-import TextField from '@material-ui/core/TextField';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import {
 	findAllSchool,
 	findAllShopping
 } from '../../services/api';
-import {todayDate} from '../../utils/date';
+import {todayDate,formatDate} from '../../utils/date';
 import './style.css';
 
 class Statistics extends Component{
@@ -16,7 +15,9 @@ class Statistics extends Component{
 			schools : [],
 			school : 'seleccione una cantina',
 			initDate : todayDate().init,
-			endDate : todayDate().end
+			endDate : todayDate().end,
+			data : [],
+			isLoading : false
 		}
 	}
 
@@ -50,7 +51,6 @@ class Statistics extends Component{
 
 	handleChange(event){
 		let {name,value} = event.target;
-		console.log(value)
 		this.setState({
 			[name] : value
 		})
@@ -59,15 +59,30 @@ class Statistics extends Component{
 	async handleFind(){
 		try
 		{
+			this.setState({
+				isLoading:true
+			})
 			let {school,initDate,endDate} = this.state;
 			let {status,data} =  await findAllShopping(school,initDate,endDate);
 			if(status==200){
-				console.log(data)
+				this.setState({
+					data
+				})
+			}else if(status==404){
+				this.setState({
+					data : []
+				})
 			}
 		}
 		catch(err)
 		{
 			alert(err)
+		}
+		finally
+		{
+			this.setState({
+				isLoading:false
+			})
 		}
 	}
 
@@ -117,19 +132,64 @@ class Statistics extends Component{
 								/> 
 							</div>
 							{(this.state.initDate && this.state.endDate) &&
-       						<Fab 
-       							onClick = {this.handleFind.bind(this)}
-       							color="secondary" 
-    							className="secondary"
-    							variant="extended" 
-                        		size="large"
-       						>
-       							BUSCAR
-       						</Fab>
+							<div>
+								{!this.state.isLoading
+								?
+       								<Fab 
+       									onClick = {this.handleFind.bind(this)}
+       									color="secondary" 
+    									className="secondary"
+    									variant="extended" 
+                        				size="large"
+       								>
+       									BUSCAR
+       								</Fab>
+       							:
+       								<CircularProgress 
+       									style={{marginLeft:'25px'}}
+       									color="secondary"
+       								/>
+       							}
+       						</div>
        						}
-
       					</div>
       					}
+
+      					{this.state.data.map((item,i)=>
+						<section key = {i} className="ctn-shopping">
+							<div className="cnt-vouched">
+								<div>
+									<span style={{fontWeight:'bold'}}> {formatDate(item.date)} </span>					
+								</div>
+							</div>
+							<div className="ctn-grid">
+         						<div className="left" style={{fontWeight:'bold'}}>
+         							cant
+         						</div>
+         						<div className="center" style={{fontWeight:'bold'}}>	
+         							productos
+         						</div>
+         						<div className="right" style={{fontWeight:'bold'}}>
+         							precio(bss)
+         						</div>
+         					</div>
+         					{item.products.map((product,index)=>
+         						<div key={index} className="ctn-grid">
+         						<div className="left">
+         							{product.quantity}
+         						</div>
+         						<div className="center">	
+         							{product.name}
+         						</div>
+         						<div className="right">
+         							{product.price}
+         						</div>
+         					</div>
+         					)}
+         				</section>
+						)}
+						
+
 					</div>
 				</section>
 			</div>

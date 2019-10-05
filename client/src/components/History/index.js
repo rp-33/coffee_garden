@@ -22,7 +22,6 @@ class History extends Component{
 		{
 			let {status,data} = await findAllHistory(this.props.user);
 			if(status==200){
-				console.log(data)
 				this.setState({
 					orders:data
 				})

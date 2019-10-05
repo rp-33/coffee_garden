@@ -12,7 +12,7 @@ div.shopping section.ctn div.panel{
 	position: fixed;
 	top:150px;
 	width: calc(80% - 70px);
-	max-width: 600px;
+	max-width: 700px;
 	height: calc(100% - 200px);
 	border-radius: 15px;
 	padding: 10px;

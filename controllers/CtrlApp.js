@@ -686,21 +686,35 @@ module.exports = {
 		try
 		{
 			let {school,initDate,endDate} = req.query;
+			
 			initDate = new Date(moment(initDate).format('YYYY-DD-MM'))
 			endDate = new Date(moment(endDate).format('YYYY-DD-MM'))
 			let shopping =  await Shopping.find({school,
 												date:{
 													$gte : initDate,
 													$lte : endDate
-												}});
-
+												}}).sort({date:-1})
+			
 			if(shopping.length>0) return res.status(200).send(shopping);
-			res.status(404).send({message:'no se encuentran archivos'});
+			res.status(404).send({message:'no se encuentran compras'});
+		}
+		catch(err)
+		{
+			res.status(500).send({err})
+		}
+	},
+	totalSales : async (req,res)=>{
+		try
+		{
+			let shopping =  await Shopping.aggregate([{"$unwind":"$products"},{"$unwind":"$products.name"},{"$group":{"_id":"$products.name","quantity":{"$sum":"$products.quantity"}}}])
+			if(shopping.length>0) return res.status(200).send(shopping);
+			res.status(404).send({message:'no se encuentran compras'});
 		}
 		catch(err)
 		{
 			res.status(500).send({err})
 		}
 	}
+
 
 }
