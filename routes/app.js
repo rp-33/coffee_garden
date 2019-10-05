@@ -41,7 +41,8 @@ const {
 	findAllHistory,
 	deleteProduct,
 	saveShopping,
-	changeVip
+	changeVip,
+	findAllShopping
 } = require('../controllers/CtrlApp')
 
 /* GET home page. */
@@ -69,6 +70,8 @@ router.get('/findAllSeller',Auth,findAllSeller)
 router.get('/queryOrder',Auth,queryOrder);
 
 router.get('/findAllHistory',Auth,findAllHistory);
+
+router.get('/findAllShopping',findAllShopping);
 
 /* POST home page. */
 

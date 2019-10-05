@@ -166,6 +166,7 @@ class Sell extends Component{
 				{this.state.modalPay &&
 					<ModalPay
 						open = {this.state.modalPay}
+						school = {this.props.school}
 						products = {this.state.shopping}
 						date = {this.state.selectDate.date}
 						handleSuccess = {this.handleSuccess.bind(this)}

@@ -11,7 +11,7 @@ let orderSchema = new Schema({
 		type : String
 	},
 	date : {
-		type : String
+		type : Date
 	},
 	total :{
 		type : Number
@@ -20,6 +20,9 @@ let orderSchema = new Schema({
 		type : Boolean,
 		default : false
 	},
+	school : {
+    	type : Schema.ObjectId, ref: "School"
+    },
 	products : {
 		type : Array,
 		quantity : {

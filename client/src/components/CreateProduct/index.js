@@ -1,7 +1,6 @@
 import React,{Component} from 'react';
 import {Link} from 'react-router-dom';
 import Fab from '@material-ui/core/Fab';
-import BarChartIcon from '@material-ui/icons/BarChart';
 import EditIcon from '@material-ui/icons/Edit';
 import ListProduct from './ListProduct';
 import ModalAddProduct from './ModalAddProduct';
@@ -120,7 +119,6 @@ class CreateProduct extends Component{
 					/>
 				}
 
-
 				{this.state.modalDelete &&
 
 					<ModalDeleteProduct
@@ -131,16 +129,7 @@ class CreateProduct extends Component{
 					/>
 				}
 
-
 				<section className="ctn">
-
-					<div className="options">
-						<Link to={`/admin/Statistics/${this.props.match.params.id}`}>
-							<Fab aria-label="data" >
-       	 						<BarChartIcon />
-      						</Fab>
-      					</Link>
-      				</div>
 					<section className="panel">
 					{this.state.categories.map((item,index)=>
 

@@ -14,7 +14,6 @@ class ModalPay extends Component{
 		super(props);
 		this.state = {
 			isLoading : false,
-			products : props.products,
 			error : ''
 		}
 	}
@@ -26,9 +25,9 @@ class ModalPay extends Component{
 				isLoading:true,
 				error:''
 			});
-			let {balance,products,user,date,handleSuccess} = this.props;
+			let {balance,products,user,date,handleSuccess,school} = this.props;
 			let total = totalPrice(products);
-			let {status,data} = await saveOrder(user,products,total,date);
+			let {status,data} = await saveOrder(school,user,products,total,date);
 			if(status==201){
 				handleSuccess(data,date);
 			}else if(status==204){
@@ -78,7 +77,7 @@ class ModalPay extends Component{
          					precio
          				</div>
          			</div>
-         			{this.state.products.map((item,i)=>
+         			{this.props.products.map((item,i)=>
                     	<div className="ctn-grid">
          				<div className="left">
          					{item.quantity}
@@ -92,7 +91,7 @@ class ModalPay extends Component{
          			</div>
                    	)}
                    	<div className="price-total">
-                   		<span>{totalPrice(this.state.products)} BSS</span>
+                   		<span>{totalPrice(this.props.products)} BSS</span>
                    	</div>
                    	<div className="ctn-btn">
                    		{this.state.isLoading

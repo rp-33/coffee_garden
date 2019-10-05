@@ -194,11 +194,12 @@ const editAvatarSchool = (_id,file)=>{
 	.catch((err)=>{return err.response})
 }
 
-const saveOrder = (user,products,total,date)=>{
+const saveOrder = (school,user,products,total,date)=>{
 	return axios({
 		method : 'post',
 		url : '/app/saveOrder',
 		data:{
+			school,
 			user,
 			products,
 			total,
@@ -388,11 +389,12 @@ const queryOrder = (vouched)=>{
 	.catch((err)=>{return err.response})
 }
 
-const packOffOrder = (vouched,date,products)=>{
+const packOffOrder = (school,vouched,date,products)=>{
 	return axios({
 		method : 'post',
 		url : '/app/packOffOrder',
 		data :{
+			school,
 			vouched,
 			date,
 			products
@@ -432,11 +434,12 @@ const deleteProduct = (category,product) =>{
 	.catch((err)=>{return err.response})
 }
 
-const saveShopping = (date,products)=>{
+const saveShopping = (school,date,products)=>{
 	return axios({
 		method :'post',
 		url : '/app/saveShopping',
 		data : {
+			school,
 			date,
 			products
 		},
@@ -458,6 +461,22 @@ const changeVip = (_id,vip)=>{
 	})
 	.then((response)=>{return response})
 	.catch((err)=>{return err.response})
+}
+
+const findAllShopping = (school,initDate,endDate)=>{
+	return axios({
+		method : 'get',
+		url : '/app/findAllShopping',
+		params :{
+			school,
+			initDate,
+			endDate
+		},
+		headers: {'Authorization': "bearer " + getStoreUser().token}
+	})
+	.then((response)=>{return response})
+	.catch((err)=>{return err.response})
+
 }
 
 export {
@@ -492,5 +511,6 @@ export {
 	findAllHistory,
 	deleteProduct,
 	saveShopping,
-	changeVip
+	changeVip,
+	findAllShopping
 }

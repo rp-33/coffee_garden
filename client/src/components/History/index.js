@@ -1,6 +1,7 @@
 import React,{Component} from 'react';
 import {connect} from 'react-redux';
 import {findAllHistory} from '../../services/api';
+import {formatDate} from '../../utils/date';
 import './style.css';
 
 class History extends Component{
@@ -46,7 +47,7 @@ class History extends Component{
 									<span style={{color:'#e44a4c',fontWeight:'bold'}}> {item.vouched} </span>					
 								</div>
 								<div>
-									<span style={{fontWeight:'bold'}}> {item.date} </span>					
+									<span style={{fontWeight:'bold'}}> {formatDate(item.date)} </span>					
 								</div>
 							</div>
 							<div className="ctn-grid">

@@ -56,7 +56,7 @@ class Admin extends Component{
 					<Route path="/admin/product/:id" component={CreateProduct}/> 
 					<Route path="/admin/search" component={Search}/> 
 					<Route path="/admin/seller/:school" component={CreateSeller}/> 
-					<Route path="/admin/Statistics/:school" component={Statistics}/>
+					<Route path="/admin/statistics" component={Statistics}/>
 					<Route path="/admin/shopping/representative/:id" component={ShoppingRepresentative}/> 
 					<Route component={NoMatch} />
 				</Switch>

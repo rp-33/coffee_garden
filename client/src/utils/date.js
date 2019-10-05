@@ -32,4 +32,19 @@ const weekDay = ()=>{
 
 }
 
-export {weekDay};
+const formatDate = (date)=>{
+	return moment(date).format('MM-DD-YYYY')
+}
+
+const todayDate = ()=>{
+	return{
+		init :  moment().format('YYYY-MM-DD') ,
+		end :  moment().add(1, 'days').format('YYYY-MM-DD')
+	}
+}
+
+export {
+	weekDay,
+	formatDate,
+	todayDate
+};

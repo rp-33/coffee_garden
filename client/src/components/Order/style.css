@@ -19,15 +19,15 @@ div.order section.ctn div.panel{
 	overflow-y: auto;
 }
 
-
-div.order section.ctn div.panel section div.inf{
+div.order section.ctn div.panel div.option{
 	display: flex;
 	width: 100%;
-	flex-direction: row;
-	justify-content: space-between;
+	height: 30px;
 	align-items: center;
-	height: 35px;
+	justify-content: space-between;
+	
 }
+
 
 div.order section.ctn div.panel div.ctn-grid{
 	width: 100%;

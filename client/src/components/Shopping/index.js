@@ -83,6 +83,7 @@ class Shopping extends Component{
 
 					<ModalPay
 						open = {this.state.modalPay}
+						school = {this.props.school}
 						user = {this.props.user}
 						balance = {this.props.balance}
 						products = {this.state.data}
@@ -125,6 +126,7 @@ class Shopping extends Component{
 const mapStateToProps = (state,props)=>{
 	return{
 		user : state.user.representative || state.user._id,
+		school : state.user.school,
 		rol : state.user.rol,
 		balance : state.user.balance,
 		cart : state.cart.shopping

@@ -9,12 +9,40 @@ div.statistics section.ctn div.panel{
 	background-color: rgba(255,235,208,.65);
 	position: fixed;
 	width: calc(80% - 70px);
-	height: calc(100% - 200px);
+	height: calc(100% - 220px);
+	max-width: 700px;
 	border-radius: 15px;
 	padding: 10px;
 	box-shadow: 0 0 6px rgba(0,0,0,.4);
-	overflow-y: auto;
+	overflow-y: auto
 }
+
+div.statistics section.ctn  div.ctn-cantina select{
+	width: 200px;
+	border:2px solid #d48945;
+	border-radius: 25px;
+	height: 50px;
+	padding-right: 20px;
+	padding-left: 20px;
+	background-color: white;
+	cursor: pointer;
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	margin-bottom: 20px;
+}
+
+
+div.statistics section.ctn div.panel input{
+	width: 100px;
+	height: 35px;
+	border-radius:40px;
+	border:2px solid #d48945;
+	padding: 4px 10px;
+	outline: none
+}
+
+
 
 @media screen and (max-width: 600px) {
   div.statistics section.ctn{

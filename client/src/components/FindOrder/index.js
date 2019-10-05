@@ -6,6 +6,7 @@ import {
 	queryOrder,
 	packOffOrder
 } from '../../services/api';
+import {formatDate} from '../../utils/date';
 import './style.css';
 
 class FindOrder extends Component{
@@ -17,7 +18,8 @@ class FindOrder extends Component{
 			date : '',
 			vouched : '',
 			status : null,
-			products : []
+			products : [],
+			school : ''
 		}
 	}
 
@@ -31,8 +33,8 @@ class FindOrder extends Component{
 	async handlePackOffOrder(){
 		try
 		{
-			let {vouched,date,products} = this.state;
-			let {status,data} = await packOffOrder(vouched,date,products); 
+			let {vouched,date,products,school} = this.state;
+			let {status,data} = await packOffOrder(school,vouched,date,products); 
 			if(status==204){
 				this.setState({
 					status : true
@@ -52,14 +54,16 @@ class FindOrder extends Component{
 				isLoading : true
 			})
 			let {status,data} = await queryOrder(this.state.input);
+
 			if(status==200)
 			{
-				let {status,vouched,date,products} = data;
+				let {status,vouched,date,products,school} = data;
 				this.setState({
 					status,
 					vouched,
 					date,
-					products
+					products,
+					school
 				})
 			}
 		}
@@ -108,7 +112,7 @@ class FindOrder extends Component{
 						<section>
 							<div className="date">
 								<h3 style={{color:'#f5722a'}}>
-									{this.state.date}
+									{formatDate(this.state.date)}
 								</h3>
 							</div>
 							<div className="inf">

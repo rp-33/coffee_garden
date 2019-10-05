@@ -1,6 +1,7 @@
-import React from 'react';
+import React,{Component} from 'react';
 import { Router, Route,Switch} from 'react-router-dom';
 import history from './routes/history';
+import {connect} from 'react-redux';
 import PrivateRoute from './routes/PrivateRoute';
 import PublicRoute from './routes/PublicRoute';
 import Login from './views/Login/';
@@ -11,9 +12,14 @@ import Represented from './views/Represented';
 import Seller from './views/Seller';
 import NoMatch from './components/NoMatch';
 
+class App extends Component{
+  constructor(props){
+    super(props);
+    history.push(`/${props.rol}`);
+  }
 
-const  App = ()=> {
-  return (
+  render(){
+    return (
    	<Router history={history}> 
    		
    		<Switch>
@@ -48,7 +54,16 @@ const  App = ()=> {
 
    	</Router>
 
-  );
+    )
+  }
 }
 
-export default App;
+
+const mapStateToProps = (state,props)=>{
+    return{
+      rol : state.user.rol
+    }
+}
+
+
+export default connect(mapStateToProps)(App);

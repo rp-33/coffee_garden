@@ -159,15 +159,17 @@ class CreateCategory extends Component{
 			else if(status==204)
 			{
 				this.setState({
-					errorAdd : true,
-					isLoading:false
+					errorAdd : true
 				})
 			}
 		}
 		catch(err)
 		{	
-			this.setState({isLoading:false});
 			alert(err);
+		}
+		finally
+		{
+			this.setState({isLoading:false});
 		}
 	}
 

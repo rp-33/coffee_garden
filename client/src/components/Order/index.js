@@ -4,6 +4,7 @@ import IconButton from '@material-ui/core/IconButton';
 import {
 	queryOrder,
 } from '../../services/api';
+import {formatDate} from '../../utils/date';
 import './style.css';
 
 class Sell extends Component{
@@ -52,15 +53,14 @@ class Sell extends Component{
 					<div className="panel">
 						{this.state.products.length!=0 &&
 						<section>
-							<div className="date">
-								<h3 style={{color:'#f5722a'}}>
-									{this.state.date}
-								</h3>
-							</div>
-							<div className="inf">
-								<div>
-									<span style={{fontWeight:'bold'}}>Comprobante : </span>
-									<span style={{color:' #e44a4c'}}>{this.state.vouched}</span>
+							<div className="option">
+								<div className="date">
+									<h3 style={{color:'#f5722a'}}>
+										{formatDate(this.state.date)}
+									</h3>
+								</div>
+								<div className="inf">
+									<span style={{color:' #e44a4c',fontWeight:'bold'}}>{this.state.vouched}</span>
 								</div>
 							</div>
 							<div className="ctn-grid" style={{fontWeight:'bold'}}>

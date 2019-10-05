@@ -9,7 +9,7 @@ import FaceIcon from '@material-ui/icons/Face';
 import PowerIcon from '@material-ui/icons/PowerSettingsNew';
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import MenuIcon from '@material-ui/icons/Menu';
-import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
+import BarChartIcon from '@material-ui/icons/BarChart';
 import Tooltip from '@material-ui/core/Tooltip';
 import PropTypes from 'prop-types';
 import logo from '../../assets/logo.png';
@@ -36,10 +36,10 @@ const Head = ({handleDrawer,opacity,handleLogout})=>{
       							</Fab>
       						</Tooltip>
       					</Link>
-      					<Link to="/admin/search">
-							<Tooltip title="Usuarios morosos" aria-label="representantes">
-								<Fab aria-label="representantes" size="small" style={{backgroundColor:'white',marginLeft:10}}>
-        							<AttachMoneyIcon style={{color:'#fab54f'}}/>
+      					<Link to="/admin/statistics">
+							<Tooltip title="Ventas" aria-label="ventas">
+								<Fab aria-label="ventas" size="small" style={{backgroundColor:'white',marginLeft:10}}>
+        							<BarChartIcon style={{color:'#fab54f'}}/>
       							</Fab>
       						</Tooltip>
       					</Link>

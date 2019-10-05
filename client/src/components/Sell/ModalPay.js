@@ -25,8 +25,8 @@ class ModalPay extends Component{
 				isLoading:true,
 				error:''
 			});
-			let {date,products,handleSuccess} = this.props;
-			let {status,data} = await saveShopping(date,products);
+			let {date,products,handleSuccess,school} = this.props;
+			let {status,data} = await saveShopping(school,date,products);
 			if(status==201)
 			{
 				handleSuccess(date);

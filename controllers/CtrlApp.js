@@ -9,6 +9,7 @@ let mongoose = require('mongoose'),
 	   token = require('../services/token'),
 	  bcrypt = require('bcrypt'),
   randomatic = require('randomatic'),
+  	  moment = require('moment'),
   cloudinary = require('../configuration/cloudinary');
 
 module.exports = {
@@ -47,8 +48,8 @@ module.exports = {
 		{
 
 			let {name,school} = req.body
-
-			let find = await Category.findOne({name:name.toLocaleLowerCase()});
+			
+			let find = await Category.findOne({name:name.toLocaleLowerCase(),school});
 
 			if(find) return res.status(204).send();
 
@@ -67,6 +68,7 @@ module.exports = {
 		}
 		catch(err)
 		{
+			console.log(err)
 			res.status(500).send({err})
 		}
 
@@ -435,7 +437,7 @@ module.exports = {
 		try
 		{
 
-			let {products,total,user,date} = req.body;
+			let {products,total,user,date,school} = req.body;
 
 			let {balance,vip} = await User.findOne({_id:user},{_id:false,balance:true,vip:true});
 
@@ -447,6 +449,7 @@ module.exports = {
 				date,
 				user, 
 				products,
+				school,
 				total : parseInt(total)
 			})
 
@@ -483,7 +486,7 @@ module.exports = {
 		try
 		{	
 			let {user,date} = req.query;
-			let orders = await Order.find({user,status:true});
+			let orders = await Order.find({user,status:true}).sort({date:-1});
 			if(orders.length>0) res.status(200).send(orders)
 			res.status(204).send()
 		}
@@ -608,13 +611,14 @@ module.exports = {
 	packOffOrder : async (req,res)=>{
 		try
 		{
-			let {vouched,date,products} = req.body;
+			let {vouched,date,products,school} = req.body;
 
 			let order = await Order.updateOne({vouched},{$set:{status:true}});
 
 			let shopping = new Shopping({
 				vouched,
 				date,
+				school,
 				products : Array.from(products)
 			})
 
@@ -645,12 +649,13 @@ module.exports = {
 		try
 		{
 
-			let {products,date} = req.body;
+			let {products,date,school} = req.body;
 
 			let shopping = new Shopping({
 				vouched :  randomatic('0',6),
 				date,
-				products
+				products,
+				school
 			})
 
 			await shopping.save();
@@ -671,6 +676,26 @@ module.exports = {
 			if(user.ok>0 && user.n>0) return res.status(204).send({message:'exitoso'});
 			res.status(404).send({message:'usuario no encontrado'});
 
+		}
+		catch(err)
+		{
+			res.status(500).send({err})
+		}
+	},
+	findAllShopping : async (req,res)=>{
+		try
+		{
+			let {school,initDate,endDate} = req.query;
+			initDate = new Date(moment(initDate).format('YYYY-DD-MM'))
+			endDate = new Date(moment(endDate).format('YYYY-DD-MM'))
+			let shopping =  await Shopping.find({school,
+												date:{
+													$gte : initDate,
+													$lte : endDate
+												}});
+
+			if(shopping.length>0) return res.status(200).send(shopping);
+			res.status(404).send({message:'no se encuentran archivos'});
 		}
 		catch(err)
 		{

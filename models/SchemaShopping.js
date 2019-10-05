@@ -23,8 +23,11 @@ let shoppingSchema = new Schema({
 		type : String
 	},
 	date : {
-		type : String
+		type : Date
 	},
+	school : {
+    	type : Schema.ObjectId, ref: "School"
+    },
 	products : [productsSchema]
 })
 
