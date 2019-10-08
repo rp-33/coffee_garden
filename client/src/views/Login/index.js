@@ -44,7 +44,7 @@ class Login extends Component{
 		}
 		catch(err)
 		{
-			console.log(err);
+			alert(err)
 		}
 	}
 
@@ -69,7 +69,6 @@ class Login extends Component{
 			if(status == 200)
 			{
 				this.props.handleLogin(data);
-				console.log(data)
 				history.push('/'+data.rol);
 			}
 			else
@@ -99,9 +98,9 @@ class Login extends Component{
 					<div className="ctn-logo">
 						<img src={logo} alt="logo" />
 					</div>
-					{this.state.erroLogin &&
+					{this.state.errorLogin &&
 						<BarMessage 
-							title = {this.state.erroLogin}
+							title = {this.state.errorLogin}
 						/>
 					}
 					<div className="ctn-input">

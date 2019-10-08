@@ -1,0 +1,117 @@
+div.shopping-day section.ctn{
+	width: calc(80% - 50px);
+	margin:80px auto;
+	height: 100%;
+	position: relative;
+	display: flex;
+	justify-content: center;
+}
+
+div.shopping-day section.ctn  div.ctn-cantina{
+	width: 100%;
+	max-width: 700px;
+	height: 50px;
+}
+
+div.shopping-day section.ctn  div.ctn-cantina select{
+	width: 200px;
+	border:2px solid #d48945;
+	border-radius: 25px;
+	height: 50px;
+	padding-right: 20px;
+	padding-left: 20px;
+	background-color: white;
+	cursor: pointer;
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	margin-bottom: 20px;
+
+}
+
+div.shopping-day section.ctn div.panel{
+	background-color: rgba(255,235,208,.65);
+	position: fixed;
+	width: calc(80% - 70px);
+	height: calc(100% - 220px);
+	max-width: 700px;
+	border-radius: 15px;
+	padding: 10px;
+	box-shadow: 0 0 6px rgba(0,0,0,.4);
+	overflow-y: auto;
+	top:150px;
+}
+
+div.shopping-day section.ctn div.panel section.ctn-shopping{
+	padding-bottom: 20px;
+	border-bottom:1px solid #eea587;
+
+}
+
+div.shopping-day section.ctn div.ctn-input{
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+	margin-bottom:20px;
+
+}
+div.shopping-day section.ctn div.ctn-input input{
+	width: 170px;
+	height: 45px;
+	border-radius:40px;
+	border:2px solid #d48945;
+	padding: 4px 10px;
+	outline: none;
+	margin-right: 10px;
+}
+
+div.shopping-day section.ctn div.panel div.option{
+	display: flex;
+	width: 100%;
+	height: 30px;
+	align-items: center;
+	justify-content: space-between;
+	
+}
+
+div.shopping-day section.ctn div.panel div.ctn-grid{
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	margin-top: 10px;
+	justify-content:center;
+}
+div.shopping-day section.ctn div.panel div.ctn-grid div{
+	text-transform: capitalize;
+	padding: 0 5px;
+}
+div.shopping-day section.ctn div.panel div.ctn-grid div.right{
+	width: 80px;
+	display: flex;
+	justify-content: flex-end;
+}
+
+div.shopping-day section.ctn div.panel div.ctn-grid div.left{
+	width: 40px;
+}
+div.shopping-day section.ctn div.panel div.ctn-grid div.center{
+	display: flex;
+	flex:1;
+	justify-content: center;
+}
+
+/*MEDIA QUERIES*/
+
+@media screen and (max-width: 600px) {
+  div.shopping-day section.ctn{
+  	padding: 5px 5px 0px 5px;
+  	width: calc(95% - 10px);
+  }
+
+  div.shopping-day section.ctn div.panel{
+  	width: calc(95% - 20px);
+  	left: 10px;
+  }
+}

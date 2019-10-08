@@ -10,6 +10,7 @@ import Shopping from '../../components/Shopping';
 import Orders from '../../components/Orders';
 import Order from '../../components/Order';
 import History from '../../components/History/';
+import VoucherPayment from '../../components/VoucherPayment';
 import NoMatch from '../../components/NoMatch';
 import Toast from '../../presentation/ToastOrder';
 import {
@@ -120,6 +121,7 @@ class Representative extends Component{
 					<Route path="/representative/orders/:date" component={Orders}/> 
 					<Route path="/representative/order/:vouched" component={Order}/> 
 					<Route path="/representative/history" component={History}/> 
+					<Route path="/representative/voucher/payment" component ={VoucherPayment}/>
 					<Route component={NoMatch} />
 				</Switch>
 

@@ -250,7 +250,12 @@ class Search extends Component{
         							value="valueDebt"
         							inputProps={{ 'aria-label': 'secondary checkbox' }}
      							/>
-     							<span>filtrar por morosos</span>
+     							{this.state.valueDebt 
+     							?
+     								<span>Mostrar todos</span>
+     							:
+     								<span>Filtrar por morosos</span>
+     							}
 							</div>
 						}
 

@@ -1,0 +1,231 @@
+div.voucher section.ctn{
+	width: calc(80% - 50px);
+	margin:80px auto;
+	height: 100%;
+	position: relative;
+	display: flex;
+	justify-content: center;
+}
+
+
+div.voucher section.ctn div.ctn-cantina{
+	width: 100%;
+	max-width: 700px;
+	height: 50px;
+}
+
+
+div.voucher section.ctn  div.ctn-cantina select{
+	width: 200px;
+	border:2px solid #d48945;
+	border-radius: 25px;
+	height: 50px;
+	padding-right: 20px;
+	padding-left: 20px;
+	background-color: white;
+	cursor: pointer;
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	margin-bottom: 20px;
+}
+
+
+div.voucher section.ctn div.panel{
+	background-color: rgba(255,235,208,.65);
+	position: fixed;
+	width: calc(80% - 70px);
+	height: calc(100% - 220px);
+	max-width: 700px;
+	border-radius: 15px;
+	padding: 10px;
+	box-shadow: 0 0 6px rgba(0,0,0,.4);
+	overflow-y: auto;
+	top:150px;
+}
+
+div.voucher section.ctn div.panel div.ctn-grid{
+	display: flex;
+	width: 100%;
+	flex-direction: row;
+	margin-top:10px;
+	width: 100%;
+}
+
+div.voucher section.ctn div.panel div.ctn-grid div{
+	text-transform: capitalize;
+}
+
+div.voucher section.ctn div.panel div.ctn-grid div:nth-child(1){
+	width: 100px;
+	overflow:hidden;
+    white-space:nowrap;
+    text-overflow: ellipsis;
+}
+div.voucher section.ctn div.panel div.ctn-grid div:nth-child(2){
+	flex:1;
+	text-align: center;
+}
+
+div.voucher section.ctn div.panel div.ctn-grid div:nth-child(3){
+	width: 140px;
+	overflow:hidden;
+    white-space:nowrap;
+    text-overflow: ellipsis;
+}
+
+/*MODAL-VOUCHER*/
+div.voucher div.modal-inf{
+	display:flex;
+	background-color:rgba(252,180,160,0.45);
+	width: 100%;
+	height: 100%;
+	justify-content: center;
+	align-items: center;
+	position: fixed;
+	top:0;
+	bottom:0;
+	z-index: 10000;
+	overflow-y: auto;
+}
+
+div.voucher div.modal-inf .form-control{
+	background-color: #f7f3f0;
+	width: calc(100% - 50px);
+	border-radius: 20px;
+	padding: 5px 25px 30px 25px;
+	max-width: 310px;
+	position: relative;
+	box-shadow: 0 0 4px #737373;
+	position: relative;
+}
+
+
+div.voucher div.modal-inf div.icon-close{
+	width: 30px;
+	height: 30px;
+	background-color: white;
+	position: absolute;
+	top: -7px;
+	right: -7px;
+	border-radius: 50%;
+	z-index: 1000;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+}
+
+
+div.voucher div.modal-inf .form-control div.ctn-img{
+	width: 100%;
+	height: 190px;
+	border-radius: 10px;
+	position: relative;
+}
+
+div.voucher div.modal-inf .form-control div.ctn-img img{
+	width: 100%;
+	height: 100%;
+	border-radius: 10px;
+}
+
+div.voucher div.modal-inf .form-control div.ctn-btn{
+	display: flex;
+	flex:1;
+	width: 100%;
+	justify-content: center;
+	align-items: center;
+	margin-top: 20px
+}
+
+/*MODAL-BALANCE*/
+
+
+
+div.voucher div.modal-balance{
+	display:flex;
+	background-color:rgba(252,180,160,0.45);
+	width: 100%;
+	height: 100%;
+	justify-content: center;
+	align-items: center;
+	position: fixed;
+	top:0;
+	bottom:0;
+	z-index: 100000;
+	overflow-y: auto;
+}
+
+
+div.voucher div.modal-balance .form-control{
+	background-color: #f7f3f0;
+	width: calc(80% - 50px);
+	border-radius: 20px;
+	padding: 5px 10px 30px 10px;
+	max-width: 260px;
+	position: relative;
+	box-shadow: 0 0 4px #737373;
+	position: relative;
+
+}
+
+div.voucher div.modal-balance .form-control div.ctn-input{
+	width: 100%;
+	position: relative;
+	margin-top: 20px;
+}
+
+div.voucher div.modal-balance .form-control div.ctn-input input{
+	width: calc(100% - 20px);
+	height: 40px;
+	border-radius:40px;
+	border:2px solid #d48945;
+	padding: 4px 10px;
+	outline: none;
+}
+
+div.voucher div.modal-balance .form-control div.ctn-btn{
+	margin-top: 20px;
+	width: 100%;
+}
+
+div.voucher div.modal-balance .form-control div.ctn-btn  div.ctn-loading {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	margin-top: 15px;
+}
+
+div.voucher div.modal-balance .form-control div.ctn-btn .secondary{
+	width: 100%;
+}
+
+
+div.voucher div.modal-balance .form-control div.icon-close{
+	width: 30px;
+	height: 30px;
+	background-color: white;
+	position: absolute;
+	top: -7px;
+	right: -7px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+}
+
+/*MEDIA QUERIES*/
+
+@media screen and (max-width: 600px) {
+  div.voucher section.ctn{
+  	padding: 5px 5px 0px 5px;
+  	width: calc(95% - 10px);
+  }
+
+  div.voucher section.ctn div.panel{
+  	width: calc(95% - 20px);
+  	left: 10px;
+  }
+}

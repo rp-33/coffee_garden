@@ -8,6 +8,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import PowerIcon from '@material-ui/icons/PowerSettingsNew';
 import UserIcon from '@material-ui/icons/Face';
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
+import MoneyIcon from '@material-ui/icons/AttachMoney';
 import PropTypes from 'prop-types';
 
 const Drawer = ({open,handleClose,handleLogout})=>{
@@ -34,6 +35,14 @@ const Drawer = ({open,handleClose,handleLogout})=>{
                     <ShoppingBasketIcon style={styles.icon} />
                   </ListItemIcon>
                   <ListItemText primary="Historial" />                 
+                </ListItem>
+              </Link>
+               <Link to="/representative/voucher/payment">
+                <ListItem button>                   
+                    <ListItemIcon>
+                    <MoneyIcon style={styles.icon} />
+                  </ListItemIcon>
+                  <ListItemText primary="comprobante de pago" />                 
                 </ListItem>
               </Link>
         			<ListItem button onClick = {()=>handleLogout()}>

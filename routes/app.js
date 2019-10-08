@@ -42,7 +42,12 @@ const {
 	deleteProduct,
 	saveShopping,
 	changeVip,
-	findAllShopping
+	findAllShopping,
+	queryShoppingDay,
+	createVoucherPayment,
+	findAllMyVoucher,
+	findAllVoucher,
+	paymentVoucher
 } = require('../controllers/CtrlApp')
 
 /* GET home page. */
@@ -71,7 +76,13 @@ router.get('/queryOrder',Auth,queryOrder);
 
 router.get('/findAllHistory',Auth,findAllHistory);
 
-router.get('/findAllShopping',findAllShopping);
+router.get('/findAllShopping',Auth,findAllShopping);
+
+router.get('/queryShoppingDay',Auth,queryShoppingDay);
+
+router.get('/findAllMyVoucher',Auth,findAllMyVoucher);
+
+router.get('/findAllVoucher',Auth,findAllVoucher);
 
 /* POST home page. */
 
@@ -95,6 +106,8 @@ router.post('/saveShopping',Auth,saveShopping);
 
 router.post('/packOffOrder',Auth,packOffOrder);
 
+router.post('/createVoucherPayment',Auth,upload.single('file'),createVoucherPayment);
+
 /* PUT home page. */
 
 router.put('/editCategory',editCategory);
@@ -112,6 +125,8 @@ router.put('/editAvatarSchool',upload.single('file'),editAvatarSchool);
 router.put('/addBalance',Auth,addBalance);
 
 router.put('/changeVip',changeVip);
+
+router.put('/paymentVoucher',Auth,paymentVoucher);
 
 /* DELETE home page. */
 

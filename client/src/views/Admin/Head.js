@@ -10,6 +10,8 @@ import PowerIcon from '@material-ui/icons/PowerSettingsNew';
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import MenuIcon from '@material-ui/icons/Menu';
 import BarChartIcon from '@material-ui/icons/BarChart';
+import CartIcon from '@material-ui/icons/ShoppingCart';
+import MoneyIcon from '@material-ui/icons/AttachMoney';
 import Tooltip from '@material-ui/core/Tooltip';
 import PropTypes from 'prop-types';
 import logo from '../../assets/logo.png';
@@ -29,6 +31,13 @@ const Head = ({handleDrawer,opacity,handleLogout})=>{
       							</Fab>
       						</Tooltip>
       					</Link>
+      					<Link to="/admin/shopping">	
+							<Tooltip title="pedidos diarios" aria-label="cantina">
+								<Fab aria-label="lonchera" size="small" style={{backgroundColor:'white',marginLeft:10}}>
+        							<CartIcon style={{color:'#fab54f'}}/>
+      							</Fab>
+      						</Tooltip>
+      					</Link>
 						<Link to="/admin/search">	
 							<Tooltip title="representantes" aria-label="representantes">
 								<Fab aria-label="representantes" size="small" style={{backgroundColor:'white',marginLeft:10}}>
@@ -37,12 +46,19 @@ const Head = ({handleDrawer,opacity,handleLogout})=>{
       						</Tooltip>
       					</Link>
       					<Link to="/admin/statistics">
-							<Tooltip title="Ventas" aria-label="ventas">
-								<Fab aria-label="ventas" size="small" style={{backgroundColor:'white',marginLeft:10}}>
+							   <Tooltip title="Ventas" aria-label="ventas">
+								    <Fab aria-label="ventas" size="small" style={{backgroundColor:'white',marginLeft:10}}>
         							<BarChartIcon style={{color:'#fab54f'}}/>
       							</Fab>
       						</Tooltip>
       					</Link>
+                <Link to="/admin/voucher">
+                 <Tooltip title="comprobantes de pago" aria-label="ventas">
+                    <Fab aria-label="ventas" size="small" style={{backgroundColor:'white',marginLeft:10}}>
+                      <MoneyIcon style={{color:'#fab54f'}}/>
+                    </Fab>
+                  </Tooltip>
+                </Link>
       					<Tooltip title="cerrar session" aria-label="close">
       						<Fab onClick = {()=>handleLogout()} aria-label="add-balance" size="small" style={{backgroundColor:'white',marginLeft:10}}>       			
         						<PowerIcon style={{color:'#fab54f'}}/>      						

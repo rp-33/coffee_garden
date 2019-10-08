@@ -2,23 +2,18 @@ import React,{Component} from 'react';
 import Fab from '@material-ui/core/Fab';
 import Paper from '@material-ui/core/Paper';
 import Slide from '@material-ui/core/Slide';
-import IconButton from '@material-ui/core/IconButton';
-import ArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
-import ArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 import CancelIcon from '@material-ui/icons/Cancel';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import photoImg from '../../assets/foto.png';
 import FileReader from '../../services/reader';
 import PropTypes from 'prop-types';
-import {createProduct} from '../../services/api';
+import {createVoucherPayment} from '../../services/api';
 
 
 class ModalAddProduct extends Component{
 	constructor(props){
 		super(props);
 		this.state = {
-			name : '',
-			price : '',
 			file : {},
 			base64 : '',
 			isLoading : false
@@ -55,13 +50,12 @@ class ModalAddProduct extends Component{
 		{
 			event.preventDefault();
 			this.setState({isLoading:true});
-			let {name,price,file} = this.state;
-
-			let {status,data} = await createProduct(this.props._id,name,price,file);
+			let {file} = this.state;
+			let {status,data} = await createVoucherPayment(this.props.user,this.props.school,file);
 
 			if(status==201)
 			{
-				this.props.handleSubmit(name,data._id,data.image);
+				this.props.handleSubmit(data.image);
 			}
 		}
 		catch(err)
@@ -71,8 +65,6 @@ class ModalAddProduct extends Component{
 		finally
 		{
 			this.setState({
-				name : '',
-				price : '',
 				file : {},
 				base64 : '',
 				isLoading : false
@@ -85,13 +77,13 @@ class ModalAddProduct extends Component{
 		let {open,handleClose} = this.props;
 		return(
 			<Slide direction="up" in={open} mountOnEnter unmountOnExit>
-         		<div className="modal-add-product">
+         		<div className="modal-add">
          			<Paper className="form-control">
          			<form onSubmit = {this.handleSubmit.bind(this)}>
                     	<div className="icon-close" onClick = {()=>handleClose(false)}>
                         	<CancelIcon fontSize="large" style={{color:'#e44a4c'}}/>
                     	</div>
-         				<h2 style={{color:'#e2474b',textAlign:'center'}}>Crear producto</h2>
+         				<h2 style={{color:'#e2474b',textAlign:'center'}}>Cargar comprobante de pago</h2>
          				{!this.state.base64
          				?
          					<div className="ctn-file">
@@ -114,26 +106,6 @@ class ModalAddProduct extends Component{
          						<CancelIcon fontSize="small" className="icon" onClick={this.removeImage.bind(this)}/>					
          					</div>
          				}
-         				<div className="ctn-input">
-         					<input 
-         						type = "text"
-         						placeholder = "Nombre del producto"
-         						required
-         						name ="name"
-         						value = {this.state.name}
-         						onChange = {this.handleChange.bind(this)}
-         					/>
-         				</div>
-         				<div className="ctn-input">
-         					<input 
-         						type = "number"
-         						placeholder = "Precio"
-         						required
-         						name = "price"
-         						value = {this.state.price}
-         						onChange = {this.handleChange.bind(this)}
-         					/>
-         				</div>
          				{this.state.base64 &&
          					<div className="ctn-btn">
          						{this.state.isLoading	
@@ -143,7 +115,7 @@ class ModalAddProduct extends Component{
 									</div>
 								:			
                             		<Fab type="submit" variant="extended" size="large" fullWidth color="secondary" className="secondary" style={{marginTop:'20px'}}>
-                                		guardar
+                                		enviar
                            	 		</Fab>
                            	 	}
                         	</div>
@@ -158,8 +130,11 @@ class ModalAddProduct extends Component{
 
 
 ModalAddProduct.propTypes = {
+	user : PropTypes.string.isRequired,
+	school : PropTypes.string.isRequired,
     open : PropTypes.bool.isRequired,
-    handleClose : PropTypes.func.isRequired
+    handleClose : PropTypes.func.isRequired,
+   	handleSubmit : PropTypes.func.isRequired
 }
 
 export default ModalAddProduct;

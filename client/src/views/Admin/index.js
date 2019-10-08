@@ -11,6 +11,8 @@ import CreateSeller from '../../components/CreateSeller';
 import Search from '../../components/Search';
 import Statistics from '../../components/Statistics';
 import ShoppingRepresentative from '../../components/ShoppingRepresentative';
+import ShoppingDay from '../../components/ShoppingDay';
+import Voucher from '../../components/Voucher';
 import NoMatch from '../../components/NoMatch';
 import {action_logout} from '../../actions/user';
 import bgImg from '../../assets/background.jpg';
@@ -58,6 +60,8 @@ class Admin extends Component{
 					<Route path="/admin/seller/:school" component={CreateSeller}/> 
 					<Route path="/admin/statistics" component={Statistics}/>
 					<Route path="/admin/shopping/representative/:id" component={ShoppingRepresentative}/> 
+					<Route path="/admin/shopping" component={ShoppingDay}/> 
+					<Route path="/admin/voucher" component={Voucher}/> 
 					<Route component={NoMatch} />
 				</Switch>
 

@@ -53,11 +53,12 @@ class ItemUser extends Component{
 						<div className="ctn-menu">
 							<div className="eyelash"></div>
 							<div className="menu">
-								<p onClick={this.handleBalance.bind(this)}>Saldo</p>
+								<a onClick={this.handleBalance.bind(this)}>Saldo</a>
 								<Link  to={`/admin/shopping/representative/${item._id}`}>	
-									<p>Compras</p>
+									<a>Compras</a>
 								</Link>
-								<p onClick={this.handleVip.bind(this)}>VIP</p>
+								<a onClick={this.handleVip.bind(this)}>VIP</a>
+								<a href={`https://wa.me/${item.countryCode+item.phone}?text=por%20favor%20cancelar%20con%20urgencia%20atte:coffee garden`}>Cobrar</a>
 							</div>
 						</div>
 					</Fade>

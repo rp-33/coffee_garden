@@ -1,0 +1,251 @@
+div.voucher-payment section.ctn{
+	width: calc(80% - 50px);
+	margin:80px auto;
+	height: 100%;
+	position: relative;
+	display: flex;
+	justify-content: center;
+}
+
+div.voucher-payment section.ctn div.panel{
+	background-color: rgba(255,235,208,.65);
+	position: fixed;
+	top:135px;
+	width: calc(80% - 70px);
+	max-width: 700px;
+	height: calc(100% - 185px);
+	border-radius: 15px;
+	padding: 10px;
+	box-shadow: 0 0 6px rgba(0,0,0,.4);
+	overflow-y: auto;
+}
+
+div.voucher-payment div.ctn-btn{
+	width:100%;
+}
+
+div.voucher-payment section.ctn div.panel div.item-card{
+	width: 80px;
+	height: 80px;
+	border-radius: 15px;
+	float: left;
+	margin:10px;
+	border:4px solid #f58652;
+	cursor: pointer;
+	background-color: #f1f1f1;
+	position: relative;
+}
+
+div.voucher-payment section.ctn div.panel div.item-card img{
+	width: 100%;
+	height: 100%;
+	border-radius: 12px;
+}
+
+/*MODAL-ADD*/
+
+div.voucher-payment div.modal-add{
+	display:flex;
+	background-color:rgba(252,180,160,0.45);
+	width: 100%;
+	height: 100%;
+	justify-content: center;
+	align-items: center;
+	position: fixed;
+	top:0;
+	bottom:0;
+	z-index: 10000;
+	overflow-y: auto;
+}
+
+
+div.voucher-payment div.modal-add .form-control{
+	background-color: #f7f3f0;
+	width: calc(80% - 50px);
+	border-radius: 20px;
+	padding: 5px 25px 30px 25px;
+	max-width: 260px;
+	position: relative;
+	box-shadow: 0 0 4px #737373;
+	position: relative;
+}
+
+div.voucher-payment div.modal-add .form-control div.icon-close{
+	width: 30px;
+	height: 30px;
+	background-color: white;
+	position: absolute;
+	top: -7px;
+	right: -7px;
+	border-radius: 50%;
+	z-index: 1000;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+}
+
+div.voucher-payment div.modal-add .form-control div.ctn-file{
+	display: flex;
+	width: 100%;
+	height: 150px;
+	border-radius: 10px;
+	justify-content: center;
+	align-items: center;
+	background-color: #f1f1f1;
+}
+
+div.voucher-payment div.modal-add .form-control div.ctn-file img{
+	width: 100px;
+	height: 100px;
+	cursor: pointer;
+	margin-left: 10px
+}
+
+div.voucher-payment div.modal-add .form-control div.ctn-img{
+	width: 100%;
+	height: 150px;
+	border-radius: 10px;
+	position: relative;
+}
+
+div.voucher-payment div.modal-add .form-control div.ctn-img img{
+	width: 100%;
+	height: 100%;
+	border-radius: 10px;
+}
+
+div.voucher-payment div.modal-add .form-control div.ctn-img .icon{
+	color:#e44a4c;
+	position:absolute;
+	top:-5px;
+	right:-7px;
+	background-color: white;
+	border-radius: 50%;
+	z-index: 1000;
+	cursor: pointer;
+}
+
+
+div.voucher-payment div.modal-add .form-control div.ctn-btn{
+	display: flex;
+	flex:1;
+	width: 100%;
+	justify-content: center;
+	align-items: center;
+}
+
+div.voucher-payment div.modal-add .form-control div.ctn-btn div.ctn-loading{
+	margin-top:20px;
+}
+
+/*MODAL-INF*/
+
+div.voucher-payment div.modal-inf{
+	display:flex;
+	background-color:rgba(252,180,160,0.45);
+	width: 100%;
+	height: 100%;
+	justify-content: center;
+	align-items: center;
+	position: fixed;
+	top:0;
+	bottom:0;
+	z-index: 10000;
+	overflow-y: auto;
+}
+
+div.voucher-payment div.modal-inf .form-control{
+	background-color: #f7f3f0;
+	width: calc(80% - 50px);
+	border-radius: 20px;
+	padding: 5px 25px 30px 25px;
+	max-width: 260px;
+	position: relative;
+	box-shadow: 0 0 4px #737373;
+	position: relative;
+}
+
+
+div.voucher-payment div.modal-inf div.icon-close{
+	width: 30px;
+	height: 30px;
+	background-color: white;
+	position: absolute;
+	top: -7px;
+	right: -7px;
+	border-radius: 50%;
+	z-index: 1000;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+}
+
+div.voucher-payment div.modal-inf  div.ctn-file{
+	display: flex;
+	width: 100%;
+	height: 150px;
+	border-radius: 10px;
+	justify-content: center;
+	align-items: center;
+	background-color: #f1f1f1;
+}
+
+div.voucher-payment div.modal-inf .form-control div.ctn-file img{
+	width: 100px;
+	height: 100px;
+	cursor: pointer;
+	margin-left: 10px
+}
+
+div.voucher-payment div.modal-inf .form-control div.ctn-img{
+	width: 100%;
+	height: 150px;
+	border-radius: 10px;
+	position: relative;
+}
+
+div.voucher-payment div.modal-inf .form-control div.ctn-img img{
+	width: 100%;
+	height: 100%;
+	border-radius: 10px;
+}
+
+div.voucher-payment div.modal-inf .form-control div.ctn-input{
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	margin-top: 20px
+}
+div.voucher-payment div.modal-inf .form-control div.ctn-input div{
+	display: flex;
+	flex:1;
+	background-color: #f1f1f1;
+	height: 30px;
+	border:1px;
+	border-radius: 5px;
+	border:1px solid #c7c7c7;
+	color:#e2474b;
+	align-items: center;
+	justify-content: center;
+	font-weight: bold;
+}
+
+
+/*MEDIA QUERIES*/
+
+@media screen and (max-width: 600px) {
+  div.voucher-payment section.ctn{
+  	padding: 5px 5px 0px 5px;
+  	width: calc(95% - 10px);
+  	margin:60px auto;
+  }
+
+  div.voucher-payment section.ctn div.panel{
+  	width: calc(95% - 20px);
+  	left: 10px;
+  }
+
+}

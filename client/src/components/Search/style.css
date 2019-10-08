@@ -62,7 +62,7 @@ div.search section.ctn div.panel div.ctn-grid div{
 
 div.search section.ctn div.panel div.ctn-grid div:nth-child(1){
 	width: 100px;
-		overflow:hidden;
+	overflow:hidden;
     white-space:nowrap;
     text-overflow: ellipsis;
 }
@@ -73,7 +73,7 @@ div.search section.ctn div.panel div.ctn-grid div:nth-child(2){
 
 div.search section.ctn div.panel div.ctn-grid div:nth-child(3){
 	width: 80px;
-		overflow:hidden;
+	overflow:hidden;
     white-space:nowrap;
     text-overflow: ellipsis;
 }
@@ -101,6 +101,15 @@ div.search section.ctn div.panel .ctn-grid div.ctn-menu div.menu{
 	box-shadow: 0px 0px 8px rgba(0,0,0,.6)
 }
 
+div.search section.ctn div.panel .ctn-grid div.ctn-menu div.menu a{
+	display: block;
+	text-align: left;
+	margin-top:5px;
+	margin-bottom: 5px;
+}
+div.search section.ctn div.panel .ctn-grid div.ctn-menu div.menu a:hover{
+	color:#f26d28;
+}
 
 div.search section.ctn div.panel .ctn-grid div.ctn-menu div.eyelash{
 	position: absolute;

@@ -34,7 +34,7 @@ class Shopping extends Component{
 		this.setState(previousState =>{
 			return{
 				data : previousState.data.filter((item,i)=>{
-					return item.image != image
+					return item.image !== image
 				})
 			}
 		})

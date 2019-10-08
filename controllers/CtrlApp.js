@@ -6,6 +6,7 @@ let mongoose = require('mongoose'),
 		User = require('../models/SchemaUser'),
 	   Order = require('../models/SchemaOrder'),
 	Shopping = require('../models/SchemaShopping'),
+	 Voucher = require('../models/SchemaVoucher'),
 	   token = require('../services/token'),
 	  bcrypt = require('bcrypt'),
   randomatic = require('randomatic'),
@@ -68,7 +69,6 @@ module.exports = {
 		}
 		catch(err)
 		{
-			console.log(err)
 			res.status(500).send({err})
 		}
 
@@ -499,7 +499,7 @@ module.exports = {
 		try
 		{
 			let {school} =  req.query;
-			let users = await User.find({school,rol:'representative'});
+			let users = await User.find({school,rol:'representative'},{password:false,codeCi:false,rol:false});
 			if(users.length>0) return res.status(200).send(users);
 			res.status(404).send({message:'resource no found'});
 		}
@@ -703,6 +703,53 @@ module.exports = {
 			res.status(500).send({err})
 		}
 	},
+	queryShoppingDay : async(req,res)=>{
+		try
+		{
+			let {school,date} = req.query;			
+			date = moment(date).format('DD-MM-YYYY');
+			let orders =  await Order.find({school,date}).sort({date:-1})
+			if(orders.length>0) return res.status(200).send(orders);
+			res.status(404).send({message:'no se encuentran compras'});
+		}
+		catch(err)
+		{
+			res.status(500).send({err})
+		}
+	},
+	createVoucherPayment : async (req,res)=>{
+		try
+		{
+			let image = await cloudinary.v2.uploader.upload(req.file.path);
+			const newVoucher = new Voucher({
+				user : req.body.user,
+				school : req.body.school,
+				image : image.secure_url
+			})
+
+			const voucher = await newVoucher.save();
+			res.status(201).send({
+				_id: voucher._id,
+				image : voucher.image
+			})
+		}
+		catch(err)
+		{
+			res.status(500).send({err})
+		}
+	},
+	findAllMyVoucher : async (req,res)=>{
+		try
+		{
+			let voucher = await Voucher.find({user:req.user});
+			if(voucher.length>0) return res.status(200).send(voucher);
+			res.status(204).send()
+		}
+		catch(err)
+		{
+			res.status(500).send({err})
+		}
+	},
 	totalSales : async (req,res)=>{
 		try
 		{
@@ -714,6 +761,35 @@ module.exports = {
 		{
 			res.status(500).send({err})
 		}
+	},
+	findAllVoucher : async (req,res)=>{
+		try
+		{
+			let voucher = await Voucher.find({school:req.query.school,status:false});
+			await User.populate([voucher],{path:'user',select:["names","lastNames","email","ci","balance"]});
+			if(voucher.length>0) return res.status(200).send(voucher);
+			res.status(404).send({message:'no se encuentran comprobantes'});
+		}
+		catch(err)
+		{
+			res.status(500).send({err})
+		}
+	},
+	paymentVoucher : async (req,res)=>{
+		try
+		{	
+			let {_id,user,balance} = req.query;
+			let voucher = await Voucher.updateOne({_id},{$set:{status:true}});
+			if(!voucher.ok>0 && !voucher.n>0) return res.status(404).send({message:'resource not found'});
+			let result = await User.updateOne({_id:user},{$set:{balance}});
+			if(result.ok>0 && result.n>0) return res.status(201).send({message:'success'});
+			res.status(404).send({message:'resource not found'});	
+			
+		}
+		catch(err)
+		{
+			res.status(500).send({err})
+		}	
 	}
 
 

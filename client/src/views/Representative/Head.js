@@ -10,6 +10,7 @@ import CartIcon from '@material-ui/icons/ShoppingCart';
 import UserIcon from '@material-ui/icons/Face';
 import MenuIcon from '@material-ui/icons/Menu';
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
+import MoneyIcon from '@material-ui/icons/AttachMoney';
 import Tooltip from '@material-ui/core/Tooltip';
 import PropTypes from 'prop-types';
 import logo from '../../assets/logo.png';
@@ -24,7 +25,7 @@ const Head = ({handleDrawer,opacity,handleLogout,balance})=>{
 				<Hidden  xsDown>
 					<div className="right">
 						<div className="credit">
-							{balance != 0
+							{balance !== 0
 							?
 								<span>{balance} Bss</span>
 							:
@@ -52,7 +53,17 @@ const Head = ({handleDrawer,opacity,handleLogout,balance})=>{
       							</Fab>
       						</Tooltip>
       					</Link>
-      					<Tooltip title="Cerrar session" aria-label="close">
+      					<Link to="/representative/voucher/payment">	
+							<Tooltip title="comprobante de pago" aria-label="voucher">
+								<Fab aria-label="voucher" size="small" style={{backgroundColor:'white',marginLeft:10}}>
+                					<MoneyIcon style={{color:'#fab54f'}}/>     					
+      							</Fab>
+      						</Tooltip>
+      					</Link>
+      					<Tooltip 
+      						title="Cerrar session" 
+      						aria-label="close"
+      					>
       						<Fab onClick={()=>handleLogout()} aria-label="config" size="small" style={{backgroundColor:'white',marginLeft:10}}>
         						<PowerIcon style={{color:'#fab54f'}}/>
       						</Fab>
@@ -62,7 +73,7 @@ const Head = ({handleDrawer,opacity,handleLogout,balance})=>{
 				<Hidden  smUp>
 					<div className="right">
 						<div className="credit">
-							{balance != 0
+							{balance !== 0
 							?
 								<span>{balance} Bss</span>
 							:

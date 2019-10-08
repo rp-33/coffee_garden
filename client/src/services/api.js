@@ -479,6 +479,78 @@ const findAllShopping = (school,initDate,endDate)=>{
 
 }
 
+const queryShoppingDay = (school,date)=>{
+		return axios({
+		method : 'get',
+		url : '/app/queryShoppingDay',
+		params :{
+			school,
+			date
+		},
+		headers: {'Authorization': "bearer " + getStoreUser().token}
+	})
+	.then((response)=>{return response})
+	.catch((err)=>{return err.response})
+}
+
+const createVoucherPayment = (user,school,file)=>{
+
+	let formData = new FormData();
+	formData.append('file',file);
+	formData.append('user',user);
+	formData.append('school',school);
+	return axios({
+		method:'post',
+		url : '/app/createVoucherPayment',
+		data : formData,
+		headers:{'content-type':'multipart/form-data','Authorization': "bearer " + getStoreUser().token}
+	})
+	.then((response)=>{return response})
+	.catch((err)=>{return err.response})
+}
+
+const findAllMyVoucher = (user)=>{
+		return axios({
+		method : 'get',
+		url : '/app/findAllMyVoucher',
+		params : {
+			user
+		},
+		headers: {'Authorization': "bearer " + getStoreUser().token}
+	})
+	.then((response)=>{return response})
+	.catch((err)=>{return err.response})
+}
+
+
+const findAllVoucher = (school)=>{
+		return axios({
+		method : 'get',
+		url : '/app/findAllVoucher',
+		params : {
+			school
+		},
+		headers: {'Authorization': "bearer " + getStoreUser().token}
+	})
+	.then((response)=>{return response})
+	.catch((err)=>{return err.response})
+}
+
+const paymentVoucher = (_id,user,balance)=>{
+	return axios({
+		method : 'put',
+		url : '/app/paymentVoucher',
+		params :{
+			_id,
+			user,
+			balance
+		},
+		headers: {'Authorization': "bearer " + getStoreUser().token}
+	})
+	.then((response)=>{return response})
+	.catch((err)=>{return err.response})
+}
+
 export {
 	login,
 	createSchool,
@@ -512,5 +584,10 @@ export {
 	deleteProduct,
 	saveShopping,
 	changeVip,
-	findAllShopping
+	findAllShopping,
+	queryShoppingDay,
+	createVoucherPayment,
+	findAllMyVoucher,
+	findAllVoucher,
+	paymentVoucher
 }
