@@ -847,7 +847,6 @@ module.exports = {
 	editPassword : async (req,res)=>{
 		try
 		{
-			console.log(req.query)
 			let {_id,password} = req.query;
 			let user = await User.updateOne({_id},{$set:{password : bcrypt.hashSync(password.toLocaleLowerCase(),10) }});
 			if(user.ok>0 && user.n>0) return res.status(201).send({message:'success'});
@@ -855,7 +854,6 @@ module.exports = {
 		}
 		catch(err)
 		{
-			console.log(err)
 			res.status(500).send({err})
 		}	
 	}

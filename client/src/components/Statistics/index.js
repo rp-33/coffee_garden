@@ -5,7 +5,13 @@ import {
 	findAllSchool,
 	findAllShopping
 } from '../../services/api';
-import {todayDate,formatDate} from '../../utils/date';
+import {
+	todayDate,
+	formatDate
+} from '../../utils/date';
+import {
+	priceOrder
+} from '../../utils/price';
 import './style.css';
 
 class Statistics extends Component{
@@ -29,7 +35,6 @@ class Statistics extends Component{
 		try
 		{
 			let {status,data} = await findAllSchool();
-
 			if(status==200){
 				this.setState({
 					schools : data
@@ -38,7 +43,7 @@ class Statistics extends Component{
 		}
 		catch(err)
 		{
-			console.log(err);
+			alert(err);
 		}
 	}
 
@@ -174,7 +179,7 @@ class Statistics extends Component{
          						</div>
          					</div>
          					{item.products.map((product,index)=>
-         						<div key={index} className="ctn-grid">
+         					<div key={index} className="ctn-grid">
          						<div className="left">
          							{product.quantity}
          						</div>
@@ -186,6 +191,9 @@ class Statistics extends Component{
          						</div>
          					</div>
          					)}
+         					<div className="total">
+         						<span>{priceOrder(item.products)}</span>
+         					</div>
          				</section>
 						)}
 						
