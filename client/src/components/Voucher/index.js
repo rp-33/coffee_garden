@@ -163,7 +163,7 @@ class Voucher extends Component{
 								</div>
 								{
 									this.state.data.map((item,i)=>
-									<div className="ctn-grid">								
+									<div className="ctn-grid" key={item._id}>								
 										<div>{item.user.ci}</div>
 										<div>{item.user.names} {item.user.lastNames}</div>
 										<div 

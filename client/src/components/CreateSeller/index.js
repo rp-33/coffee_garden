@@ -1,6 +1,8 @@
 import React,{Component} from 'react';
+import {Link} from 'react-router-dom';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
+import EditIcon from '@material-ui/icons/Edit';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
@@ -8,7 +10,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import ModalAddUser from './ModalAddUser';
 import ModalDeleteUser from './ModalDeleteUser';
 import {
-	findAllSeller
+ findAllSeller
 } from '../../services/api';
 import sellerImg from '../../assets/seller.png';
 import './style.css';
@@ -37,6 +39,7 @@ class CreateSeller extends Component{
 		try
 		{
 			let {status,data} = await findAllSeller(school);
+			
 			if(status==200){
 				this.setState({
 					data
@@ -134,6 +137,14 @@ class CreateSeller extends Component{
 											<p>{item.names} {item.lastNames}</p>
 										</div>
 										<div className="ctn-icon-option">
+											<Link to={`/admin/edit/seller/${item._id}`}>
+												<IconButton 
+													aria-label="edit" 
+													color="primary" 
+												>
+													<EditIcon fontSize="medium" />
+												</IconButton>
+											</Link>
 											<IconButton 
 												aria-label="delete" 
 												color="secondary" 

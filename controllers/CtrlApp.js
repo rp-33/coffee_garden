@@ -539,8 +539,22 @@ module.exports = {
 		try
 		{
 			let {ci} = req.query;
-			let users = await User.find({ci});
+			let users = await User.find({ci},{password:false});
 			if(users.length>0) return res.status(200).send(users)
+			res.status(404).send()
+
+		}
+		catch(err)
+		{
+			res.status(500).send({err})
+		}
+	},
+	findUser : async (req,res)=>{
+		try
+		{
+			let {_id} = req.query;
+			let user = await User.findOne({_id},{password:false});
+			if(user) return res.status(200).send(user)
 			res.status(404).send()
 
 		}
@@ -586,7 +600,7 @@ module.exports = {
 		try
 		{
 			let {school} = req.query;
-			let users = await User.find({school,rol:'seller'},{_id:true,names:true,lastNames:true,avatar:true,});
+			let users = await User.find({school,rol:'seller'},{_id:true,names:true,lastNames:true,avatar:true,ci:true});
 			if(users.length>0) return res.status(200).send(users);
 			res.status(404).send({message:'recurso no encontrado'});
 		}
@@ -768,7 +782,7 @@ module.exports = {
 			let voucher = await Voucher.find({school:req.query.school,status:false});
 			await User.populate([voucher],{path:'user',select:["names","lastNames","email","ci","balance"]});
 			if(voucher.length>0) return res.status(200).send(voucher);
-			res.status(404).send({message:'no se encuentran comprobantes'});
+			res.status(404).send({error:'no se encuentran comprobantes'});
 		}
 		catch(err)
 		{
@@ -783,11 +797,65 @@ module.exports = {
 			if(!voucher.ok>0 && !voucher.n>0) return res.status(404).send({message:'resource not found'});
 			let result = await User.updateOne({_id:user},{$set:{balance}});
 			if(result.ok>0 && result.n>0) return res.status(201).send({message:'success'});
-			res.status(404).send({message:'resource not found'});	
+			res.status(404).send({error:'resource not found'});	
 			
 		}
 		catch(err)
 		{
+			res.status(500).send({err})
+		}	
+	},
+	editCi: async (req,res)=>{
+		try
+		{
+			let {_id,ci} = req.query;
+			let user = await User.updateOne({_id},{$set:{ci}});
+			if(user.ok>0 && user.n>0) return res.status(201).send({message:'success'});
+			res.status(404).send({error:'usuario no existe'});	
+		}
+		catch(err)
+		{
+			res.status(500).send({err})
+		}
+	},
+	editEmail: async (req,res)=>{
+		try
+		{
+			let {_id,email} = req.query;
+			let user = await User.updateOne({_id},{$set:{email}});
+			if(user.ok>0 && user.n>0) return res.status(201).send({message:'success'});
+			res.status(404).send({error:'usuario no existe'});	
+		}
+		catch(err)
+		{
+			res.status(500).send({err})
+		}
+	},
+	editNames: async (req,res)=>{
+		try
+		{
+			let {_id,names,lastNames} = req.query;
+			let user = await User.updateOne({_id},{$set:{names,lastNames}});
+			if(user.ok>0 && user.n>0) return res.status(201).send({message:'success'});
+			res.status(404).send({error:'usuario no existe'});	
+		}
+		catch(err)
+		{
+			res.status(500).send({err})
+		}
+	},
+	editPassword : async (req,res)=>{
+		try
+		{
+			console.log(req.query)
+			let {_id,password} = req.query;
+			let user = await User.updateOne({_id},{$set:{password : bcrypt.hashSync(password.toLocaleLowerCase(),10) }});
+			if(user.ok>0 && user.n>0) return res.status(201).send({message:'success'});
+			res.status(404).send({error:'usuario no existe'});	
+		}
+		catch(err)
+		{
+			console.log(err)
 			res.status(500).send({err})
 		}	
 	}

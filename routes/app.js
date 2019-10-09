@@ -47,7 +47,12 @@ const {
 	createVoucherPayment,
 	findAllMyVoucher,
 	findAllVoucher,
-	paymentVoucher
+	paymentVoucher,
+	findUser,
+	editCi,
+	editEmail,
+	editNames,
+	editPassword
 } = require('../controllers/CtrlApp')
 
 /* GET home page. */
@@ -69,6 +74,8 @@ router.get('/findAllRepresentative',Auth,findAllRepresentative);
 router.get('/findAllOrdersUser',Auth,findAllOrdersUser);
 
 router.get('/queryUser',Auth,queryUser);
+
+router.get('/findUser',Auth,findUser);
 
 router.get('/findAllSeller',Auth,findAllSeller)
 
@@ -127,6 +134,14 @@ router.put('/addBalance',Auth,addBalance);
 router.put('/changeVip',changeVip);
 
 router.put('/paymentVoucher',Auth,paymentVoucher);
+
+router.put('/editCi',Auth,editCi);
+
+router.put('/editEmail',Auth,editEmail);
+
+router.put('/editNames',Auth,editNames);
+
+router.put('/editPassword',Auth,editPassword)
 
 /* DELETE home page. */
 

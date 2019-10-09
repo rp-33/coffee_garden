@@ -60,7 +60,10 @@ class Login extends Component{
 		{
 			event.preventDefault();
 			
-			this.setState({loading:true});
+			this.setState({
+				loading:true,
+				errorLogin:''
+			});
 
 			let {email,password} = this.state;
 
@@ -76,7 +79,7 @@ class Login extends Component{
 
 				this.setState({
 					loading:false,
-					erroLogin : data.error
+					errorLogin : data.error
 				})	
 			}
 		}
@@ -84,7 +87,7 @@ class Login extends Component{
 		{
 			this.setState({
 				loading:false,
-				erroLogin : 'Error en el servidor'
+				errorLogin : 'Error en el servidor'
 			})
 		}
 		

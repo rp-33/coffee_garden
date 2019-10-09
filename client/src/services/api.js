@@ -332,6 +332,20 @@ const queryUser = (ci)=>{
 	.catch((err)=>{return err.response})
 }
 
+const findUser = (_id)=>{
+	return axios({
+		method : 'get',
+		url : '/app/findUser',
+		params :{
+			_id
+		},
+		headers: {'Authorization': "bearer " + getStoreUser().token}
+	})
+	.then((response)=>{return response})
+	.catch((err)=>{return err.response})
+}
+
+
 const createSeller = (school,names,lastNames,ci,email,password)=>{
 	return axios({
 		method : 'post',
@@ -551,6 +565,63 @@ const paymentVoucher = (_id,user,balance)=>{
 	.catch((err)=>{return err.response})
 }
 
+const editCi = (_id,ci)=>{
+	return axios({
+		method : 'put',
+		url : '/app/editCi',
+		params :{
+			_id,
+			ci
+		},
+		headers: {'Authorization': "bearer " + getStoreUser().token}
+	})
+	.then((response)=>{return response})
+	.catch((err)=>{return err.response})
+}
+
+const editEmail = (_id,email)=>{
+	return axios({
+		method : 'put',
+		url : '/app/editEmail',
+		params :{
+			_id,
+			email
+		},
+		headers: {'Authorization': "bearer " + getStoreUser().token}
+	})
+	.then((response)=>{return response})
+	.catch((err)=>{return err.response})
+}
+
+const editPassword = (_id,password)=>{
+	return axios({
+		method : 'put',
+		url : '/app/editPassword',
+		params :{
+			_id,
+			password
+		},
+		headers: {'Authorization': "bearer " + getStoreUser().token}
+	})
+	.then((response)=>{return response})
+	.catch((err)=>{return err.response})
+}
+
+const editNames = (_id,names,lastNames)=>{
+	return axios({
+		method : 'put',
+		url : '/app/editNames',
+		params :{
+			_id,
+			names,
+			lastNames
+		},
+		headers: {'Authorization': "bearer " + getStoreUser().token}
+	})
+	.then((response)=>{return response})
+	.catch((err)=>{return err.response})
+}
+
 export {
 	login,
 	createSchool,
@@ -589,5 +660,10 @@ export {
 	createVoucherPayment,
 	findAllMyVoucher,
 	findAllVoucher,
-	paymentVoucher
+	paymentVoucher,
+	findUser,
+	editEmail,
+	editCi,
+	editNames,
+	editPassword
 }
