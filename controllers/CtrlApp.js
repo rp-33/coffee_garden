@@ -49,9 +49,11 @@ module.exports = {
 		{
 
 			let {name,school} = req.body
+
+			console.log(req.body)
 			
 			let find = await Category.findOne({name:name.toLocaleLowerCase(),school});
-
+			console.log(find)
 			if(find) return res.status(204).send();
 
 			const newCategory = new Category({
@@ -68,7 +70,7 @@ module.exports = {
 			})
 		}
 		catch(err)
-		{
+		{	
 			res.status(500).send({err})
 		}
 

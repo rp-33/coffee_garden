@@ -28,7 +28,7 @@ const Drawer = ({open,handleClose,handleLogout})=>{
                   <ListItemIcon>
                       <CartIcon style={styles.icon} />
                   </ListItemIcon>
-                  <ListItemText primary="Pedidios diarios" />
+                  <ListItemText primary="Pedidos diarios" />
                 </ListItem>
               </Link>
               <Link to="/admin/search">

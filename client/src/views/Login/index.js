@@ -3,16 +3,12 @@ import {Link} from 'react-router-dom';
 import history from '../../routes/history';
 import {connect} from 'react-redux';
 import Fab from '@material-ui/core/Fab';
-import IconButton from '@material-ui/core/IconButton';
 import InformationIcon from '@material-ui/icons/PriorityHigh';
-import ArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
-import ArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import BarMessage from '../../presentation/BarMessage';
 import {login,findAllSchool} from '../../services/api';
 import {action_login} from '../../actions/user';
 import logo from '../../assets/logo.png';
-import escudo from '../../assets/escudo.png';
 import './style.css';
 
 class Login extends Component{
@@ -72,13 +68,12 @@ class Login extends Component{
 			if(status == 200)
 			{
 				this.props.handleLogin(data);
-				history.push('/'+data.rol);
+				history.push(`/${data.rol}`);
 			}
 			else
 			{
 
 				this.setState({
-					loading:false,
 					errorLogin : data.error
 				})	
 			}
@@ -90,6 +85,13 @@ class Login extends Component{
 				errorLogin : 'Error en el servidor'
 			})
 		}
+		finally
+		{
+			this.setState({
+				loading:false
+			})
+		}
+
 		
 	}
 

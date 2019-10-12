@@ -160,9 +160,15 @@ div.add-canteen section.ctn div.panel .item-grid img{
 
 div.add-canteen section.ctn div.panel .item-grid div.inf-user{
 	text-align:center;
-	color:#e44a4c;
 	font-weight:bold;
 	text-transform: capitalize;
+}
+
+div.add-canteen section.ctn div.panel .item-grid div.inf-user .name{
+	overflow:hidden;
+    white-space:nowrap;
+    text-overflow: ellipsis;
+    padding: 0 10px
 }
 
 div.add-canteen section.ctn div.panel .item-grid div.inf-user div.ctn-img{

@@ -7,6 +7,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import CancelIcon from '@material-ui/icons/Cancel';
 import {createSchool} from '../../services/api';
 import FileReader from '../../services/reader';
+import PropTypes from 'prop-types';
 
 class ModalAdd extends Component{
 	constructor(props){
@@ -134,6 +135,12 @@ class ModalAdd extends Component{
 		)
 	}
 
+}
+
+ModalAdd.propTypes = {
+	open :PropTypes.bool.isRequired,
+	handleClose : PropTypes.func.isRequired,
+	handleSubmit : PropTypes.func.isRequired
 }
 
 export default ModalAdd;

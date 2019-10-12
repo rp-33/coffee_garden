@@ -27,15 +27,17 @@ class CardCanteen extends Component{
 	handleModalEditName(item){
 		this.setState({
 			menu:false
+		},()=>{
+			this.props.handleModalEditName(true,item);
 		});
-		this.props.handleModalEditName(true,item);
 	}
 
 	handleModalEditAvatar(item){
 		this.setState({
 			menu:false
+		},()=>{
+			this.props.handleModalEditAvatar(true,item);
 		});
-		this.props.handleModalEditAvatar(true,item);
 	}
 
 	render(){
@@ -48,7 +50,7 @@ class CardCanteen extends Component{
 							<img src={item.avatar} alt="avatar"/>
 						</div>
 					</Link>
-					<span>{item.name}</span>
+					<div className="name">{item.name}</div>
 				</div>
 				<div className="ctn-icon-option">
 					<div>

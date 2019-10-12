@@ -133,6 +133,7 @@ class CreateCategory extends Component{
 		try
 		{
 
+
 			this.setState({isLoading : true});
 
 			let {status,data} = await createCategory(this.state.inputAdd,this.props.match.params.id);
@@ -158,6 +159,7 @@ class CreateCategory extends Component{
 			}
 			else if(status==204)
 			{
+
 				this.setState({
 					errorAdd : true
 				})
