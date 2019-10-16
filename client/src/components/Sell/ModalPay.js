@@ -1,4 +1,5 @@
 import React,{Component} from 'react';
+import {connect} from 'react-redux';
 import Paper from '@material-ui/core/Paper';
 import Slide from '@material-ui/core/Slide';
 import CancelIcon from '@material-ui/icons/Cancel';
@@ -8,6 +9,8 @@ import PropTypes from 'prop-types';
 import BarMessage from '../../presentation/BarMessage';
 import {totalPrice} from '../../utils/products';
 import {saveShopping} from '../../services/api';
+import {structureDate} from '../../utils/date';
+import {action_toast} from '../../actions/notification';
 
 class ModalPay extends Component{
 	constructor(props){
@@ -26,8 +29,8 @@ class ModalPay extends Component{
 				error:''
 			});
 			let {date,products,handleSuccess,school} = this.props;
-			let {status,data} = await saveShopping(school,date,products);
-			if(status==201)
+			let {status} = await saveShopping(school,structureDate(date),products);
+			if(status === 201)
 			{
 				handleSuccess(date);
 			}
@@ -35,7 +38,11 @@ class ModalPay extends Component{
 		}
 		catch(err)
 		{
-			alert(err);
+			this.props.handleErrorServer({
+				title : 'Error en el servidor',
+				variant : 'error',
+				open : true
+			})
 		}
 		finally{
 			this.setState({
@@ -122,5 +129,13 @@ ModalPay.propTypes = {
 	handleClose : PropTypes.func.isRequired
 }
 
+const mapDispatchToProps = dispatch =>{
+	return{
+		handleErrorServer(payload){
+			dispatch(action_toast(payload))
+		}
+	}
+}
 
-export default ModalPay;
+
+export default connect(null,mapDispatchToProps)(ModalPay);

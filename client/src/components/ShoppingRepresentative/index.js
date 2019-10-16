@@ -1,5 +1,7 @@
 import React,{Component} from 'react';
+import {connect} from 'react-redux';
 import {findAllOrdersUser} from '../../services/api';
+import {action_toast} from '../../actions/notification';
 
 class ShoppingRepresentative extends Component{
 	constructor(props){
@@ -17,7 +19,8 @@ class ShoppingRepresentative extends Component{
 		try
 		{
 			let {status,data} = await findAllOrdersUser(user);
-			if(status==200){
+			if(status===200)
+			{
 				this.setState({
 					orders:data
 				})
@@ -25,7 +28,11 @@ class ShoppingRepresentative extends Component{
 		}
 		catch(err)
 		{
-			alert(err);
+			this.props.handleErrorServer({
+				title : 'Error en el servidor',
+				variant : 'error',
+				open : true
+			})
 		}
 	}
 
@@ -84,4 +91,13 @@ class ShoppingRepresentative extends Component{
 	}
 }
 
-export default ShoppingRepresentative;
+const mapDispatchToProps = dispatch =>{
+	return{
+		handleErrorServer(payload){
+			dispatch(action_toast(payload))
+		}
+	}
+}
+
+
+export default connect(null,mapDispatchToProps)(ShoppingRepresentative);

@@ -26,7 +26,7 @@ const ModalEdit = ({open,handleClose,value,handleChange,handleEdit,isLoading})=>
 							onChange = {(event)=>handleChange(event)}
 							/>
 						</div>
-     					{value != '' &&
+     					{value !== '' &&
 						<div className="ctn-btn">	
 							{isLoading	
 							?

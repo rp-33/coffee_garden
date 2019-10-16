@@ -2,6 +2,7 @@ import React,{Component} from 'react';
 import {connect} from 'react-redux';
 import {findAllHistory} from '../../services/api';
 import {formatDate} from '../../utils/date';
+import {action_toast} from '../../actions/notification';
 import './style.css';
 
 class History extends Component{
@@ -21,7 +22,8 @@ class History extends Component{
 		try
 		{
 			let {status,data} = await findAllHistory(this.props.user);
-			if(status==200){
+			if(status===200)
+			{
 				this.setState({
 					orders:data
 				})
@@ -29,7 +31,11 @@ class History extends Component{
 		}
 		catch(err)
 		{
-			alert(err);
+			this.props.handleErrorServer({
+				title : 'Error en el servidor',
+				variant : 'error',
+				open : true
+			})
 		}
 	}
 
@@ -90,4 +96,12 @@ const mapStateToProps = (state,props)=>{
 	}
 }
 
-export default connect(mapStateToProps,null)(History);
+const mapDispatchToProps = dispatch =>{
+	return{
+		handleErrorServer(payload){
+			dispatch(action_toast(payload))
+		}
+	}
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(History);

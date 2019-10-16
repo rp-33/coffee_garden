@@ -7,9 +7,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Hidden from '@material-ui/core/Hidden';
 import PowerIcon from '@material-ui/icons/PowerSettingsNew';
 import CartIcon from '@material-ui/icons/ShoppingCart';
-import UserIcon from '@material-ui/icons/Face';
 import MenuIcon from '@material-ui/icons/Menu';
-import Badge from '@material-ui/core/Badge';
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import PropTypes from 'prop-types';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -25,7 +23,7 @@ const Head = ({handleDrawer,opacity,handleLogout,balance})=>{
 				<Hidden  xsDown>
 					<div className="right">
 						<div className="credit">
-							{balance != 0
+							{balance !== 0
 							?
 								<span>{balance} Bss</span>
 							:
@@ -56,7 +54,7 @@ const Head = ({handleDrawer,opacity,handleLogout,balance})=>{
 				<Hidden  smUp>
 					<div className="right">
 						<div className="credit">
-							{balance != 0
+							{balance !== 0
 							?
 								<span>{balance} Bss</span>
 							:

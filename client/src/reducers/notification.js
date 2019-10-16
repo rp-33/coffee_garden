@@ -3,13 +3,15 @@ import {
 } from '../actions/notification';
 
 const initialState = {
-	toast : false
+	open : false,
+	title : '',
+	variant : ''
 }
 
 export default (state = initialState, action) =>{
 	switch (action.type){
 		case action_toast().type:
-			return action.bool;
+			return action.payload
 		default :
 			return state;
 	}

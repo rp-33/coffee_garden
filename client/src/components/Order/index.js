@@ -1,8 +1,10 @@
 import React,{Component} from 'react';
+import {connect} from 'react-redux';
 import {
 	queryOrder,
 } from '../../services/api';
 import {formatDate} from '../../utils/date';
+import {action_toast} from '../../actions/notification';
 import './style.css';
 
 class Sell extends Component{
@@ -27,7 +29,7 @@ class Sell extends Component{
 		try
 		{
 			let {status,data} = await queryOrder(vouched);
-			if(status==200)
+			if(status === 200)
 			{
 				let {status,vouched,date,products} = data
 				this.setState({
@@ -40,7 +42,11 @@ class Sell extends Component{
 		}
 		catch(err)
 		{
-			alert(err)
+			this.props.handleErrorServer({
+				title : 'Error en el servidor',
+				variant : 'error',
+				open : true
+			})
 		}
 	}
 
@@ -95,4 +101,14 @@ class Sell extends Component{
 	}
 }
 
-export default Sell;
+
+const mapDispatchToProps = dispatch =>{
+	return{
+		handleErrorServer(payload){
+			dispatch(action_toast(payload))
+		}
+	}
+}
+
+
+export default connect(null,mapDispatchToProps)(Sell);

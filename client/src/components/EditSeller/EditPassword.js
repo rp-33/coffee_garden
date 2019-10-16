@@ -33,18 +33,19 @@ class EditPassword extends Component{
 				error:''
 			})
 			let {status,data} = await editPassword(this.props.user,this.state.password);
-			if(status==201)
+			if(status === 201)
 			{
 				this.props.handleSuccess()
 			}
-			else if(status==404){
+			else if(status === 404)
+			{
 				this.setState({
 					error:data.error
 				})
 			}
 		}
 		catch(err){
-			alert(err)
+			this.props.handleError();
 		}
 		finally
 		{

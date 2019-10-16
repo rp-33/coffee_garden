@@ -8,6 +8,8 @@ import PropTypes from 'prop-types';
 import BarMessage from '../../presentation/BarMessage';
 import {saveOrder} from '../../services/api';
 import {totalPrice} from '../../utils/products';
+import {structureDate} from '../../utils/date';
+
 
 class ModalPay extends Component{
 	constructor(props){
@@ -27,7 +29,7 @@ class ModalPay extends Component{
 			});
 			let {balance,products,user,date,handleSuccess,school} = this.props;
 			let total = totalPrice(products);
-			let {status,data} = await saveOrder(school,user,products,total,date);
+			let {status,data} = await saveOrder(school,user,products,total,structureDate(date));
 			if(status==201){
 				handleSuccess(data,date);
 			}else if(status==204){

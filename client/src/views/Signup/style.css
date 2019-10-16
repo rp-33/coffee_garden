@@ -81,7 +81,7 @@ div.signup form div.ctn-select select{
 }
 
 div.signup form div.ctn-select input[type="number"]{
-	width: calc(100% - 95px);
+	width: calc(100% - 98px);
 	height: 40px;
 	border-radius:40px;
 	border:2px solid #d48945;

@@ -9,30 +9,30 @@ const Toast = ({open,title,handleClose,handleAction})=>{
 
 	return(
 		<Snackbar
-        	anchorOrigin={{
-          	vertical: 'bottom',
-          	horizontal: 'left',
-        	}}
-        	open={open}
-        	onClose={handleClose}
-        	ContentProps={{
-          		'aria-describedby': 'message-id',
-        	}}
-        	message={<span id="message-id">{title}</span>}
-        	action={[
-          		<Button key="undo" color="secondary" size="small" onClick={()=>handleAction()}>
-            		Ver orden
-          		</Button>,
-          		<IconButton
-            		key="close"
-            		aria-label="close"
-            		color="inherit"
-           	 		onClick={handleClose}
-          		>
-            		<CloseIcon />
-          		</IconButton>
-       		]}
-      	/>
+      anchorOrigin={{
+      	vertical: 'bottom',
+        horizontal: 'left',
+      }}
+      open={open}
+      onClose={handleClose}
+      ContentProps={{
+        'aria-describedby': 'message-id',
+      }}
+      message={<span id="message-id">{title}</span>}
+      action={[
+        <Button key="undo" color="secondary" size="small" onClick={()=>handleAction()}>
+          Ver orden
+        </Button>,
+        <IconButton
+          key="close"
+          aria-label="close"
+          color="inherit"
+         	onClick={handleClose}
+        >
+          <CloseIcon />
+        </IconButton>
+      ]}
+    />
 	)
 
 }

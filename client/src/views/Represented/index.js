@@ -15,6 +15,7 @@ import {
 	action_logout,
 	action_balance
 } from '../../actions/user';
+import {action_toast} from '../../actions/notification';
 import {findBalance} from '../../services/api';
 import socket from '../../services/socket';
 import bgImg from '../../assets/background.jpg';
@@ -58,13 +59,17 @@ class Represented extends Component{
 		{
 			let {representative} = this.props.user;
 			let {status,data} = await findBalance(representative);
-			if(status==200){
+			if(status===200){
 				this.props.handleAddBalance(data.balance);
 			}
 		}
 		catch(err)
 		{
-			alert(err)
+			this.props.handleErrorServer({
+				title : 'Error en el servidor',
+				variant : 'error',
+				open : true
+			})
 		}
 
 	}
@@ -139,6 +144,9 @@ const mapDispatchToProps = dispatch =>{
 		},
 		handleAddBalance (balance){
 			dispatch(action_balance(balance))
+		},
+		handleErrorServer(payload){
+			dispatch(action_toast(payload))
 		}
 	}
 }

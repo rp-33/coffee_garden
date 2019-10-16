@@ -73,7 +73,7 @@ class Statistics extends Component{
 				this.setState({
 					data
 				})
-			}else if(status==404){
+			}else{
 				this.setState({
 					data : []
 				})

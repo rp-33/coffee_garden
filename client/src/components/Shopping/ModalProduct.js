@@ -1,5 +1,4 @@
 import React from 'react';
-import Fab from '@material-ui/core/Fab';
 import Paper from '@material-ui/core/Paper';
 import Slide from '@material-ui/core/Slide';
 import CancelIcon from '@material-ui/icons/Cancel';

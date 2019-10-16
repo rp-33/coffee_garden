@@ -17,9 +17,9 @@ import {
 	action_logout,
 	action_balance
 } from '../../actions/user';
+import {action_toast} from '../../actions/notification';
 import {findBalance} from '../../services/api';
 import socket from '../../services/socket';
-import Snackbar from '@material-ui/core/Snackbar';
 import bgImg from '../../assets/background.jpg';
 import './style.css';
 
@@ -44,7 +44,7 @@ class Representative extends Component{
 	_handleSocket(){
 		let {_id} = this.props.user;
 		socket.emit('connected',_id);
-		socket.on('balance',(payload)=>{
+		socket.on('balance',payload=>{
 			let {balance,vouched} = payload;
 			this.props.handleAddBalance(balance);
 			this.setState({
@@ -66,7 +66,11 @@ class Representative extends Component{
 		}
 		catch(err)
 		{
-			alert(err)
+			this.props.handleErrorServer({
+				title : 'Error en el servidor',
+				variant : 'error',
+				open : true
+			})
 		}
 
 	}
@@ -145,6 +149,9 @@ const mapDispatchToProps = dispatch =>{
 		},
 		handleAddBalance (balance){
 			dispatch(action_balance(balance))
+		},
+		handleErrorServer(payload){
+			dispatch(action_toast(payload))
 		}
 	}
 }

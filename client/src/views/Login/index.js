@@ -8,6 +8,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import BarMessage from '../../presentation/BarMessage';
 import {login,findAllSchool} from '../../services/api';
 import {action_login} from '../../actions/user';
+import {action_toast} from '../../actions/notification';
 import logo from '../../assets/logo.png';
 import './style.css';
 
@@ -32,7 +33,7 @@ class Login extends Component{
 		try
 		{
 			let {status,data} = await findAllSchool();
-			if(status==200){
+			if(status===200){
 				this.setState({
 					school : data
 				})
@@ -40,7 +41,11 @@ class Login extends Component{
 		}
 		catch(err)
 		{
-			alert(err)
+			this.props.handleErrorServer({
+				title : 'Error en el servidor',
+				variant : 'error',
+				open : true
+			})
 		}
 	}
 
@@ -54,25 +59,24 @@ class Login extends Component{
 	async handleSubmit(event){
 		try
 		{
+
 			event.preventDefault();
 			
 			this.setState({
 				loading:true,
 				errorLogin:''
 			});
-
 			let {email,password} = this.state;
 
 			let {status,data} = await login(email,password);
 
-			if(status == 200)
+			if(status === 200)
 			{
 				this.props.handleLogin(data);
 				history.push(`/${data.rol}`);
 			}
 			else
 			{
-
 				this.setState({
 					errorLogin : data.error
 				})	
@@ -80,9 +84,10 @@ class Login extends Component{
 		}
 		catch(err)
 		{
-			this.setState({
-				loading:false,
-				errorLogin : 'Error en el servidor'
+			this.props.handleErrorServer({
+				title : 'Error en el servidor',
+				variant : 'error',
+				open : true
 			})
 		}
 		finally
@@ -170,6 +175,9 @@ const mapDispatchToProps = dispatch =>{
 	return{
 		handleLogin(data){
 			dispatch(action_login(data))
+		},
+		handleErrorServer(payload){
+			dispatch(action_toast(payload))
 		}
 	}
 }

@@ -8,11 +8,11 @@ const weekDay = ()=>{
 	let today = moment();
 	let i = 0;
 	let lengthDay = 5;
-	if(moment(today).day()==6)//dia sabado
+	if(moment(today).day()===6)//dia sabado
 	{
 		today = moment(today).add(2,'days');
 	}
-	else if(moment(today).day()==0)//dia domingo
+	else if(moment(today).day()===0)//dia domingo
 	{	
 		today = moment(today).add(1,'days');
 	}else{
@@ -43,8 +43,16 @@ const todayDate = ()=>{
 	}
 }
 
+const structureDate = (date)=>{
+	date = date.split('-');
+	date[1] = date[1] - 1;
+	date = new Date(date[2],date[1],date[0]);
+	return moment(date).format('YYYY-MM-DD');
+}
+
 export {
 	weekDay,
 	formatDate,
-	todayDate
+	todayDate,
+	structureDate
 };

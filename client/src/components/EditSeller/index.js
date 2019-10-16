@@ -1,4 +1,5 @@
 import React,{Component} from 'react';
+import {connect} from 'react-redux';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import EditCi from './EditCi';
@@ -8,6 +9,7 @@ import EditPassword from './EditPassword';
 import {
 	findUser
 } from '../../services/api';
+import {action_toast} from '../../actions/notification';
 import './style.css'
 
 class EditSeller extends Component{
@@ -30,7 +32,7 @@ class EditSeller extends Component{
 		try
 		{	
 			let {status,data} = await findUser(_id);
-			if(status==200)
+			if(status === 200)
 			{
 				let {names,lastNames,ci,email} = data;
 				this.setState({
@@ -43,8 +45,20 @@ class EditSeller extends Component{
 		}
 		catch(err)
 		{
-			alert(err)
+			this.props.handleErrorServer({
+				title : 'Error en el servidor',
+				variant : 'error',
+				open : true
+			})
 		}
+	}
+
+	handleError(){
+		this.props.handleErrorServer({
+			title : 'Error en el servidor',
+			variant : 'error',
+			open : true
+		})
 	}
 
 	_typeInput(type,user){
@@ -101,7 +115,8 @@ class EditSeller extends Component{
 						value={this.state.ci}	
 						user = {user}
 						handleBack = {(type)=>this.setState({type})}
-						handleSuccess = {(ci)=>this.setState({ci,type:'none'})}		
+						handleSuccess = {(ci)=>this.setState({ci,type:'none'})}	
+						handleError = {this.handleError.bind(this)}	
 					/>
 				)
 			case 'email':
@@ -111,6 +126,7 @@ class EditSeller extends Component{
 						user = {user}
 						handleBack = {(type)=>this.setState({type})}
 						handleSuccess = {(email)=>this.setState({email,type:'none'})}		
+						handleError = {this.handleError.bind(this)}
 					/>
 				)
 			case 'names':
@@ -120,7 +136,8 @@ class EditSeller extends Component{
 						lastNames = {this.state.lastNames}	
 						user = {user}
 						handleBack = {(type)=>this.setState({type})}
-						handleSuccess = {(names,lastNames)=>this.setState({names,lastNames,type:'none'})}		
+						handleSuccess = {(names,lastNames)=>this.setState({names,lastNames,type:'none'})}
+						handleError = {this.handleError.bind(this)}		
 					/>
 				)
 			case 'password':
@@ -128,7 +145,8 @@ class EditSeller extends Component{
 					<EditPassword
 						user = {user}
 						handleBack = {(type)=>this.setState({type})}
-						handleSuccess = {()=>this.setState({type:'none'})}		
+						handleSuccess = {()=>this.setState({type:'none'})}	
+						handleError = {this.handleError.bind(this)}	
 					/>
 				)
 			default:
@@ -147,4 +165,12 @@ class EditSeller extends Component{
 	}
 }
 
-export default EditSeller;
+const mapDispatchToProps = dispatch =>{
+	return{
+		handleErrorServer(payload){
+			dispatch(action_toast(payload))
+		}
+	}
+}
+
+export default connect(null,mapDispatchToProps)(EditSeller);

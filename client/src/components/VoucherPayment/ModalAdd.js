@@ -1,4 +1,5 @@
 import React,{Component} from 'react';
+import {connect} from 'react-redux';
 import Fab from '@material-ui/core/Fab';
 import Paper from '@material-ui/core/Paper';
 import Slide from '@material-ui/core/Slide';
@@ -8,7 +9,7 @@ import photoImg from '../../assets/foto.png';
 import FileReader from '../../services/reader';
 import PropTypes from 'prop-types';
 import {createVoucherPayment} from '../../services/api';
-
+import {action_toast} from '../../actions/notification';
 
 class ModalAddProduct extends Component{
 	constructor(props){
@@ -53,14 +54,18 @@ class ModalAddProduct extends Component{
 			let {file} = this.state;
 			let {status,data} = await createVoucherPayment(this.props.user,this.props.school,file);
 
-			if(status==201)
+			if(status === 201)
 			{
 				this.props.handleSubmit(data.image);
 			}
 		}
 		catch(err)
 		{
-			alert(err)
+			this.props.handleErrorServer({
+				title : 'Error en el servidor',
+				variant : 'error',
+				open : true
+			})
 		}
 		finally
 		{
@@ -137,4 +142,13 @@ ModalAddProduct.propTypes = {
    	handleSubmit : PropTypes.func.isRequired
 }
 
-export default ModalAddProduct;
+const mapDispatchToProps = dispatch =>{
+	return{
+		handleErrorServer(payload){
+			dispatch(action_toast(payload))
+		}
+	}
+}
+
+
+export default connect(null,mapDispatchToProps)(ModalAddProduct);

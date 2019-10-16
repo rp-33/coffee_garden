@@ -1,9 +1,11 @@
 import React,{Component} from 'react';
+import {connect} from 'react-redux';
 import Slide from '@material-ui/core/Slide';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import PropTypes from 'prop-types';
 import {deleteProduct} from '../../services/api';
+import {action_toast} from '../../actions/notification';
 
 class ModalDeleteProduct extends Component{
     constructor(props){
@@ -22,7 +24,7 @@ class ModalDeleteProduct extends Component{
 
             let {_id,position,category} = this.props.product;
             let {status} = await deleteProduct(category,_id);
-            if(status==204)
+            if(status===204)
             {
     			this.props.handleSuccess(_id,position);
             }
@@ -30,7 +32,11 @@ class ModalDeleteProduct extends Component{
         }
         catch(err)
         {
-          alert(err)
+            this.props.handleErrorServer({
+                title : 'Error en el servidor',
+                variant : 'error',
+                open : true
+            })
         }
         finally
         {
@@ -78,4 +84,13 @@ ModalDeleteProduct.propTypes = {
     })
 }
 
-export default ModalDeleteProduct;
+const mapDispatchToProps = dispatch =>{
+    return{
+        handleErrorServer(payload){
+            dispatch(action_toast(payload))
+        }
+    }
+}
+
+
+export default connect(null,mapDispatchToProps)(ModalDeleteProduct);

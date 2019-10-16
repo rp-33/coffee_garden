@@ -1,8 +1,8 @@
-const action_toast = (bool)=>{
+const action_toast = (payload)=>{
 	return{
 		type :'NOTIFICATION',
-		bool
+		payload
 	}
 }
 
-export {action_toast}
+export {action_toast};

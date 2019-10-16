@@ -1,4 +1,5 @@
 import React,{Component} from 'react';
+import {connect} from 'react-redux';
 import Slide from '@material-ui/core/Slide';
 import CancelIcon from '@material-ui/icons/Cancel';
 import Paper from '@material-ui/core/Paper';
@@ -8,7 +9,7 @@ import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
 import {editAvatarSchool} from '../../services/api';
 import FileReader from '../../services/reader';
-
+import {action_toast} from '../../actions/notification';
 
 class ModalEditAvatar extends Component{
 	constructor(props){
@@ -27,13 +28,18 @@ class ModalEditAvatar extends Component{
 			this.setState({isLoading:true});
 			let {_id,file} = this.state;
 			let {status,data} = await editAvatarSchool(_id,file);
-			if(status == 201){
+			if(status === 201)
+			{
 				this.props.handleSuccess(_id,data.image);
 			}
 		}
 		catch(err)
 		{
-			alert(err)
+			this.props.handleErrorServer({
+				title : 'Error en el servidor',
+				variant : 'error',
+				open : true
+			})
 		}
 		finally{
 			this.setState({
@@ -76,7 +82,7 @@ class ModalEditAvatar extends Component{
                		</div>
          			<h2 style={{textAlign:'center',color:'#e44a4c'}}>Editar</h2>
  
-						{this.state.base64 != ''
+						{this.state.base64 !== ''
 						?
 
 							<div className="ctn-img">
@@ -101,7 +107,7 @@ class ModalEditAvatar extends Component{
       							</label>
 							</div>
 						}
-						{this.state.base64 != '' &&
+						{this.state.base64 !== '' &&
 						<div className="ctn-btn">	
 							{this.state.isLoading 
 							?
@@ -135,5 +141,12 @@ ModalEditAvatar.propTypes = {
 	_id: PropTypes.string.isRequired
 }
 
+const mapDispatchToProps = dispatch =>{
+	return{
+		handleErrorServer(payload){
+			dispatch(action_toast(payload))
+		}
+	}
+}
 
-export default ModalEditAvatar;
+export default connect(null,mapDispatchToProps)(ModalEditAvatar);

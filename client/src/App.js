@@ -1,4 +1,4 @@
-import React,{Component} from 'react';
+import React,{Component,Fragment} from 'react';
 import { Router, Route,Switch} from 'react-router-dom';
 import history from './routes/history';
 import {connect} from 'react-redux';
@@ -11,25 +11,23 @@ import Representative from './views/Representative';
 import Represented from './views/Represented';
 import Seller from './views/Seller';
 import NoMatch from './components/NoMatch';
+import Toast from './presentation/Toast';
 
 class App extends Component{
-  constructor(props){
-    super(props);
-  }
-
   componentDidMount(){
     this._route(this.props.rol,window.location.pathname);
   }
 
   _route(rol,pathname){
     let rolURl= `/${rol}`;
-    if(pathname.indexOf(rolURl)==-1) history.push(rolURl);   
+    if(pathname.indexOf(rolURl)===-1) history.push(rolURl);   
   }
 
   render(){
     return (
-   	<Router history={history}> 
-   		
+    <Fragment>
+      <Toast />
+   	  <Router history={history}> 	
    		<Switch>
    			<PublicRoute
    				exact
@@ -58,10 +56,9 @@ class App extends Component{
             component={Seller}
         />
     		<Route component={NoMatch} />
-   		</Switch>
-
-   	</Router>
-
+   		  </Switch>
+    	</Router>
+    </Fragment>
     )
   }
 }

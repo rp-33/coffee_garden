@@ -1,4 +1,5 @@
 import React,{Component} from 'react';
+import {connect} from 'react-redux';
 import Slide from '@material-ui/core/Slide';
 import CancelIcon from '@material-ui/icons/Cancel';
 import Paper from '@material-ui/core/Paper';
@@ -7,6 +8,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import BarMessage from '../../presentation/BarMessage';
 import PropTypes from 'prop-types';
 import {paymentVoucher} from '../../services/api';
+import {action_toast} from '../../actions/notification';
 
 class ModalBalance extends Component{
 	constructor(props){
@@ -29,12 +31,12 @@ class ModalBalance extends Component{
 		try
 		{
 			this.setState({isLoading:true});
-			let {handleClose,user,voucher,handleSuccess} = this.props;
+			let {user,voucher,handleSuccess} = this.props;
 			let balance = parseInt(user.balance) + parseInt(this.state.value);
-			let {status,data} =  await paymentVoucher(voucher._id,user._id,balance);
-			if(status == 201){
+			let {status} =  await paymentVoucher(voucher._id,user._id,balance);
+			if(status === 201){
 				handleSuccess(user._id,balance);
-			}else if(status==404){
+			}else if(status === 404){
 				this.setState({
 					error : 'El usuario no existe'
 				})
@@ -42,8 +44,12 @@ class ModalBalance extends Component{
 
 		}
 		catch(err)
-		{
-			alert(err)
+		{		
+			this.props.handleErrorServer({
+				title : 'Error en el servidor',
+				variant : 'error',
+				open : true
+			})
 		}
 		finally
 		{
@@ -77,7 +83,7 @@ class ModalBalance extends Component{
 							onChange = {this.handleChange.bind(this)}
 							/>
 						</div>
-						{this.state.value != '' &&
+						{this.state.value !== '' &&
 						<div className="ctn-btn">	
 							{this.state.isLoading	
 							?
@@ -112,4 +118,13 @@ ModalBalance.propTypes = {
 	}).isRequired
 }
 
-export default ModalBalance;
+const mapDispatchToProps = dispatch =>{
+	return{
+		handleErrorServer(payload){
+			dispatch(action_toast(payload))
+		}
+	}
+}
+
+
+export default connect(null,mapDispatchToProps)(ModalBalance);

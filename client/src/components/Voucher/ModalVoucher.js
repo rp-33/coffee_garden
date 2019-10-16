@@ -1,4 +1,4 @@
-import React,{Component} from 'react';
+import React from 'react';
 import Paper from '@material-ui/core/Paper';
 import Slide from '@material-ui/core/Slide';
 import CancelIcon from '@material-ui/icons/Cancel';
@@ -35,6 +35,16 @@ const ModalVoucher = ({open,handleClose,voucher,handleBalance})=>{
          	</div>
         </Slide>
 	)
+}
+
+ModalVoucher.propTypes = {
+    open : PropTypes.bool.isRequired,
+    handleClose : PropTypes.func.isRequired,
+    handleBalance : PropTypes.func.isRequired,
+    voucher : PropTypes.shape({
+        _id: PropTypes.string.isRequired,
+        image : PropTypes.string.isRequired
+    })
 }
 
 

@@ -1,14 +1,14 @@
 import React,{Component} from 'react';
-import Snackbar from '@material-ui/core/Snackbar';
+import {connect} from 'react-redux';
 import Fab from '@material-ui/core/Fab';
 import Grid from '@material-ui/core/Grid';
-import AddIcon from '@material-ui/icons/Add';
 import ModalAdd from './ModalAdd';
 import ModalDelete from './ModalDelete';
-import {createSchool,findAllSchool,deleteSchool} from '../../services/api';
+import {findAllSchool,deleteSchool} from '../../services/api';
 import CardCanteen from './CardCanteen';
 import ModalEditName from './ModalEditName';
-import ModalEditAvatar from './ModalEditAvatar'
+import ModalEditAvatar from './ModalEditAvatar';
+import {action_toast} from '../../actions/notification';
 import './style.css';
 
 class CreateCanteen extends Component{
@@ -39,7 +39,8 @@ class CreateCanteen extends Component{
 		try
 		{
 			let {status,data} = await findAllSchool();
-			if(status==200){
+			if(status === 200)
+			{
 				this.setState({
 					data
 				})
@@ -47,7 +48,11 @@ class CreateCanteen extends Component{
 		}
 		catch(err)
 		{
-			console.log(err);
+			this.props.handleErrorServer({
+				title : 'Error en el servidor',
+				variant : 'error',
+				open : true
+			})
 		}
 	}
 
@@ -66,14 +71,14 @@ class CreateCanteen extends Component{
 
 			let {data,status} = await deleteSchool(this.state._id);
 			this.setState({isLoading:false,modaldelete:false})
-			if(status == 204)
+			if(status === 204)
 			{
 				this.setState(previousState =>{
 					return{
 						modaldelete :false,
 						isLoading:false,
 						data : previousState.data.filter((item,i)=>{
-							return previousState._id != item._id
+							return previousState._id !== item._id
 						})
 					}
 				})
@@ -81,7 +86,11 @@ class CreateCanteen extends Component{
 		}
 		catch(err)
 		{
-
+			this.props.handleErrorServer({
+				title : 'Error en el servidor',
+				variant : 'error',
+				open : true
+			})
 		}
 	}
 
@@ -207,4 +216,12 @@ class CreateCanteen extends Component{
 	}
 }
 
-export default CreateCanteen;
+const mapDispatchToProps = dispatch =>{
+	return{
+		handleErrorServer(payload){
+			dispatch(action_toast(payload))
+		}
+	}
+}
+
+export default connect(null,mapDispatchToProps)(CreateCanteen);

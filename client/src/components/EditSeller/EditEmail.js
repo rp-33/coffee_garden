@@ -33,18 +33,19 @@ class EditEmail extends Component{
 				error:''
 			})
 			let {status,data} = await editEmail(this.props.user,this.state.email);
-			if(status==201)
+			if(status === 201)
 			{
 				this.props.handleSuccess(this.state.email)
 			}
-			else if(status==404){
+			else if(status === 404)
+			{
 				this.setState({
 					error:data.error
 				})
 			}
 		}
 		catch(err){
-			alert(err)
+			this.props.handleError();
 		}
 		finally
 		{

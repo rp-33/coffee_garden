@@ -20,13 +20,13 @@ export default (state = initialState, action) =>{
 		case action_removeCart().type:
 			return Object.assign({},state,{
 				shopping : state.shopping.filter((item,i)=>{
-					return item.image != action.image
+					return item.image !== action.image
 				})
 			})
 		case action_removeShopping().type:
 			return Object.assign({},state,{
 				shopping : state.shopping.filter((item,i)=>{
-					return item.date != action.date
+					return item.date !== action.date
 				})
 			})
 		case action_incrProduct().type:

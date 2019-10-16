@@ -7,7 +7,6 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import FaceIcon from '@material-ui/icons/Face';
 import PowerIcon from '@material-ui/icons/PowerSettingsNew';
-import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import CartIcon from '@material-ui/icons/ShoppingCart';
 import MoneyIcon from '@material-ui/icons/AttachMoney';

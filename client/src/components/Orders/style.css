@@ -7,6 +7,14 @@ div.orders section.ctn{
 	justify-content: center;
 }
 
+div.orders section.ctn div.date{
+	width: 100%;
+	text-align: left;
+	font-weight: bold;
+	font-size: 1.2em;
+	padding-left: 10px;
+}
+
 div.orders section.ctn div.panel{
 	background-color: rgba(255,235,208,.65);
 	position: fixed;

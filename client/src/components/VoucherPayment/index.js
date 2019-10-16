@@ -6,6 +6,7 @@ import ModalInf from './ModalInf';
 import {
 	findAllMyVoucher
 } from '../../services/api';
+import {action_toast} from '../../actions/notification';
 import './style.css';
 
 class VoucherPayment extends Component{
@@ -30,7 +31,7 @@ class VoucherPayment extends Component{
 		try
 		{
 			let {status,data} = await findAllMyVoucher();
-			if(status==200)
+			if(status === 200)
 			{
 				this.setState({
 					data
@@ -39,7 +40,11 @@ class VoucherPayment extends Component{
 		}
 		catch(err)
 		{
-			alert(err)
+			this.props.handleErrorServer({
+				title : 'Error en el servidor',
+				variant : 'error',
+				open : true
+			})
 		}
 	}
 
@@ -121,5 +126,13 @@ const mapStateToProps = (state,props)=>{
     }
 }
 
+const mapDispatchToProps = dispatch =>{
+	return{
+		handleErrorServer(payload){
+			dispatch(action_toast(payload))
+		}
+	}
+}
 
-export default connect(mapStateToProps,null)(VoucherPayment);
+
+export default connect(mapStateToProps,mapDispatchToProps)(VoucherPayment);

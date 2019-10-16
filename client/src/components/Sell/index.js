@@ -1,9 +1,6 @@
 import React,{Component} from 'react';
-import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
-import Fade from '@material-ui/core/Fade';
 import Fab from '@material-ui/core/Fab';
-import DoneIcon from '@material-ui/icons/Done';
 import ModalProduct from './ModalProduct';
 import ListProduct from './ListProduct';
 import ListShopping from './ListShopping';
@@ -12,11 +9,6 @@ import {
 	findAllProducts
 } from '../../services/api';
 import {weekDay} from '../../utils/date';
-import {
-	action_addCart,
-	action_incrProduct
-}from '../../actions/cart';
-import {searchProducts} from '../../utils/products';
 import './style.css';
 
 class Sell extends Component{
@@ -44,7 +36,8 @@ class Sell extends Component{
 
 	async getProducts(school){
 		let {status,data} = await findAllProducts(school);
-		if(status==200){
+		if(status === 200)
+		{
 			this.setState({
 				categories:data
 			})
@@ -89,10 +82,10 @@ class Sell extends Component{
 		} = this.state;
 
 		let position = this.state.shopping.findIndex(item=>{
-			return item.image == productDetails.image
+			return item.image === productDetails.image
 		})
 
-		if(position==-1)
+		if(position ===-1)
 		{
 
 			this.setState(prevState =>{
@@ -132,7 +125,7 @@ class Sell extends Component{
 		this.setState(prevState=>{
 			return{
 				shopping : prevState.shopping.filter((item,i)=>{
-					return i!=index
+					return i !== index
 				})
 			}
 		})

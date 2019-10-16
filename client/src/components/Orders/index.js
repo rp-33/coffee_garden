@@ -1,6 +1,8 @@
 import React,{Component} from 'react';
 import {connect} from 'react-redux';
 import {findAllOrders} from '../../services/api';
+import {structureDate} from '../../utils/date';
+import {action_toast} from '../../actions/notification';
 import './style.css';
 
 class Order extends Component{
@@ -19,8 +21,9 @@ class Order extends Component{
 	async _findAllOrders(){
 		try
 		{
-			let {status,data} = await findAllOrders(this.props.user,this.props.match.params.date);
-			if(status==200){
+			let {status,data} = await findAllOrders(this.props.user,structureDate(this.props.match.params.date));
+			if(status===200)
+			{
 				this.setState({
 					orders:data
 				})
@@ -28,7 +31,11 @@ class Order extends Component{
 		}
 		catch(err)
 		{
-			alert(err);
+			this.props.handleErrorServer({
+				title : 'Error en el servidor',
+				variant : 'error',
+				open : true
+			})
 		}
 	}
 
@@ -36,7 +43,7 @@ class Order extends Component{
 		return(
 			<div className="orders">
 				<section className="ctn">
-					<span style={{fontSize:'1.5em',fontWeight:'bold'}}>fecha: {this.props.match.params.date}</span>
+					<div className="date">fecha: {this.props.match.params.date}</div>
 					<div className="panel">
 						{this.state.orders.map((item,i)=>
 						<section key = {i} className="ctn-shopping">
@@ -94,4 +101,13 @@ const mapStateToProps = (state,props)=>{
 	}
 }
 
-export default connect(mapStateToProps,null)(Order);
+const mapDispatchToProps = dispatch =>{
+	return{
+		handleErrorServer(payload){
+			dispatch(action_toast(payload))
+		}
+	}
+}
+
+
+export default connect(mapStateToProps,mapDispatchToProps)(Order);

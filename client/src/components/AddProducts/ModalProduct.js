@@ -24,7 +24,7 @@ const ModalProduct = ({open,product,handleClose,quantity,handleAddQuantity,handl
          			</div>
 
                     <div className="ctn-input">
-                        <IconButton disabled = {quantity==1}  aria-label="back" style={{color:'#e2474b'}} onClick = {()=>handleDecreaseQuantity()}>
+                        <IconButton disabled = {quantity===1}  aria-label="back" style={{color:'#e2474b'}} onClick = {()=>handleDecreaseQuantity()}>
                             <ArrowLeftIcon fontSize="large" />
                         </IconButton>
                         <div className="input">

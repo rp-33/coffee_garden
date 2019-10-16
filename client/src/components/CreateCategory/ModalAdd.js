@@ -28,7 +28,7 @@ const ModalAdd = ({open,handleClose,value,isLoading,handleChange,handleSave,erro
 							onChange = {(event)=>handleChange(event)}
 							/>
 						</div>
-						{value != '' &&
+						{value !== '' &&
 						<div className="ctn-btn">	
 							{isLoading	
 							?

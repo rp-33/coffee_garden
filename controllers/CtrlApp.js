@@ -49,11 +49,9 @@ module.exports = {
 		{
 
 			let {name,school} = req.body
-
-			console.log(req.body)
 			
 			let find = await Category.findOne({name:name.toLocaleLowerCase(),school});
-			console.log(find)
+
 			if(find) return res.status(204).send();
 
 			const newCategory = new Category({
@@ -441,14 +439,14 @@ module.exports = {
 
 			let {products,total,user,date,school} = req.body;
 
+			date = new Date(date);
 			let {balance,vip} = await User.findOne({_id:user},{_id:false,balance:true,vip:true});
-
 
 			if(!vip && balance < total) return res.status(204).send({message:'No dispone de suficiente saldo'})
 
 			let order = new Order({
 				vouched :  randomatic('0',6),
-				date,
+				date : new Date(date),
 				user, 
 				products,
 				school,
@@ -687,7 +685,6 @@ module.exports = {
 		try
 		{
 			let {_id,vip} = req.query;
-			console.log(req.query)
 			let user = await User.updateOne({_id},{$set:{vip}});
 			if(user.ok>0 && user.n>0) return res.status(204).send({message:'exitoso'});
 			res.status(404).send({message:'usuario no encontrado'});
@@ -702,9 +699,8 @@ module.exports = {
 		try
 		{
 			let {school,initDate,endDate} = req.query;
-			
-			initDate = new Date(moment(initDate).format('YYYY-DD-MM'))
-			endDate = new Date(moment(endDate).format('YYYY-DD-MM'))
+			initDate = new Date(initDate);
+			endDate = new Date(endDate);
 			let shopping =  await Shopping.find({school,
 												date:{
 													$gte : initDate,
@@ -723,7 +719,7 @@ module.exports = {
 		try
 		{
 			let {school,date} = req.query;			
-			date = moment(date).format('DD-MM-YYYY');
+			date = new Date(date)
 			let orders =  await Order.find({school,date}).sort({date:-1})
 			if(orders.length>0) return res.status(200).send(orders);
 			res.status(404).send({message:'no se encuentran compras'});

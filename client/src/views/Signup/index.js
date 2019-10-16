@@ -13,6 +13,7 @@ import BarMessage from '../../presentation/BarMessage';
 import {validateCompare} from '../../utils/validation';
 import {findAllSchool,signup} from '../../services/api';
 import {action_signup} from '../../actions/user';
+import {action_toast} from '../../actions/notification';
 import logo from '../../assets/logo.png';
 import bgImg from '../../assets/background.jpg';
 import './style.css';
@@ -89,7 +90,11 @@ class Signup extends Component{
 		}
 		catch(error)
 		{
-			console.log(error)
+			this.props.handleErrorServer({
+				title : 'Error en el servidor',
+				variant : 'error',
+				open : true
+			})
 		}
 		finally
 		{
@@ -290,9 +295,9 @@ class Signup extends Component{
 
 					<Hidden smUp>
 						{this.state.error &&
-						<BarMessage 
-							title = {this.state.error}
-						/>
+							<BarMessage 
+								title = {this.state.error}
+							/>
 						}
 					</Hidden>
 
@@ -307,6 +312,9 @@ const mapDispatchToProps = dispatch =>{
 	return{
 		handleSignup(data){
 			dispatch(action_signup(data))
+		},
+		handleErrorServer(payload){
+			dispatch(action_toast(payload))
 		}
 	}
 }

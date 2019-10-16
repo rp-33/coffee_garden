@@ -33,18 +33,19 @@ class EditCi extends Component{
 				error:''
 			})
 			let {status,data} = await editCi(this.props.user,this.state.ci);
-			if(status==201)
+			if(status === 201)
 			{
 				this.props.handleSuccess(this.state.ci)
 			}
-			else if(status==404){
+			else if(status === 404)
+			{
 				this.setState({
 					error:data.error
 				})
 			}
 		}
 		catch(err){
-			alert(err)
+			this.props.handleError();
 		}
 		finally
 		{

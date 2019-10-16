@@ -35,18 +35,19 @@ class EditNames extends Component{
 			});
 			let {names,lastNames} = this.state;
 			let {status,data} = await editNames(this.props.user,names,lastNames);
-			if(status==201)
+			if(status === 201)
 			{
 				this.props.handleSuccess(names,lastNames)
 			}
-			else if(status==404){
+			else if(status === 404)
+			{
 				this.setState({
 					error:data.error
 				})
 			}
 		}
 		catch(err){
-			alert(err)
+			this.props.handleError();
 		}
 		finally
 		{

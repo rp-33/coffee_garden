@@ -1,9 +1,11 @@
 import React,{Component} from 'react';
+import {connect} from 'react-redux';
 import Slide from '@material-ui/core/Slide';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import PropTypes from 'prop-types';
 import {deleteRepresented} from '../../services/api';
+import {action_toast} from '../../actions/notification';
 
 class ModalDeleteUser extends Component{
     constructor(props){
@@ -21,14 +23,19 @@ class ModalDeleteUser extends Component{
             });
 
             let {status} = await deleteRepresented(this.props.user._id);
-            if(status==204){
+            if(status===204)
+            {
                 this.props.handleSuccess(this.props.user._id);
             }
 
         }
         catch(err)
         {
-          alert(err)
+            this.props.handleErrorServer({
+                title : 'Error en el servidor',
+                variant : 'error',
+                open : true
+            })
         }
         finally
         {
@@ -75,4 +82,12 @@ ModalDeleteUser.propTypes = {
     })
 }
 
-export default ModalDeleteUser;
+const mapDispatchToProps = dispatch =>{
+    return{
+        handleErrorServer(payload){
+            dispatch(action_toast(payload))
+        }
+    }
+}
+
+export default connect(null,mapDispatchToProps)(ModalDeleteUser);

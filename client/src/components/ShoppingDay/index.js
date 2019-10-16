@@ -1,4 +1,5 @@
 import React,{Component} from 'react';
+import {connect} from 'react-redux';
 import Fab from '@material-ui/core/Fab';
 import SearchIcon from '@material-ui/icons/Search';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -7,6 +8,7 @@ import {
 	queryShoppingDay
 } from '../../services/api';
 import {todayDate} from '../../utils/date';
+import {action_toast} from '../../actions/notification';
 import './style.css';
 
 class ShoppingDay extends Component{
@@ -30,7 +32,8 @@ class ShoppingDay extends Component{
 		{
 			let {status,data} = await findAllSchool();
 
-			if(status==200){
+			if(status === 200)
+			{
 				this.setState({
 					schools : data
 				})
@@ -38,7 +41,11 @@ class ShoppingDay extends Component{
 		}
 		catch(err)
 		{
-			console.log(err);
+			this.props.handleErrorServer({
+				title : 'Error en el servidor',
+				variant : 'error',
+				open : true
+			})
 		}
 	}
 
@@ -63,14 +70,15 @@ class ShoppingDay extends Component{
 		{
 			this.setState({isLoading:true});
 			let {date,school} = this.state;
+
 			let {status,data} = await queryShoppingDay(school,date);
-			if(status==200)
+			if(status === 200)
 			{
 				this.setState({
 					data
 				})
 			}
-			else if(status==404)
+			else if(status === 404)
 			{
 				this.setState({
 					data:[]
@@ -79,7 +87,11 @@ class ShoppingDay extends Component{
 		}
 		catch(err)
 		{
-			alert(err)
+			this.props.handleErrorServer({
+				title : 'Error en el servidor',
+				variant : 'error',
+				open : true
+			})
 		}
 		finally
 		{
@@ -116,7 +128,7 @@ class ShoppingDay extends Component{
 
 					<div className="panel">
 
-						{this.state.school !="seleccione una cantina" &&
+						{this.state.school !== "seleccione una cantina" &&
 
 						<div className="ctn-input">
 							<input 
@@ -187,4 +199,12 @@ class ShoppingDay extends Component{
 	}
 }
 
-export default ShoppingDay;
+const mapDispatchToProps = dispatch =>{
+	return{
+		handleErrorServer(payload){
+			dispatch(action_toast(payload))
+		}
+	}
+}
+
+export default connect(null,mapDispatchToProps)(ShoppingDay);
