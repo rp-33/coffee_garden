@@ -1,10 +1,10 @@
 import React,{Component} from 'react';
 import {connect} from 'react-redux';
 import Snackbar from '@material-ui/core/Snackbar';
+import SnackbarContent from '@material-ui/core/SnackbarContent';
 import {action_toast} from '../actions/notification';
 
 class Toast extends Component{
-
 	handleClose(){
 		this.props.handleClose({
 			title : '',
@@ -13,7 +13,7 @@ class Toast extends Component{
 	}
 
 	render(){
-		let {title,open} = this.props;
+		let {title,open,variant} = this.props;
 		return(
 			<Snackbar
       			anchorOrigin={{
@@ -26,8 +26,18 @@ class Toast extends Component{
       			ContentProps={{
         			'aria-describedby': 'message-id'
       			}}
-      			message={<span id="message-id">{title}</span>}
-    		/>
+    		>
+    			<SnackbarContent
+      				className={variant}
+     				aria-describedby="client-snackbar"
+      				message={
+        			<span id="client-snackbar">
+          				{title}
+       				</span>
+      				}
+    			/>
+
+    		</Snackbar>
 		)
 	}
 }
@@ -37,7 +47,8 @@ class Toast extends Component{
 const mapStateToProps = (state,props)=>{
     return{
     	open : state.notification.open,
-    	title : state.notification.title
+    	title : state.notification.title,
+    	variant: state.notification.variant
     }
 }
 

@@ -30,18 +30,29 @@ class ModalPay extends Component{
 			let {balance,products,user,date,handleSuccess,school} = this.props;
 			let total = totalPrice(products);
 			let {status,data} = await saveOrder(school,user,products,total,structureDate(date));
-			if(status==201){
+			if(status === 201)
+			{
 				handleSuccess(data,date);
-			}else if(status==204){
+			}
+			else if(status === 204)
+			{
 				this.setState({
-					error : 'No dispones de saldo'
+					error : 'No dispones de saldo suficiente'
+				})	
+			}
+			else
+			{
+				this.setState({
+					error : data.error
 				})
 			}
 	
 		}
 		catch(err)
 		{
-			alert(err);
+			this.setState({
+				error : 'Error'
+			})
 		}
 		finally{
 			this.setState({
@@ -63,11 +74,9 @@ class ModalPay extends Component{
                         	<CancelIcon fontSize="large" style={{color:'#e44a4c'}}/>
                     	</div>
          			<h2 style={{color:'#e2474b',textAlign:'center'}}>Pagar</h2>
-         				{this.state.error &&
-							<BarMessage 
-								title = {this.state.error}
-							/>
-						}
+						<BarMessage 
+							title = {this.state.error}
+						/>					
          			<div className="ctn-grid">
          				<div className="left" style={{color:"#f69471"}}>
          					cant
@@ -111,6 +120,17 @@ class ModalPay extends Component{
 		</Slide>
 		)
 	}
+}
+
+ModalPay.propTypes = {
+	open : PropTypes.bool.isRequired,
+	school : PropTypes.string.isRequired,
+	user :  PropTypes.string.isRequired,
+	balance :  PropTypes.number.isRequired,
+	products : PropTypes.array.isRequired,
+	date :  PropTypes.string.isRequired,
+	handleSuccess : PropTypes.func.isRequired,
+	handleClose : PropTypes.func.isRequired
 }
 
 

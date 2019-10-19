@@ -1,4 +1,5 @@
 import React,{Component} from 'react';
+import {connect} from 'react-redux';
 import Fab from '@material-ui/core/Fab';
 import SearchIcon from '@material-ui/icons/Search';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -12,6 +13,7 @@ import {
 	findAllRepresentative,
 	queryUser
 } from '../../services/api';
+import {action_toast} from '../../actions/notification';
 import './style.css';
 
 class Search extends Component{
@@ -23,7 +25,7 @@ class Search extends Component{
 			users : [],
 			modalBalance : false,
 			modalVip : false,
-			error :false,
+			error :'',
 			cedula : '',
 			valueDebt : false,
 			user : {
@@ -44,7 +46,8 @@ class Search extends Component{
 		{
 			let {status,data} = await findAllSchool();
 
-			if(status==200){
+			if(status === 200)
+			{
 				this.setState({
 					schools : data
 				})
@@ -52,7 +55,11 @@ class Search extends Component{
 		}
 		catch(err)
 		{
-			console.log(err);
+			this.props.handleToast({
+				title : 'Error',
+				variant : 'error',
+				open : true
+			})
 		}
 	}
 
@@ -60,20 +67,48 @@ class Search extends Component{
 		try
 		{
 			let {status,data} =  await findAllRepresentative(school);
-			if(status==200)
+			if(status === 200)
 			{
 				this.setState({
 					users : data
 				})
-			}else{
+			}
+			else if(status === 500)
+			{	
+				this.props.handleToast({
+					title : 'Error en el servidor',
+					variant : 'error',
+					open : true
+				})
+			}
+			else if(status === 204)
+			{
 				this.setState({
 					users : []
+				},()=>{
+					this.props.handleToast({
+						title : 'No hay representantes',
+						variant : 'info',
+						open : true
+					})
+				})
+			}
+			else
+			{
+				this.props.handleToast({
+					title : data.error,
+					variant : 'warnin',
+					open : true
 				})
 			}
 		}
 		catch(err)
 		{
-			alert(err)
+			this.props.handleToast({
+				title : 'Error',
+				variant : 'error',
+				open : true
+			})
 		}
 	}
 
@@ -114,13 +149,14 @@ class Search extends Component{
 				isLoading:true,
 				error:false
 			})
-			let {value} = event.target;
 			let {status,data} = await queryUser(this.state.cedula);
-			if(status == 200){
+			if(status === 200)
+			{
 				this.setState({
 					users : data
 				})
-			}else if(status==404){
+			}else if(status === 404)
+			{
 				this.setState({
 					error :true,
 					users : []
@@ -130,7 +166,11 @@ class Search extends Component{
 		}
 		catch(err)
 		{
-			alert(err)
+			this.props.handleToast({
+				title : 'Error',
+				variant : 'error',
+				open : true
+			})
 		}	
 		finally
 		{
@@ -149,7 +189,7 @@ class Search extends Component{
 
 	handleSuccessBalance(_id,balance){
 		let position = this.state.users.findIndex(item=>{
-			return item._id == _id
+			return item._id === _id
 		})
 
 		this.setState(prevState=>{
@@ -167,9 +207,6 @@ class Search extends Component{
 			})
 	}
 
-	findDebt(){
-
-	}
 
 	render(){
 		return(
@@ -213,7 +250,7 @@ class Search extends Component{
 					</div>
 
 					<div className="panel">
-						{this.state.school == 'seleccione una cantina' 
+						{this.state.school === 'seleccione una cantina' 
 						?
 							<h3>seleccione una cantina</h3>
 						:
@@ -242,7 +279,7 @@ class Search extends Component{
 							</div>
 						}
 
-						{this.state.school != 'seleccione una cantina' &&
+						{this.state.school !== 'seleccione una cantina' &&
 							<div>
 								<Switch
         							checked={this.state.valueDebt}  
@@ -276,14 +313,14 @@ class Search extends Component{
 								this.state.valueDebt
 								?
 								<FilterUser 
-									key = {i}
+									key = {item._id}
 									item = {item}
 									handleBalance = {this.handleBalance.bind(this)}
 									handleVip = {this.handleModalVip.bind(this)}
 								/>
 								:
 								<ItemUser 
-									key = {i}
+									key = {item._id}
 									item = {item}
 									handleBalance = {this.handleBalance.bind(this)}
 									handleVip = {this.handleModalVip.bind(this)}
@@ -299,4 +336,12 @@ class Search extends Component{
 	}
 }
 
-export default Search;
+const mapDispatchToProps = dispatch =>{
+	return{
+		handleToast(payload){
+			dispatch(action_toast(payload))
+		}
+	}
+}
+
+export default connect(null,mapDispatchToProps)(Search);

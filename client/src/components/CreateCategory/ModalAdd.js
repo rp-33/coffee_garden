@@ -6,7 +6,7 @@ import Fab from '@material-ui/core/Fab';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import PropTypes from 'prop-types';
 
-const ModalAdd = ({open,handleClose,value,isLoading,handleChange,handleSave,error})=>{
+const ModalAdd = ({open,handleClose,value,isLoading,handleChange,handleSave})=>{
 
 	return(
 		<Slide direction="up" in={open} mountOnEnter unmountOnExit>
@@ -16,9 +16,7 @@ const ModalAdd = ({open,handleClose,value,isLoading,handleChange,handleSave,erro
                     	<CancelIcon fontSize="large" style={{color:'#e44a4c'}}/>
                		</div>
          			<h2 style={{textAlign:'center',color:'#e44a4c'}}>Agregar</h2>
-         				{error &&
-         				<div className="toast-error">categoria ya existe</div>
-         				}
+
          				<div className="ctn-input">
 							<input 
 							type="text" 
@@ -53,7 +51,6 @@ ModalAdd.propTypes = {
 	open : PropTypes.bool.isRequired,
 	handleClose : PropTypes.func.isRequired,
 	value : PropTypes.string.isRequired,
-	error : PropTypes.bool.isRequired,
 	isLoading : PropTypes.bool.isRequired,
 	handleChange : PropTypes.func.isRequired,
 	handleSave : PropTypes.func.isRequired

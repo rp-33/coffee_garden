@@ -1,15 +1,14 @@
 import React,{Component} from 'react';
-import {connect} from 'react-redux';
 import Slide from '@material-ui/core/Slide';
 import CancelIcon from '@material-ui/icons/Cancel';
 import Paper from '@material-ui/core/Paper';
 import Fab from '@material-ui/core/Fab';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
+import BarMessage from '../../presentation/BarMessage';
 import PropTypes from 'prop-types';
 import {editAvatarSchool} from '../../services/api';
 import FileReader from '../../services/reader';
-import {action_toast} from '../../actions/notification';
 
 class ModalEditAvatar extends Component{
 	constructor(props){
@@ -18,27 +17,42 @@ class ModalEditAvatar extends Component{
 			_id : props._id,
 			isLoading :false,
 			file : {},
-			base64 : ''
+			base64 : '',
+			error : ''
 		}
 	}
 
 	async handleSubmit(){
 		try
 		{
-			this.setState({isLoading:true});
+			this.setState({
+				isLoading:true,
+				error : ''
+			});
 			let {_id,file} = this.state;
 			let {status,data} = await editAvatarSchool(_id,file);
 			if(status === 201)
 			{
 				this.props.handleSuccess(_id,data.image);
 			}
+			else if(status === 500)
+			{
+				this.setState({
+					error:'Error en el servidor'
+				})
+			}
+			else
+			{
+				this.setState({
+					error:data.error
+				})
+				
+			}
 		}
 		catch(err)
 		{
-			this.props.handleErrorServer({
-				title : 'Error en el servidor',
-				variant : 'error',
-				open : true
+			this.setState({
+				error:'Error'
 			})
 		}
 		finally{
@@ -81,7 +95,11 @@ class ModalEditAvatar extends Component{
                     	<CancelIcon fontSize="large" style={{color:'#e44a4c'}}/>
                		</div>
          			<h2 style={{textAlign:'center',color:'#e44a4c'}}>Editar</h2>
- 
+
+						<BarMessage 
+							title = {this.state.error}
+						/>
+
 						{this.state.base64 !== ''
 						?
 
@@ -141,12 +159,4 @@ ModalEditAvatar.propTypes = {
 	_id: PropTypes.string.isRequired
 }
 
-const mapDispatchToProps = dispatch =>{
-	return{
-		handleErrorServer(payload){
-			dispatch(action_toast(payload))
-		}
-	}
-}
-
-export default connect(null,mapDispatchToProps)(ModalEditAvatar);
+export default ModalEditAvatar;

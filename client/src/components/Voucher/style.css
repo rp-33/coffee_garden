@@ -41,6 +41,7 @@ div.voucher section.ctn div.panel{
 	padding: 10px;
 	box-shadow: 0 0 6px rgba(0,0,0,.4);
 	overflow-y: auto;
+	overflow-x: hidden;
 	top:150px;
 }
 
@@ -54,6 +55,9 @@ div.voucher section.ctn div.panel div.ctn-grid{
 
 div.voucher section.ctn div.panel div.ctn-grid div{
 	text-transform: capitalize;
+	display:flex;
+	height: 30px;
+	align-items: center;
 }
 
 div.voucher section.ctn div.panel div.ctn-grid div:nth-child(1){
@@ -64,14 +68,14 @@ div.voucher section.ctn div.panel div.ctn-grid div:nth-child(1){
 }
 div.voucher section.ctn div.panel div.ctn-grid div:nth-child(2){
 	flex:1;
-	text-align: center;
+	justify-content: center;
+	overflow:hidden;
+    white-space:nowrap;
+	text-overflow: ellipsis;
 }
 
 div.voucher section.ctn div.panel div.ctn-grid div:nth-child(3){
-	width: 140px;
-	overflow:hidden;
-    white-space:nowrap;
-    text-overflow: ellipsis;
+	width: 50px;
 }
 
 /*MODAL-VOUCHER*/
@@ -91,7 +95,7 @@ div.voucher div.modal-inf{
 
 div.voucher div.modal-inf .form-control{
 	background-color: #f7f3f0;
-	width: calc(100% - 50px);
+	width: calc(100% - 100px);
 	border-radius: 20px;
 	padding: 5px 25px 30px 25px;
 	max-width: 310px;
@@ -140,8 +144,6 @@ div.voucher div.modal-inf .form-control div.ctn-btn{
 }
 
 /*MODAL-BALANCE*/
-
-
 
 div.voucher div.modal-balance{
 	display:flex;

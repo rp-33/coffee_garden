@@ -37,7 +37,13 @@ class EditCi extends Component{
 			{
 				this.props.handleSuccess(this.state.ci)
 			}
-			else if(status === 404)
+			else if(status === 500)
+			{
+				this.setState({
+					error:'Error en el servidor'
+				})
+			}
+			else
 			{
 				this.setState({
 					error:data.error
@@ -45,7 +51,9 @@ class EditCi extends Component{
 			}
 		}
 		catch(err){
-			this.props.handleError();
+			this.setState({
+				error:'Error'
+			})
 		}
 		finally
 		{
@@ -60,11 +68,11 @@ class EditCi extends Component{
 		return(
 			<form onSubmit = {this.handleSubmit.bind(this)}>
 				<h2 className="title">Editar cedula</h2>
-				{this.state.error &&
-						<BarMessage 
-							title = {this.state.error}
-						/>
-					}
+			
+				<BarMessage 
+					title = {this.state.error}
+				/>
+					
 				<div className="ctn-input">
 					<input 
 						type="number" 

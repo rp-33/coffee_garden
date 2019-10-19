@@ -1,10 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const BarMessage = ({title})=>(
 
-	<div style={styles.ctn}>
-		<p style={styles.title}>{title}</p>
-	</div>
+	<section>
+		{title !== '' &&
+			<div style={styles.ctn}>
+				<p style={styles.title}>{title}</p>
+			</div>
+		}
+	</section>
 
 )
 
@@ -26,6 +31,10 @@ const styles = {
 	title:{
 		textAlign:'center'
 	}
+}
+
+BarMessage.propTypes = {
+	title : PropTypes.string.isRequired
 }
 
 export default BarMessage

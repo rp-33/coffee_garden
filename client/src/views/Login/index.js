@@ -33,7 +33,8 @@ class Login extends Component{
 		try
 		{
 			let {status,data} = await findAllSchool();
-			if(status===200){
+			if(status === 200)
+			{
 				this.setState({
 					school : data
 				})
@@ -75,6 +76,14 @@ class Login extends Component{
 				this.props.handleLogin(data);
 				history.push(`/${data.rol}`);
 			}
+			else if(status === 500)
+			{
+				this.props.handleErrorServer({
+					title : 'Error en el servidor',
+					variant : 'error',
+					open : true
+				})
+			}
 			else
 			{
 				this.setState({
@@ -82,10 +91,10 @@ class Login extends Component{
 				})	
 			}
 		}
-		catch(err)
+		catch(e)
 		{
 			this.props.handleErrorServer({
-				title : 'Error en el servidor',
+				title : 'Error',
 				variant : 'error',
 				open : true
 			})
@@ -108,11 +117,10 @@ class Login extends Component{
 					<div className="ctn-logo">
 						<img src={logo} alt="logo" />
 					</div>
-					{this.state.errorLogin &&
-						<BarMessage 
-							title = {this.state.errorLogin}
-						/>
-					}
+					<BarMessage 
+						title = {this.state.errorLogin}
+					/>
+					
 					<div className="ctn-input">
 						<input 
 							type="email" 

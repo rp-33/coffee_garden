@@ -6,6 +6,7 @@ import ModalProduct  from './ModalProduct';
 import ModalPay from './ModalPay';
 import {orderProducts} from '../../utils/products';
 import CancelIcon from '@material-ui/icons/Cancel';
+import NoData from '../../presentation/NoData';
 import {
 	action_removeCart,
 	action_removeShopping
@@ -20,7 +21,6 @@ class Shopping extends Component{
 		this.state = {
 			modal : false,
 			modalPay : false,
-			data : orderProducts(props.cart,props.match.params.date),
 			selectProduct : {
 				name : '',
 				price:null,
@@ -28,6 +28,7 @@ class Shopping extends Component{
 				image : null
 			}
 		}
+		this.data = orderProducts(props.cart,props.match.params.date);
 	}
 
 	handleDelete({image}){
@@ -86,7 +87,7 @@ class Shopping extends Component{
 						school = {this.props.school}
 						user = {this.props.user}
 						balance = {this.props.balance}
-						products = {this.state.data}
+						products = {this.data}
 						date = {this.props.match.params.date}
 						handleSuccess = {this.handleSuccess.bind(this)}
 						handleClose = {(modalPay)=>this.setState({modalPay})}
@@ -95,8 +96,8 @@ class Shopping extends Component{
 				}
 
 				<section className="ctn">
-					<span style={{fontSize:'1.5em',fontWeight:'bold'}}>Compras del {this.props.match.params.date}</span>
-					{this.state.data.length>0 &&
+					{this.data.length>0 &&
+					<div style={{textAlign:'left',width:'100%'}}>
 					<Fab 
 						onClick = {()=>this.setState({modalPay:true})}
                         variant="extended" 
@@ -106,9 +107,18 @@ class Shopping extends Component{
                     >
                         Pagar
                     </Fab>
+                    </div>
                 	}
 					<div className="panel">
-						{this.state.data.map((item,i)=>
+						{this.data.length>0 &&
+							<div style={{fontSize:'1.2em',fontWeight:'bold',textAlign:'left',width:'100%'}}>{this.props.match.params.date}</div>
+						}
+						{this.data.length === 0 && 
+							<NoData 
+								message = "No ha realizado una orden"
+							/>
+						}
+						{this.data.map((item,i)=>
 							<div key = {i} className="item-card">
 								<div className="icon-close" onClick = {this.handleDelete.bind(this,item)}>
                         			<CancelIcon fontSize="large" style={{color:'#e44a4c'}}/>

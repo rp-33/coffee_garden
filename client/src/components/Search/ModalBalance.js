@@ -1,5 +1,4 @@
 import React,{Component} from 'react';
-import {connect} from 'react-redux';
 import Slide from '@material-ui/core/Slide';
 import CancelIcon from '@material-ui/icons/Cancel';
 import Paper from '@material-ui/core/Paper';
@@ -8,7 +7,6 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import BarMessage from '../../presentation/BarMessage';
 import PropTypes from 'prop-types';
 import {addBalance} from '../../services/api';
-import {action_toast} from '../../actions/notification';
 
 class ModalBalance extends Component{
 	constructor(props){
@@ -30,26 +28,34 @@ class ModalBalance extends Component{
 	async handleSend(){
 		try
 		{
-			this.setState({isLoading:true});
+			this.setState({
+				isLoading:true,
+				error : ''
+			});
 			let {user,handleSuccess} = this.props;
 			let balance = parseInt(user.balance) + parseInt(this.state.value);
 			let {status,data} =  await addBalance(user._id,balance);
-			if(status === 201){
+			if(status === 201)
+			{
 				handleSuccess(user._id,balance);
-			}else if(status === 404)
+			}
+			else if(status === 500)
 			{
 				this.setState({
-					error : 'El usuario no existe'
+					error : 'Error en el servidor'
 				})
 			}
-
+			else
+			{
+				this.setState({
+					error : data.error
+				})
+			}
 		}
 		catch(err)
 		{
-			this.props.handleErrorServer({
-				title : 'Error en el servidor',
-				variant : 'error',
-				open : true
+			this.setState({
+				error : 'Error'
 			})
 		}
 		finally
@@ -70,11 +76,9 @@ class ModalBalance extends Component{
                     	<CancelIcon fontSize="large" style={{color:'#e44a4c'}}/>
                		</div>
          			<h2 style={{textAlign:'center',color:'#e44a4c'}}>Agregar saldo</h2>
-         				{this.state.error &&
-         					<BarMessage 
-								title = {this.state.error}
-							/>
-         				}
+         			<BarMessage 
+						title = {this.state.error}
+					/>
          				<div className="ctn-input">
 							<input 
 							type="number" 
@@ -84,7 +88,7 @@ class ModalBalance extends Component{
 							onChange = {this.handleChange.bind(this)}
 							/>
 						</div>
-						{this.state.value != '' &&
+						{this.state.value !== '' &&
 						<div className="ctn-btn">	
 							{this.state.isLoading	
 							?
@@ -114,12 +118,5 @@ ModalBalance.propTypes = {
 	}).isRequired
 }
 
-const mapDispatchToProps = dispatch =>{
-	return{
-		handleErrorServer(payload){
-			dispatch(action_toast(payload))
-		}
-	}
-}
 
-export default connect(null,mapDispatchToProps)(ModalBalance);
+export default ModalBalance;

@@ -38,9 +38,18 @@ class ModalAddUser extends Component{
 			});
 			let {names,lastNames,email,password,ci} = this.state;
 			let {status,data} = await createSeller(this.props.school,names,lastNames,ci,email,password);
-			if(status==201){
+			if(status === 201)
+			{
 				this.props.handleSave(data);
-			}else if(status==401){
+			}
+			else if(status === 500)
+			{
+				this.setState({
+					error : 'Error con el servidor'
+				})
+			}
+			else
+			{
 				this.setState({
 					error : data.error
 				})
@@ -48,7 +57,9 @@ class ModalAddUser extends Component{
 		}
 		catch(err)
 		{
-			alert(err)
+			this.setState({
+				error : 'Error'
+			})
 		}
 		finally
 		{
@@ -72,11 +83,9 @@ class ModalAddUser extends Component{
                     	</div>
          				<h2 style={{textAlign:'center',color:'#e44a4c'}}>Agregar Vendedor</h2>
          				<form autoComplete="off" onSubmit = {this.handleSubmit.bind(this)}>
-         					{this.state.error &&
-         						<BarMessage 
-									title = {this.state.error}
-								/>
-         					}
+         					<BarMessage 
+								title = {this.state.error}
+							/>
          					<div className="ctn-input">
 								<input 
 								type="text" 

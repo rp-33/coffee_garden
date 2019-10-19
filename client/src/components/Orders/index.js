@@ -1,5 +1,6 @@
 import React,{Component} from 'react';
 import {connect} from 'react-redux';
+import NoData from '../../presentation/NoData';
 import {findAllOrders} from '../../services/api';
 import {structureDate} from '../../utils/date';
 import {action_toast} from '../../actions/notification';
@@ -9,7 +10,8 @@ class Order extends Component{
 	constructor(props){
 		super(props);
 		this.state = {
-			orders : []
+			orders : [],
+			result:true
 		}
 	}
 
@@ -22,17 +24,32 @@ class Order extends Component{
 		try
 		{
 			let {status,data} = await findAllOrders(this.props.user,structureDate(this.props.match.params.date));
-			if(status===200)
+			if(status === 200)
 			{
 				this.setState({
 					orders:data
 				})
 			}
+			else if(status === 204)
+			{
+				this.setState({
+					result:false
+				})
+			}
+			else if(status === 500)
+			{
+				this.props.handleErrorServer({
+					title : 'Error en el servidor',
+					variant : 'error',
+					open : true
+				})
+			}
+
 		}
 		catch(err)
 		{
 			this.props.handleErrorServer({
-				title : 'Error en el servidor',
+				title : 'Error',
 				variant : 'error',
 				open : true
 			})
@@ -45,6 +62,9 @@ class Order extends Component{
 				<section className="ctn">
 					<div className="date">fecha: {this.props.match.params.date}</div>
 					<div className="panel">
+						{!this.state.result &&
+							<NoData />
+						}
 						{this.state.orders.map((item,i)=>
 						<section key = {i} className="ctn-shopping">
 							<div className="cnt-vouched">

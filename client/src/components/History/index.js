@@ -1,5 +1,6 @@
 import React,{Component} from 'react';
 import {connect} from 'react-redux';
+import NoData from '../../presentation/NoData';
 import {findAllHistory} from '../../services/api';
 import {formatDate} from '../../utils/date';
 import {action_toast} from '../../actions/notification';
@@ -9,7 +10,8 @@ class History extends Component{
 	constructor(props){
 		super(props);
 		this.state = {
-			orders : []
+			orders : [],
+			result :  true
 		}
 	}
 
@@ -22,17 +24,39 @@ class History extends Component{
 		try
 		{
 			let {status,data} = await findAllHistory(this.props.user);
-			if(status===200)
+			if(status === 200)
 			{
 				this.setState({
 					orders:data
+				})
+			}
+			else if(status === 204)
+			{
+				this.setState({
+					result:false
+				})
+			}
+			else if(status === 500)
+			{
+				this.props.handleErrorServer({
+					title : 'error en el servidor',
+					variant : 'error',
+					open : true
+				})
+			}
+			else
+			{
+				this.props.handleErrorServer({
+					title : data.error,
+					variant : 'error',
+					open : true
 				})
 			}
 		}
 		catch(err)
 		{
 			this.props.handleErrorServer({
-				title : 'Error en el servidor',
+				title : 'Error',
 				variant : 'error',
 				open : true
 			})
@@ -45,6 +69,9 @@ class History extends Component{
 				<section className="ctn">
 					<h2>Historial de compras</h2>
 					<div className="panel">
+						{!this.state.result &&
+							<NoData />
+						}
 						{this.state.orders.map((item,i)=>
 						<section key = {i} className="ctn-shopping">
 							<div className="cnt-vouched">

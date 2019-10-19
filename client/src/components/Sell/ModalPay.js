@@ -1,5 +1,4 @@
 import React,{Component} from 'react';
-import {connect} from 'react-redux';
 import Paper from '@material-ui/core/Paper';
 import Slide from '@material-ui/core/Slide';
 import CancelIcon from '@material-ui/icons/Cancel';
@@ -10,7 +9,6 @@ import BarMessage from '../../presentation/BarMessage';
 import {totalPrice} from '../../utils/products';
 import {saveShopping} from '../../services/api';
 import {structureDate} from '../../utils/date';
-import {action_toast} from '../../actions/notification';
 
 class ModalPay extends Component{
 	constructor(props){
@@ -29,19 +27,29 @@ class ModalPay extends Component{
 				error:''
 			});
 			let {date,products,handleSuccess,school} = this.props;
-			let {status} = await saveShopping(school,structureDate(date),products);
+			let {status,data} = await saveShopping(school,structureDate(date),products);
 			if(status === 201)
 			{
 				handleSuccess(date);
+			}
+			else if(status === 500)
+			{
+				this.setState({
+					error: 'Error en el servidor'
+				})
+			}
+			else 
+			{
+				this.setState({
+					error: data.error
+				})
 			}
 	
 		}
 		catch(err)
 		{
-			this.props.handleErrorServer({
-				title : 'Error en el servidor',
-				variant : 'error',
-				open : true
+			this.setState({
+				error: 'Error en el servidor'
 			})
 		}
 		finally{
@@ -64,11 +72,9 @@ class ModalPay extends Component{
                         	<CancelIcon fontSize="large" style={{color:'#e44a4c'}}/>
                     	</div>
          			<h2 style={{color:'#e2474b',textAlign:'center'}}>Pagar</h2>
-         				{this.state.error &&
-							<BarMessage 
-								title = {this.state.error}
-							/>
-						}
+						<BarMessage 
+							title = {this.state.error}
+						/>
          			<div className="ctn-grid">
          				<div className="left" style={{color:"#f69471"}}>
          					cant
@@ -129,13 +135,5 @@ ModalPay.propTypes = {
 	handleClose : PropTypes.func.isRequired
 }
 
-const mapDispatchToProps = dispatch =>{
-	return{
-		handleErrorServer(payload){
-			dispatch(action_toast(payload))
-		}
-	}
-}
 
-
-export default connect(null,mapDispatchToProps)(ModalPay);
+export default ModalPay;

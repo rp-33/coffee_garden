@@ -1,18 +1,20 @@
 import React,{Component} from 'react';
+import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
 import ModalDelete from './ModalDelete';
 import ModalAdd from './ModalAdd';
 import ModalEdit from './ModalEdit';
+import NoData from '../../presentation/NoData';
 import {
 	createCategory,
 	findAllCategory,
 	deleteCategory,
 	editCategory
 } from '../../services/api';
+import {action_toast} from '../../actions/notification';
 import './style.css';
 
 class CreateCategory extends Component{
@@ -27,9 +29,9 @@ class CreateCategory extends Component{
 			inputEdit : '',
 			name : '',
 			isLoading:false,
-			errorAdd :  false,
 			index: null,
-			_id : ''
+			_id : '',
+			result :true
 		}
 	}
 
@@ -41,15 +43,26 @@ class CreateCategory extends Component{
 		try
 		{
 			let {status,data} = await findAllCategory(this.props.match.params.id);
-			if(status == 200){
+			if(status === 200)
+			{
 				this.setState({
 					categories : data
+				})
+			}
+			else if(status === 204)
+			{
+				this.setState({
+					result : false
 				})
 			}
 		}
 		catch(err)
 		{
-			alert(err)
+			this.props.handleToast({
+				title : 'Error',
+				variant : 'error',
+				open : true
+			})
 		}
 	}
 
@@ -75,26 +88,57 @@ class CreateCategory extends Component{
 		{
 			this.setState({isLoading:true});
 
-			let {status} = await deleteCategory(this.state._id);
+			let {status,data} = await deleteCategory(this.state._id);
 
-			if(status == 204)
+			if(status === 204)
 			{
 				this.setState(previousState =>{
 					return{
-						modaldelete :false,
-						isLoading:false,
 						categories : previousState.categories.filter((item,i)=>{
-							return previousState._id != item._id
-						})
+							return previousState._id !== item._id
+						}),
+						result : (previousState.categories.length - 1 === 0) ? false : true
 					}
+				},()=>{
+					this.props.handleToast({
+						title : 'Eliminado con exito',
+						variant : 'success',
+						open : true
+					})
+				})
+			}
+			else if(status === 500)
+			{
+				this.props.handleToast({
+					title : 'Error en el servidor',
+					variant : 'error',
+					open : true
+				})	
+			}
+			else
+			{
+				this.props.handleToast({
+					title : data.error,
+					variant : 'warnin',
+					open : true
 				})
 			}
 
 		}
 		catch(err)
 		{
-			this.setState({isLoading:false});
-			alert(err);
+			this.props.handleToast({
+				title : 'Error',
+				variant : 'error',
+				open : true
+			})
+		}
+		finally
+		{
+			this.setState({
+				isLoading:false,
+				modaldelete :false
+			});
 		}
 	}
 
@@ -103,13 +147,12 @@ class CreateCategory extends Component{
 		{
 			this.setState({isLoading:true});
 
-			let {status} = await editCategory(this.state._id,this.state.inputEdit);
+			let {status,data} = await editCategory(this.state._id,this.state.inputEdit);
 
-			if(status == 204)
+			if(status === 204)
 			{
 				this.setState(previousState =>{
 					return{
-						modaledit :false,
 						isLoading:false,
 						categories:[
                     		...previousState.categories.slice(0,previousState.index),// Copia el objeto antes de modificarlo
@@ -119,13 +162,46 @@ class CreateCategory extends Component{
                     		...previousState.categories.slice(previousState.index + 1)
                 		]
 					}
+				},()=>{
+					this.props.handleToast({
+						title : 'Editado con exito',
+						variant : 'success',
+						open : true
+					})
 				})
 			}
+			else if(status === 500)
+			{
+				this.props.handleToast({
+					title : 'Error en el servidor',
+					variant : 'error',
+					open : true
+				})	
+			}
+			else
+			{
+				this.props.handleToast({
+					title : data.error,
+					variant : 'warnin',
+					open : true
+				})
+			}
+
 		}
 		catch(err)
 		{
-			this.setState({isLoading:false});
-			alert(err);
+			this.props.handleToast({
+				title : 'Error',
+				variant : 'error',
+				open : true
+			})
+		}
+		finally
+		{
+			this.setState({
+				modaledit :false,
+				isLoading:false
+			});
 		}
 	}
 
@@ -138,40 +214,67 @@ class CreateCategory extends Component{
 
 			let {status,data} = await createCategory(this.state.inputAdd,this.props.match.params.id);
 
-			if(status == 201)
+			if(status === 201)
 			{
 
 				let {_id,name,school} = data;
 
 				this.setState(previousState => {
 					return { 
-						modaladd : false,
-						isLoading : false,
-						inputAdd : '',
-						errorAdd : '',
+						result : true,
 						categories : previousState.categories.concat({
 							_id,
 							name,
 							school
 						})
 					};
+				},()=>{
+					this.props.handleToast({
+						title : 'Guardado con exito',
+						variant : 'success',
+						open : true
+					})
 				});
 			}
-			else if(status==204)
+			else if(status === 204)
 			{
-
-				this.setState({
-					errorAdd : true
+				this.props.handleToast({
+					title : 'Categoria ya existe',
+					variant : 'info',
+					open : true
+				})
+			}else if(status === 500)
+			{
+				this.props.handleToast({
+					title : 'Error en el servidor',
+					variant : 'error',
+					open : true
+				})
+			}
+			else
+			{
+				this.props.handleToast({
+					title : data.error,
+					variant : 'warnin',
+					open : true
 				})
 			}
 		}
 		catch(err)
 		{	
-			alert(err);
+			this.props.handleToast({
+				title : 'Error',
+				variant : 'error',
+				open : true
+			})
 		}
 		finally
 		{
-			this.setState({isLoading:false});
+			this.setState({
+				modaladd : false,
+				isLoading : false,
+				inputAdd : ''
+			});
 		}
 	}
 
@@ -181,9 +284,8 @@ class CreateCategory extends Component{
 
 				<ModalAdd
 					open = {this.state.modaladd}
-					handleClose = {(modaladd)=>this.setState({modaladd,errorAdd:'',inputAdd:''})}
+					handleClose = {(modaladd)=>this.setState({modaladd,inputAdd:''})}
 					value = {this.state.inputAdd}
-					error = {this.state.errorAdd}
 					isLoading = {this.state.isLoading}
 					handleChange = {(ev)=>this.setState({inputAdd:ev.target.value})}
 					handleSave = {this.handleSave.bind(this)}
@@ -219,6 +321,11 @@ class CreateCategory extends Component{
         				Crear categorias
      				</Fab>
 					<div className="panel">
+						{!this.state.result &&
+							<NoData 
+								message = "No existen categorias"
+							/>
+						}
 						<div className="ctn-category">
 							{this.state.categories.map((item,i)=>
 								<div className="item-category">
@@ -238,4 +345,12 @@ class CreateCategory extends Component{
 	}
 }
 
-export default CreateCategory;
+const mapDispatchToProps = dispatch =>{
+	return{
+		handleToast(payload){
+			dispatch(action_toast(payload))
+		}
+	}
+}
+
+export default connect(null,mapDispatchToProps)(CreateCategory);

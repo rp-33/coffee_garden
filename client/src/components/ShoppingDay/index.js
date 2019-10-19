@@ -41,7 +41,7 @@ class ShoppingDay extends Component{
 		}
 		catch(err)
 		{
-			this.props.handleErrorServer({
+			this.props.handleToast({
 				title : 'Error en el servidor',
 				variant : 'error',
 				open : true
@@ -78,16 +78,38 @@ class ShoppingDay extends Component{
 					data
 				})
 			}
-			else if(status === 404)
+			else if(status === 204)
 			{
 				this.setState({
 					data:[]
+				},()=>{
+					this.props.handleToast({
+						title : 'No hay compras',
+						variant : 'info',
+						open : true
+					})
+				})
+			}
+			else if(status === 500)
+			{
+				this.props.handleToast({
+					title : 'Error en el servidor',
+					variant : 'error',
+					open : true
+				})
+			}
+			else 
+			{
+				this.props.handleToast({
+					title : data.error,
+					variant : 'warnin',
+					open : true
 				})
 			}
 		}
 		catch(err)
 		{
-			this.props.handleErrorServer({
+			this.props.handleToast({
 				title : 'Error en el servidor',
 				variant : 'error',
 				open : true
@@ -160,7 +182,7 @@ class ShoppingDay extends Component{
 						<section key = {i} className="ctn-shopping">
 							<div className="cnt-vouched">
 								<div>
-									<h4 style={{color:'#e44a4c'}}> Nro : {item.vouched} </h4> 						
+									<h4 style={{color:'#e44a4c'}}> Comprobante : {item.vouched} </h4> 						
 								</div>
 
 							</div>
@@ -201,7 +223,7 @@ class ShoppingDay extends Component{
 
 const mapDispatchToProps = dispatch =>{
 	return{
-		handleErrorServer(payload){
+		handleToast(payload){
 			dispatch(action_toast(payload))
 		}
 	}

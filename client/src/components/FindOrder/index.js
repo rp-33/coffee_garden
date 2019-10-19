@@ -1,4 +1,5 @@
 import React,{Component} from 'react';
+import {connect} from 'react-redux';
 import Fab from '@material-ui/core/Fab';
 import SearchIcon from '@material-ui/icons/Search';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -6,6 +7,7 @@ import {
 	queryOrder,
 	packOffOrder
 } from '../../services/api';
+import {action_toast} from '../../actions/notification';
 import {formatDate} from '../../utils/date';
 import './style.css';
 
@@ -19,7 +21,7 @@ class FindOrder extends Component{
 			vouched : '',
 			status : null,
 			products : [],
-			school : ''
+			school : '',
 		}
 	}
 
@@ -35,15 +37,36 @@ class FindOrder extends Component{
 		{
 			let {vouched,date,products,school} = this.state;
 			let {status,data} = await packOffOrder(school,vouched,date,products); 
-			if(status==204){
+			if(status === 204)
+			{
 				this.setState({
 					status : true
+				})
+			}
+			else if(status === 500)
+			{
+				this.props.handleErrorServer({
+					title : 'Error en el servidor',
+					variant : 'error',
+					open : true
+				})
+			}
+			else
+			{
+				this.props.handleErrorServer({
+					title :  data.error,
+					variant : 'warnin',
+					open : true
 				})
 			}
 		}
 		catch(err)
 		{
-			alert(err)
+			this.props.handleErrorServer({
+				title : 'Error en el servidor',
+				variant : 'error',
+				open : true
+			})
 		}
 	}
 
@@ -55,7 +78,7 @@ class FindOrder extends Component{
 			})
 			let {status,data} = await queryOrder(this.state.input);
 
-			if(status==200)
+			if(status === 200)
 			{
 				let {status,vouched,date,products,school} = data;
 				this.setState({
@@ -66,10 +89,37 @@ class FindOrder extends Component{
 					school
 				})
 			}
+			else if(status === 404)
+			{
+				this.props.handleErrorServer({
+					title : data.error,
+					variant : 'warnin',
+					open : true
+				})
+			}
+			else if(status === 500){
+				this.props.handleErrorServer({
+					title : 'Error en el servidor',
+					variant : 'error',
+					open : true
+				})
+			}
+			else 
+			{
+				this.props.handleErrorServer({
+					title : data.error,
+					variant : 'error',
+					open : true
+				})
+			}
 		}
 		catch(err)
 		{
-			alert(err)
+			this.props.handleErrorServer({
+				title : 'Error',
+				variant : 'error',
+				open : true
+			})
 		}
 		finally
 		{
@@ -99,7 +149,7 @@ class FindOrder extends Component{
        					 	<CircularProgress size={20} color="secondary" style={{margin:'0 14px'}} />
        					:
        						<Fab 
-       							disabled={this.state.input.length!=6} 
+       							disabled={this.state.input.length!==6} 
        							color="secondary" 
        							className="secondary"
        							onClick={this.handleQueryOrder.bind(this)}
@@ -108,7 +158,7 @@ class FindOrder extends Component{
        						</Fab>
 						}
 					</div>
-						{this.state.products.length!=0 &&
+						{this.state.products.length!==0 &&
 						<section>
 							<div className="date">
 								<h3 style={{color:'#f5722a'}}>
@@ -172,4 +222,13 @@ class FindOrder extends Component{
 	}
 }
 
-export default FindOrder;
+const mapDispatchToProps = dispatch =>{
+	return{
+		handleErrorServer(payload){
+			dispatch(action_toast(payload))
+		}
+	}
+}
+
+
+export default connect(null,mapDispatchToProps)(FindOrder);

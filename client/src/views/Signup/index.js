@@ -79,19 +79,30 @@ class Signup extends Component{
 			})
 			let {email,names,lastNames,codeCi,ci,phone,countryCode,school,password} = this.state;
 			let {status,data} = await signup(email,names,lastNames,codeCi,ci,phone,countryCode,school,password);
-			if(status==204){
+			if(status === 204)
+			{
 				this.setState({
 					error : "correo ya existe"
 				})
-			}else if(status==201){
+			}
+			else if(status === 201)
+			{
 				this.props.handleSignup(data);
 				history.push('/'+data.rol);
+			}
+			else if(status === 500)
+			{
+				this.props.handleErrorServer({
+					title : 'Error en el servidor',
+					variant : 'error',
+					open : true
+				})
 			}
 		}
 		catch(error)
 		{
 			this.props.handleErrorServer({
-				title : 'Error en el servidor',
+				title : 'Error',
 				variant : 'error',
 				open : true
 			})
@@ -290,7 +301,7 @@ class Signup extends Component{
 					</div>
 					}
 					<p style={{textAlign:'center',marginTop:'20px'}}>
-						<Link to="/" style={{color:'black'}}>Iniciar session</Link>
+						<Link to="/" style={{color:'black',fontWeight:'bold'}}>Iniciar session</Link>
 					</p>
 
 					<Hidden smUp>

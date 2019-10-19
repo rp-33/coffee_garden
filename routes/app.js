@@ -17,7 +17,6 @@ const {
 	editAvatarUser,
 	signup,
 	login,
-	createRepresented,
 	deleteRepresented,
 	createSchool,
 	deleteSchool,
@@ -93,7 +92,7 @@ router.get('/findAllVoucher',Auth,findAllVoucher);
 
 /* POST home page. */
 
-router.post('/createCategory',createCategory);
+router.post('/createCategory',Auth,createCategory);
 
 router.post('/createProduct',upload.single('file'),createProduct);
 
@@ -117,9 +116,9 @@ router.post('/createVoucherPayment',Auth,upload.single('file'),createVoucherPaym
 
 /* PUT home page. */
 
-router.put('/editCategory',editCategory);
+router.put('/editCategory',Auth,editCategory);
 
-router.put('/editToProduct',editToProduct);
+router.put('/editToProduct',Auth,editToProduct);
 
 router.put('/editImageProduct',upload.single('file'),editImageProduct);
 
@@ -131,7 +130,7 @@ router.put('/editAvatarSchool',upload.single('file'),editAvatarSchool);
 
 router.put('/addBalance',Auth,addBalance);
 
-router.put('/changeVip',changeVip);
+router.put('/changeVip',Auth,changeVip);
 
 router.put('/paymentVoucher',Auth,paymentVoucher);
 
@@ -145,7 +144,7 @@ router.put('/editPassword',Auth,editPassword)
 
 /* DELETE home page. */
 
-router.delete('/deleteCategory',deleteCategory);
+router.delete('/deleteCategory',Auth,deleteCategory);
 
 router.delete('/deleteToProduct',deleteToProduct);
 

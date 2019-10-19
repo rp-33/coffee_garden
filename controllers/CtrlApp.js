@@ -1,7 +1,6 @@
 'use strict';
 
-let mongoose = require('mongoose'),
-	Category = require('../models/SchemaCategory'),
+let	Category = require('../models/SchemaCategory'),
 	  School = require('../models/SchemaSchool'),
 		User = require('../models/SchemaUser'),
 	   Order = require('../models/SchemaOrder'),
@@ -10,7 +9,6 @@ let mongoose = require('mongoose'),
 	   token = require('../services/token'),
 	  bcrypt = require('bcrypt'),
   randomatic = require('randomatic'),
-  	  moment = require('moment'),
   cloudinary = require('../configuration/cloudinary');
 
 module.exports = {
@@ -18,12 +16,12 @@ module.exports = {
 		try
 		{
 			let user = await User.deleteOne({_id:req.query._id});
-			if(user.ok>0 && user.n>0) return res.status(204).send({message:'delete user'});
-			res.status(404).send({message:'user not found'})
+			if(user.ok>0 && user.n>0) return res.status(204).send();
+			res.status(404).send({error:'Usuario no encontrado'})
 		}
 		catch(err)
 		{
-			res.status(500).send({err})
+			res.status(500).send({error:'Error en el servidor'})
 		}
 	},
 	editAvatarUser : async (req,res)=>{
@@ -35,13 +33,13 @@ module.exports = {
 
 			if(user.ok>0 && user.n>0) return res.status(201).send({avatar:image.secure_url});
 
-			res.status(404).send({message:'user not found'});
+			res.status(404).send({error:'Recurso no encontrado'});
 
 
 		}
 		catch(err)
 		{
-			res.status(500).send({err})
+			res.status(500).send({error:'Error en el servidor'})
 		}
 	},
 	createCategory : async (req,res)=>{
@@ -49,8 +47,8 @@ module.exports = {
 		{
 
 			let {name,school} = req.body
-			
-			let find = await Category.findOne({name:name.toLocaleLowerCase(),school});
+			name = name.toLocaleLowerCase();
+			let find = await Category.findOne({name,school});
 
 			if(find) return res.status(204).send();
 
@@ -76,30 +74,28 @@ module.exports = {
 	deleteCategory : async (req,res)=>{
 		try
 		{
-
 			const result =  await Category.deleteOne({_id:req.query._id.toLocaleLowerCase()});
 			if(result.ok>0 && result.n>0) return res.status(204).send();
-			res.status(404).send({message:'resource not found'});
+			res.status(404).send({error:'Recurso no encontrado'});
 
 		}
 		catch(err)
 		{
-			res.status(500).send({err})
+			res.status(500).send({error:'Error en el servidor'})
 		}
 	},
 	editCategory: async (req,res)=>{
 		try
 		{
-
 			let {_id,name} = req.query;
 			const result = await Category.updateOne({_id},{$set:{name}});
 			if(result.ok>0 && result.n>0) return res.status(204).send({message:'success'});
-			res.status(404).send({message:'recurso no encontrado'});
+			res.status(404).send({error:'Recurso no encontrado'});
 
 		}
 		catch(err)
 		{
-			res.status(500).send({err})	
+			res.status(500).send({error:'Error en el servidor'})
 		}
 	},
 	findAllCategory : async (req,res)=>{
@@ -107,12 +103,12 @@ module.exports = {
 		try
 		{
 			const result = await Category.find({school:req.query.school},{product:false});
-			if(!result) return res.status(404).send({message:'recurso no encontrado'});
+			if(result.length===0) return res.status(204).send();
 			res.status(200).send(result);
 		}
 		catch(err)
 		{
-			res.status(500).send({err})
+			res.status(500).send({error:'Error en el servidor'})
 		}
 
 	},
@@ -140,25 +136,25 @@ module.exports = {
 														image : product.image
 													});
 
-			res.status(404).send({message:'recurso no encontrado'});
+			res.status(404).send({Error:'Recurso no encontrado'});
 
 		}
 		catch(err)
 		{
-			res.status(500).send({err})
+			res.status(500).send({error:'Error en el servidor'});
 		}
 	},
 	deleteToProduct : async (req,res)=>{
 		try
 		{
 			let product = await Product.deleteOne({_id:req.query._id});
-			if(product.ok>0 && product.n>0) return res.status(204).send({message:'remove product'});
-			res.status(404).send({message:'resource not found'});
+			if(product.ok>0 && product.n>0) return res.status(204).send();
+			res.status(404).send({error:'Recurso no encontrado'});
 
 		}
 		catch(err)
 		{
-			res.status(500).send({err})
+			res.status(500).send({error:'Error en el servidor'})
 		}
 	},
 	editToProduct : async (req,res)=>{
@@ -244,18 +240,20 @@ module.exports = {
 		}
 		catch(err)
 		{
-			res.status(500).send({err});
+			res.status(500).send({error:'Error en el servidor'});
 		}
 	},
 	findAllRepresented :async (req,res)=>{
 		try
 		{
 			let users =  await User.find({representative : req.user},{_id:true,names:true,lastNames:true,avatar:true})
-			if(users) res.status(200).send(users) 
+			if(users.length>0) return res.status(200).send(users);
+			res.status(204).send()
+
 		}
 		catch(err)
 		{
-			res.status(500).send({err});
+			res.status(500).send({error:'Error en el servidor'});
 		}
 	},
 	saveRepresented : async (req,res)=>{
@@ -288,25 +286,24 @@ module.exports = {
 		}
 		catch(err)
 		{
-			res.status(500).send({err});
+			res.status(500).send({error:'Error en el servidor'});
 		}
 	},
 	deleteRepresented :  async (req,res)=>{
 		try
 		{
 			let user = await User.deleteOne({_id:req.query._id,representative:req.user});
-			if(user.ok>0 && user.n>0) return res.status(204).send({message:'delete user'});
-			res.status(404).send({message:'resource not found'});
+			if(user.ok>0 && user.n>0) return res.status(204).send();
+			res.status(404).send({error:'Usuario no encontrado'});
 		}
 		catch(err)
 		{
-			res.status(500).send({err});
+			res.status(500).send({error:'Error en el servidor'});
 		}
 	},
 	login : async (req,res)=>{
 		try
 		{
-
 			const person = await User.findOne({"email" : req.body.email.toLocaleLowerCase()});
 
             if(!person) return res.status(401).send({error:'Correo es incorrecto o no existe'});
@@ -342,7 +339,7 @@ module.exports = {
 		}
 		catch(err)
 		{
-			res.status(500).send({err});
+			res.status(500).send({error:'Error en el servidor'});
 		}
 	},
 	findAllSchool : async (req,res)=>{
@@ -353,7 +350,7 @@ module.exports = {
 		}
 		catch(err)
 		{
-			res.status(500).send({err});
+			res.status(500).send({error:'error en el servidor'});
 		}
 	},
 	createSchool : async (req,res)=>{
@@ -377,7 +374,7 @@ module.exports = {
 		}
 		catch(err)
 		{
-			res.status(500).send({err});
+			res.status(500).send({error:'Error en el servidor'});
 		}
 	},
 	deleteSchool : async (req,res)=>{
@@ -385,12 +382,12 @@ module.exports = {
 		{
 
 			let school = await School.deleteOne({_id:req.query._id});
-			if(school.ok>0 && school.n>0) return res.status(204).send({message:'delete success'});
-			res.status(404).send({message:'resource not found'});
+			if(school.ok>0 && school.n>0) return res.status(204).send();
+			res.status(404).send({error:'Recurso no encontrado'});
 		}
 		catch(err)
 		{
-			res.status(500).send({err});
+			res.status(500).send({error:'Error en el servidor'});
 		}
 	},
 	editNameSchool : async (req,res)=>{
@@ -399,8 +396,8 @@ module.exports = {
 			let school = await School.findOne({name:req.query.name},{name:true});
 			if(school) return res.status(204).send();
 			school = await School.updateOne({_id:req.query._id},{$set:{name:req.query.name}});
-			if(school.ok>0 && school.n>0) return res.status(201).send({message:'success change'});
-			res.status(404).send({message:'resource not found'});
+			if(school.ok>0 && school.n>0) return res.status(201).send({message:'Guardado con exito'});
+			res.status(404).send({error:'Recurso no existe'});
 		}
 		catch(err)
 		{
@@ -414,7 +411,7 @@ module.exports = {
 			let image = await cloudinary.v2.uploader.upload(req.file.path);
 			let school = await School.updateOne({_id:req.body._id},{$set:{avatar:image.secure_url}});
 			if(school.ok>0 && school.n>0) return res.status(201).send({image:image.secure_url});
-			res.status(404).send({message:'resource not found'});
+			res.status(404).send({error:'Recurso no existe'});
 		}
 		catch(err)
 		{
@@ -442,7 +439,7 @@ module.exports = {
 			date = new Date(date);
 			let {balance,vip} = await User.findOne({_id:user},{_id:false,balance:true,vip:true});
 
-			if(!vip && balance < total) return res.status(204).send({message:'No dispone de suficiente saldo'})
+			if(!vip && balance < total) return res.status(204).send()
 
 			let order = new Order({
 				vouched :  randomatic('0',6),
@@ -466,7 +463,7 @@ module.exports = {
 		}
 		catch(err)
 		{
-			res.status(500).send({err});
+			res.status(500).send({error:'error en el el servidor'});
 		}
 	},
 	findAllOrders : async (req,res)=>{
@@ -492,7 +489,7 @@ module.exports = {
 		}
 		catch(err)
 		{
-			res.status(500).send({err});
+			res.status(500).send({error:'error en el servidor'});
 		}
 	},
 	findAllRepresentative : async (req,res)=>{
@@ -501,11 +498,11 @@ module.exports = {
 			let {school} =  req.query;
 			let users = await User.find({school,rol:'representative'},{password:false,codeCi:false,rol:false});
 			if(users.length>0) return res.status(200).send(users);
-			res.status(404).send({message:'resource no found'});
+			res.status(204).send();
 		}
 		catch(err)
 		{
-			res.status(500).send({err})
+			res.status(500).send({error:'Error en el servidor'})
 		}
 	},
 	addBalance : async (req,res)=>{
@@ -514,11 +511,11 @@ module.exports = {
 			let {_id,balance} = req.query
 			let user = await User.updateOne({_id},{$set:{balance}});
 			if(user.ok>0 && user.n>0) return res.status(201).send({message:'success'});
-			res.status(404).send({message:'resource not found'});
+			res.status(404).send({error : 'Recurso no encontrado'});
 		}
 		catch(err)
 		{
-			res.status(500).send({err})
+			res.status(500).send({error:'Error en el servidor'})
 		}
 	},
 	findAllOrdersUser : async (req,res)=>{
@@ -541,12 +538,12 @@ module.exports = {
 			let {ci} = req.query;
 			let users = await User.find({ci},{password:false});
 			if(users.length>0) return res.status(200).send(users)
-			res.status(404).send()
+			res.status(404).send({error:'Usuario no existe'})
 
 		}
 		catch(err)
 		{
-			res.status(500).send({err})
+			res.status(500).send({error:'Error en el servidor'})
 		}
 	},
 	findUser : async (req,res)=>{
@@ -555,12 +552,12 @@ module.exports = {
 			let {_id} = req.query;
 			let user = await User.findOne({_id},{password:false});
 			if(user) return res.status(200).send(user)
-			res.status(404).send()
+			res.status(404).send({error:'Usuario no existe'})
 
 		}
 		catch(err)
 		{
-			res.status(500).send({err})
+			res.status(500).send({error:'Error en el servidor'})
 		}
 	},
 	createSeller : async (req,res)=>{
@@ -593,7 +590,7 @@ module.exports = {
 		}
 		catch(err)
 		{
-			res.status(500).send({err})
+			res.status(500).send({error:'Error en el servidor'})
 		}
 	},
 	findAllSeller : async (req,res)=>{
@@ -602,11 +599,11 @@ module.exports = {
 			let {school} = req.query;
 			let users = await User.find({school,rol:'seller'},{_id:true,names:true,lastNames:true,avatar:true,ci:true});
 			if(users.length>0) return res.status(200).send(users);
-			res.status(404).send({message:'recurso no encontrado'});
+			res.status(204).send();
 		}
 		catch(err)
 		{
-			res.status(500).send({err})
+			res.status(500).send({error:'Error en el servidor'})
 		}
 	},
 	queryOrder : async (req,res)=>{
@@ -614,12 +611,12 @@ module.exports = {
 		{
 			let {vouched} = req.query;
 			let orders = await Order.findOne({vouched});
-			if(!orders) return res.status(404).send({message:'pedido no encontrado'});
+			if(!orders) return res.status(404).send({error:'Pedido no encontrado'});
 			res.status(200).send(orders);
 		}
 		catch(err)
 		{
-			res.status(500).send({err})
+			res.status(500).send({error:'Error en el servidor'})
 		}
 	},
 	packOffOrder : async (req,res)=>{
@@ -639,11 +636,11 @@ module.exports = {
 			await shopping.save();
 
 			if(order.ok>0 && order.n>0) return res.status(204).send();
-			res.status(404).send({message:'user not found'});
+			res.status(404).send({error:'Orden no encontrada'});
 		}
 		catch(err)
 		{
-			res.status(500).send({err})
+			res.status(500).send({error:'Error en el servidor'})
 		}
 	},
 	deleteProduct : async (req,res)=>{
@@ -656,13 +653,12 @@ module.exports = {
 		}
 		catch(err)
 		{
-			res.status(500).send({err})
+			res.status(500).send({error:'Error en el servidor'})
 		}
 	},
 	saveShopping : async (req,res)=>{
 		try
 		{
-
 			let {products,date,school} = req.body;
 
 			let shopping = new Shopping({
@@ -678,7 +674,7 @@ module.exports = {
 		}
 		catch(err)
 		{
-			res.status(500).send({err})
+			res.status(500).send({error:'Error en el servidor'})
 		}
 	},
 	changeVip : async(req,res)=>{
@@ -686,13 +682,13 @@ module.exports = {
 		{
 			let {_id,vip} = req.query;
 			let user = await User.updateOne({_id},{$set:{vip}});
-			if(user.ok>0 && user.n>0) return res.status(204).send({message:'exitoso'});
-			res.status(404).send({message:'usuario no encontrado'});
+			if(user.ok>0 && user.n>0) return res.status(204).send();
+			res.status(404).send({error:'Usuario no existe'});
 
 		}
 		catch(err)
 		{
-			res.status(500).send({err})
+			res.status(500).send({error:'Error en el servidor'})
 		}
 	},
 	findAllShopping : async (req,res)=>{
@@ -708,11 +704,11 @@ module.exports = {
 												}}).sort({date:-1})
 			
 			if(shopping.length>0) return res.status(200).send(shopping);
-			res.status(404).send({message:'no se encuentran compras'});
+			res.status(204).send();
 		}
 		catch(err)
 		{
-			res.status(500).send({err})
+			res.status(500).send({error:'Error en el servidor'})
 		}
 	},
 	queryShoppingDay : async(req,res)=>{
@@ -722,11 +718,11 @@ module.exports = {
 			date = new Date(date)
 			let orders =  await Order.find({school,date}).sort({date:-1})
 			if(orders.length>0) return res.status(200).send(orders);
-			res.status(404).send({message:'no se encuentran compras'});
+			res.status(204).send();
 		}
 		catch(err)
 		{
-			res.status(500).send({err})
+			res.status(500).send({error:'Error en el servidor'})
 		}
 	},
 	createVoucherPayment : async (req,res)=>{
@@ -747,7 +743,7 @@ module.exports = {
 		}
 		catch(err)
 		{
-			res.status(500).send({err})
+			res.status(500).send({error:'Error en el servidor'})
 		}
 	},
 	findAllMyVoucher : async (req,res)=>{
@@ -759,7 +755,7 @@ module.exports = {
 		}
 		catch(err)
 		{
-			res.status(500).send({err})
+			res.status(500).send({error:'error en el servidor'})
 		}
 	},
 	totalSales : async (req,res)=>{
@@ -767,7 +763,7 @@ module.exports = {
 		{
 			let shopping =  await Shopping.aggregate([{"$unwind":"$products"},{"$unwind":"$products.name"},{"$group":{"_id":"$products.name","quantity":{"$sum":"$products.quantity"}}}])
 			if(shopping.length>0) return res.status(200).send(shopping);
-			res.status(404).send({message:'no se encuentran compras'});
+			res.status(404).send({error:'no se encuentran compras'});
 		}
 		catch(err)
 		{
@@ -780,11 +776,11 @@ module.exports = {
 			let voucher = await Voucher.find({school:req.query.school,status:false});
 			await User.populate([voucher],{path:'user',select:["names","lastNames","email","ci","balance"]});
 			if(voucher.length>0) return res.status(200).send(voucher);
-			res.status(404).send({error:'no se encuentran comprobantes'});
+			res.status(204).send();
 		}
 		catch(err)
 		{
-			res.status(500).send({err})
+			res.status(500).send({error:'Error en el servidor'})
 		}
 	},
 	paymentVoucher : async (req,res)=>{
@@ -792,15 +788,15 @@ module.exports = {
 		{	
 			let {_id,user,balance} = req.query;
 			let voucher = await Voucher.updateOne({_id},{$set:{status:true}});
-			if(!voucher.ok>0 && !voucher.n>0) return res.status(404).send({message:'resource not found'});
+			if(!voucher.ok>0 && !voucher.n>0) return res.status(404).send({error:'Recurso no encontrado'});
 			let result = await User.updateOne({_id:user},{$set:{balance}});
-			if(result.ok>0 && result.n>0) return res.status(201).send({message:'success'});
-			res.status(404).send({error:'resource not found'});	
+			if(result.ok>0 && result.n>0) return res.status(201).send({message:'Exitoso'});
+			res.status(404).send({error:'Recurso no encontrado'});	
 			
 		}
 		catch(err)
 		{
-			res.status(500).send({err})
+			res.status(500).send({error:'Error en el servidor'})
 		}	
 	},
 	editCi: async (req,res)=>{
@@ -809,11 +805,11 @@ module.exports = {
 			let {_id,ci} = req.query;
 			let user = await User.updateOne({_id},{$set:{ci}});
 			if(user.ok>0 && user.n>0) return res.status(201).send({message:'success'});
-			res.status(404).send({error:'usuario no existe'});	
+			res.status(404).send({error:'Usuario no existe'});	
 		}
 		catch(err)
 		{
-			res.status(500).send({err})
+			res.status(500).send({error:'Error en el servidor'})
 		}
 	},
 	editEmail: async (req,res)=>{
@@ -822,11 +818,11 @@ module.exports = {
 			let {_id,email} = req.query;
 			let user = await User.updateOne({_id},{$set:{email}});
 			if(user.ok>0 && user.n>0) return res.status(201).send({message:'success'});
-			res.status(404).send({error:'usuario no existe'});	
+			res.status(404).send({error:'Usuario no existe'});	
 		}
 		catch(err)
 		{
-			res.status(500).send({err})
+			res.status(500).send({error:'Error en el servidor'})
 		}
 	},
 	editNames: async (req,res)=>{
@@ -835,11 +831,11 @@ module.exports = {
 			let {_id,names,lastNames} = req.query;
 			let user = await User.updateOne({_id},{$set:{names,lastNames}});
 			if(user.ok>0 && user.n>0) return res.status(201).send({message:'success'});
-			res.status(404).send({error:'usuario no existe'});	
+			res.status(404).send({error:'Usuario no existe'});	
 		}
 		catch(err)
 		{
-			res.status(500).send({err})
+			res.status(500).send({error:'Error en el servidor'})
 		}
 	},
 	editPassword : async (req,res)=>{
@@ -848,11 +844,11 @@ module.exports = {
 			let {_id,password} = req.query;
 			let user = await User.updateOne({_id},{$set:{password : bcrypt.hashSync(password.toLocaleLowerCase(),10) }});
 			if(user.ok>0 && user.n>0) return res.status(201).send({message:'success'});
-			res.status(404).send({error:'usuario no existe'});	
+			res.status(404).send({error:'Usuario no existe'});	
 		}
 		catch(err)
 		{
-			res.status(500).send({err})
+			res.status(500).send({error:'Error en el servidor'})
 		}	
 	}
 

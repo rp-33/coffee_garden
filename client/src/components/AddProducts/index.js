@@ -40,7 +40,8 @@ class AddProducts extends Component{
 
 	async getProducts(school){
 		let {status,data} = await findAllProducts(school);
-		if(status==200){
+		if(status === 200)
+		{
 			this.setState({
 				categories:data
 			})
@@ -85,10 +86,10 @@ class AddProducts extends Component{
 		} = this.state;
 
 		let position = this.props.cart.findIndex(item=>{
-			return item.image == productDetails.image
+			return item.image === productDetails.image
 		})
 
-		if(position==-1)
+		if(position === -1)
 		{
 
 			this.props.handleAddCart({
@@ -136,7 +137,7 @@ class AddProducts extends Component{
 					<div className="ctn-date">
                         {weekDay().map((item,i)=>
                             <div key={i} onClick = {()=>this.setState({selectDate:item})}>
-                            	<Fade in = {this.state.selectDate.date == item.date}>
+                            	<Fade in = {this.state.selectDate.date === item.date}>
                             		<DoneIcon 
                             			color="secondary"
                             			style={{position:'absolute',top:'1px',right:'1px'}}

@@ -1,5 +1,4 @@
 import React,{Component} from 'react';
-import {connect} from 'react-redux';
 import Fab from '@material-ui/core/Fab';
 import Paper from '@material-ui/core/Paper';
 import Slide from '@material-ui/core/Slide';
@@ -7,9 +6,9 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import photoImg from '../../assets/foto.png';
 import FileReader from '../../services/reader';
+import BarMessage from '../../presentation/BarMessage';
 import PropTypes from 'prop-types';
 import {createVoucherPayment} from '../../services/api';
-import {action_toast} from '../../actions/notification';
 
 class ModalAddProduct extends Component{
 	constructor(props){
@@ -17,7 +16,8 @@ class ModalAddProduct extends Component{
 		this.state = {
 			file : {},
 			base64 : '',
-			isLoading : false
+			isLoading : false,
+			error : ''
 		}
 	}
 
@@ -50,21 +50,34 @@ class ModalAddProduct extends Component{
 		try
 		{
 			event.preventDefault();
-			this.setState({isLoading:true});
+			this.setState({
+				error : '',
+				isLoading:true
+			});
 			let {file} = this.state;
 			let {status,data} = await createVoucherPayment(this.props.user,this.props.school,file);
-
 			if(status === 201)
 			{
 				this.props.handleSubmit(data.image);
 			}
+			else if(status === 500)
+			{
+				this.setState({
+					error :  'Error en el servidor'
+				})
+			}
+			else
+			{
+				this.setState({
+					error :  data.error
+				})
+			}
+		
 		}
 		catch(err)
 		{
-			this.props.handleErrorServer({
-				title : 'Error en el servidor',
-				variant : 'error',
-				open : true
+			this.setState({
+				error :  'Error'
 			})
 		}
 		finally
@@ -88,7 +101,10 @@ class ModalAddProduct extends Component{
                     	<div className="icon-close" onClick = {()=>handleClose(false)}>
                         	<CancelIcon fontSize="large" style={{color:'#e44a4c'}}/>
                     	</div>
-         				<h2 style={{color:'#e2474b',textAlign:'center'}}>Cargar comprobante de pago</h2>
+         				<h2 style={{textAlign:'center'}}>Cargar comprobante de pago</h2>
+         				<BarMessage 
+         					title = {this.state.error}
+         				/>
          				{!this.state.base64
          				?
          					<div className="ctn-file">
@@ -142,13 +158,4 @@ ModalAddProduct.propTypes = {
    	handleSubmit : PropTypes.func.isRequired
 }
 
-const mapDispatchToProps = dispatch =>{
-	return{
-		handleErrorServer(payload){
-			dispatch(action_toast(payload))
-		}
-	}
-}
-
-
-export default connect(null,mapDispatchToProps)(ModalAddProduct);
+export default ModalAddProduct;

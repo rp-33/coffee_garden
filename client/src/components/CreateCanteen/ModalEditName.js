@@ -4,6 +4,7 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import Paper from '@material-ui/core/Paper';
 import Fab from '@material-ui/core/Fab';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import BarMessage from '../../presentation/BarMessage';
 import PropTypes from 'prop-types';
 import {editNameSchool} from '../../services/api';
 
@@ -16,7 +17,7 @@ class ModalEditName extends Component{
 			name : props.item.name,
 			_id : props.item._id,
 			isLoading :false,
-			error:false
+			error:''
 		}
 	}
 
@@ -32,22 +33,38 @@ class ModalEditName extends Component{
 		{
 			this.setState({
 				isLoading:true,
-				error:false
+				error:''
 			});
 			let {_id,input} = this.state;
 			let {status,data} = await editNameSchool(_id,input);
-			if(status === 201){
+			if(status === 201)
+			{
 				this.props.handleSuccess(_id,input);
-			}else if(status===204){
+			}else if(status === 204)
+			{
 				this.setState({
-					error:true
+					error:'Nombre ya existe'
+				})
+			}
+			else if(status === 500)
+			{
+				this.setState({
+					error:'Error en el servidor'
+				})
+			}
+			else
+			{
+				this.setState({
+					error:data.error
 				})
 			}
 
 		}
 		catch(err)
 		{
-			alert(err)
+			this.setState({
+				error:'Error'
+			})
 		}
 		finally{
 			this.setState({
@@ -65,13 +82,13 @@ class ModalEditName extends Component{
 			<Slide direction="up" in={open} mountOnEnter unmountOnExit>
 				<div className="modal-edit-name">
 					<Paper className="form-control">
-					<div className="icon-close" onClick = {()=>handleClose(false)}>
-                    	<CancelIcon fontSize="large" style={{color:'#e44a4c'}}/>
-               		</div>
-         			<h2 style={{textAlign:'center',color:'#e44a4c'}}>Editar</h2>
-         				{this.state.error &&
-         				<div className="toast-error">¡Nombre de cantina existe!</div>
-         				}
+						<div className="icon-close" onClick = {()=>handleClose(false)}>
+                    		<CancelIcon fontSize="large" style={{color:'#e44a4c'}}/>
+               			</div>
+         				<h2 style={{textAlign:'center',color:'#e44a4c'}}>Editar</h2>
+					 	<BarMessage 
+							title = {this.state.error}
+						/>
          				<div className="ctn-input">
 							<input 
 							type="text" 

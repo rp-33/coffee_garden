@@ -21,3 +21,16 @@ code {
 	background-color: #e44a4c !important;
 	color:white;
 }
+
+.success {
+   background-color: #009688 !important
+}
+.error{
+  background-color: #e53935 !important
+}
+.info{
+  background-color: #00bcd4 !important
+}
+.warnin{
+  background-color: #fab54f !important
+}

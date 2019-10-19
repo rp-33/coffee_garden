@@ -13,6 +13,7 @@ div.orders section.ctn div.date{
 	font-weight: bold;
 	font-size: 1.2em;
 	padding-left: 10px;
+	margin-top:10px;
 }
 
 div.orders section.ctn div.panel{
@@ -70,7 +71,7 @@ div.orders section.ctn div.panel div.ctn-grid div.center{
 
 /*MEDIA QUERIES*/
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 600px) {
   div.orders section.ctn{
   	padding: 5px 5px 0px 5px;
   	width: calc(95% - 10px);

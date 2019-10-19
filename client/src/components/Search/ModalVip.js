@@ -31,22 +31,36 @@ class ModalBalance extends Component{
 	async handleSend(){
 		try
 		{
-			this.setState({isLoading:true});
+			this.setState({
+				isLoading:true,
+				error : ''
+			});
 			let {handleClose,user} = this.props;
 			let vip = this.state.value == 'vip' ? true : false;
 			let {status,data} =  await changeVip(user._id,vip);
-			if(status == 204){
+			if(status === 204)
+			{
 				handleClose(false);
-			}else if(status==404){
+			}
+			else if(status === 500)
+			{
 				this.setState({
-					error : 'El usuario no existe'
+					error : 'Error en el servidor'
+				})
+			}
+			else
+			{
+				this.setState({
+					error : data.error
 				})
 			}
 
 		}
 		catch(err)
 		{
-			alert(err)
+			this.setState({
+				error : 'Error'
+			})
 		}
 		finally
 		{
@@ -66,11 +80,9 @@ class ModalBalance extends Component{
                     	<CancelIcon fontSize="large" style={{color:'#e44a4c'}}/>
                		</div>
          			<h2 style={{textAlign:'center',color:'#e44a4c'}}>VIP</h2>
-         				{this.state.error &&
-         					<BarMessage 
-								title = {this.state.error}
-							/>
-         				}
+         			<BarMessage 
+						title = {this.state.error}
+					/>
 
          				<FormControl component="fieldset">
         					<RadioGroup 
@@ -91,7 +103,13 @@ class ModalBalance extends Component{
 									<CircularProgress color="secondary"/>
 								</div>
 							:				
-								<Fab onClick = {this.handleSend.bind(this)} type="button" variant="extended" size="large" color="secondary" className="secondary">
+								<Fab 
+									onClick = {this.handleSend.bind(this)} 
+									type="button" 
+									variant="extended"  
+									color="secondary" 
+									className="secondary"
+								>
         							Guardar
      							</Fab>     
      						}						

@@ -9,6 +9,7 @@ import {
 	findAllProducts
 } from '../../services/api';
 import {weekDay} from '../../utils/date';
+import {action_toast} from '../../actions/notification';
 import './style.css';
 
 class Sell extends Component{
@@ -137,6 +138,12 @@ class Sell extends Component{
 				modalPay : false,
 				shopping : []
 			}
+		},()=>{
+			this.props.handleToast({
+				title : 'Compra realizada',
+				variant : 'success',
+				open : true
+			})
 		})
 	}
 
@@ -225,4 +232,13 @@ const mapStateToProps = (state,props)=>{
 }
 
 
-export default connect(mapStateToProps,null)(Sell);
+const mapDispatchToProps = dispatch =>{
+	return{
+		handleToast(payload){
+			dispatch(action_toast(payload))
+		}
+	}
+}
+
+
+export default connect(mapStateToProps,mapDispatchToProps)(Sell);

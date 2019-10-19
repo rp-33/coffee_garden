@@ -1,6 +1,6 @@
 div.find-order section.ctn{
 	width: calc(80% - 50px);
-	margin:120px auto;
+	margin:100px auto;
 	height: 100%;
 	position: relative;
 	display: flex;
@@ -11,7 +11,7 @@ div.find-order section.ctn div.panel{
 	background-color: rgba(255,235,208,.65);
 	position: fixed;
 	width: calc(80% - 70px);
-	height: calc(100% - 200px);
+	height: calc(100% - 160px);
 	max-width: 700px;
 	border-radius: 15px;
 	padding: 10px;

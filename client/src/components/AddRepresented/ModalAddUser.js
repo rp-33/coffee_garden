@@ -16,7 +16,7 @@ class ModalAddUser extends Component{
 			lastNames : '',
 			email:'',
 			password:'',
-			error : ''			
+			error : ''	
 		}
 	}
 
@@ -37,17 +37,22 @@ class ModalAddUser extends Component{
 			});
 			let {names,lastNames,email,password} = this.state;
 			let {status,data} = await saveRepresented(this.props.school,names,lastNames,email,password);
-			if(status==201){
+			if(status === 201)
+			{
 				this.props.handleSave(data);
-			}else if(status==401){
+			}
+			else
+			{
 				this.setState({
-					error : data.error
+					error :  data.error
 				})
 			}
 		}
 		catch(err)
 		{
-			alert(err)
+			this.setState({
+				error : 'Error'
+			})
 		}
 		finally
 		{
@@ -69,13 +74,11 @@ class ModalAddUser extends Component{
          				<div className="icon-close" onClick = {()=>handleClose(false)}>
                         	<CancelIcon fontSize="large" style={{color:'#e44a4c'}}/>
                     	</div>
-         				<h2 style={{textAlign:'center',color:'#e44a4c'}}>Agregar Representado</h2>
+         				<h2 style={{textAlign:'center'}}>Agregar Representado</h2>
          				<form autoComplete="off" onSubmit = {this.handleSubmit.bind(this)}>
-         					{this.state.error &&
-         						<BarMessage 
-									title = {this.state.error}
-								/>
-         					}
+         					<BarMessage 
+								title = {this.state.error}
+							/>
          					<div className="ctn-input">
 								<input 
 								type="text" 

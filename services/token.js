@@ -21,7 +21,7 @@ exports.decode = token => {
             if(payload.exp < moment().unix()) {
                     reject({
                         status : 403,
-                        message : 'El token ha expirado'
+                        error : 'El token ha expirado'
                     });
             }
 
@@ -32,7 +32,7 @@ exports.decode = token => {
         }catch(err) {
             reject({
                 status : 500,
-                message : 'Token invalido'
+                error : 'Token invalido'
             })
         }
     })

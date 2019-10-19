@@ -1,15 +1,17 @@
 import React,{Component} from 'react';
+import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import Fab from '@material-ui/core/Fab';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
-import AddIcon from '@material-ui/icons/Add';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import ModalAddUser from './ModalAddUser';
 import ModalDeleteUser from './ModalDeleteUser';
+import NoData from '../../presentation/NoData';
 import {findAllRepresented} from '../../services/api';
+import {action_toast} from '../../actions/notification';
 import studentImg from  '../../assets/student.png';
 import './style.css';
 
@@ -25,7 +27,8 @@ class AddRepresented extends Component{
 				avatar : null
 			},
 			modalAdd : false,
-			modaldelete : false
+			modaldelete : false,
+			result:true
 		}
 	}
 
@@ -37,15 +40,41 @@ class AddRepresented extends Component{
 		try
 		{
 			let {status,data} = await findAllRepresented();
-			if(status==200){
+			if(status === 200)
+			{
 				this.setState({
 					data
+				})
+			}else if(status === 204)
+			{
+				this.setState({
+					result:false
+				})
+			}
+			else if(status === 500)
+			{
+				this.props.handleToast({
+					title : 'Error en el servidor',
+					variant : 'error',
+					open : true
+				})
+			}
+			else
+			{
+				this.props.handleToast({
+					title : data.error,
+					variant : 'error',
+					open : true
 				})
 			}
 		}
 		catch(err)
 		{
-			alert(err)
+			this.props.handleToast({
+				title : 'Error',
+				variant : 'error',
+				open : true
+			})
 		}
 	}
 
@@ -58,9 +87,16 @@ class AddRepresented extends Component{
 	handleSave(data){
 		this.setState(previousState=>{
 			return{
+				result :true,
 				modalAdd : false,
 				data : previousState.data.concat(data)
 			}
+		},()=>{
+			this.props.handleToast({
+				title : 'Guardado con exito',
+				variant : 'success',
+				open : true
+			})
 		})
 	}
 
@@ -69,9 +105,28 @@ class AddRepresented extends Component{
 			return{
 				modaldelete :false,
 				data : previousState.data.filter((item,i)=>{
-						return _id != item._id
-				})
+					return _id !== item._id
+				}),
+				result : (previousState.data.length - 1 === 0) ? false : true
 			}
+		},()=>{
+			this.props.handleToast({
+				title : 'Se ha eliminado con exito',
+				variant : 'success',
+				open : true
+			})
+		})
+	}
+
+	handleError(message,variant){
+		this.setState({
+			modaldelete : false
+		},()=>{
+			this.props.handleToast({
+				title : message,
+				variant : variant,
+				open : true
+			})
 		})
 	}
 
@@ -95,10 +150,11 @@ class AddRepresented extends Component{
 						open = {this.state.modaldelete}
 						handleClose = {(modaldelete)=>this.setState({modaldelete})}
 						handleSuccess = {this.handleDelete.bind(this)}
+						handleError = {this.handleError.bind(this)}
 					/>
 				}
 
-				<section className="ctn">
+				<section className="ctn">					
 					<div style={{width:'100%'}}>
 					<Fab 
 					    onClick = {()=>this.setState({modalAdd:true})} 
@@ -112,6 +168,11 @@ class AddRepresented extends Component{
         			</Fab>
         			</div>
 					<div className="panel">
+						{!this.state.result &&
+							<NoData 
+								message="No haz agregado representado"
+							/>
+						}
 						<Grid container style={{flexGrow: 1}} spacing={2}>
 							{this.state.data.map((item,i)=>
 								<Grid item 
@@ -135,7 +196,21 @@ class AddRepresented extends Component{
 											<span>{item.names} {item.lastNames}</span>
 										</div>
 										<div className="ctn-icon-option">
-											<IconButton aria-label="delete" color="secondary" onClick = {this.openModalDelete.bind(this)}><DeleteIcon fontSize="medium" /></IconButton>		
+											<Link to={`/represented/edit/representative/${item._id}`}>
+												<IconButton 
+													aria-label="edit"
+													color="primary"
+												>
+													<EditIcon fontSize="medium" />
+												</IconButton>
+											</Link>
+											<IconButton 
+												aria-label="delete" 
+												color="secondary" 
+												onClick = {this.openModalDelete.bind(this)}
+											>
+												<DeleteIcon fontSize="medium" />
+											</IconButton>		
 										</div>
 									</Paper>
 
@@ -159,4 +234,12 @@ const mapStateToProps = (state,props)=>{
     }
 }
 
-export default connect(mapStateToProps,null)(AddRepresented);
+const mapDispatchToProps = dispatch =>{
+	return{
+		handleToast(payload){
+			dispatch(action_toast(payload))
+		}
+	}
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(AddRepresented);

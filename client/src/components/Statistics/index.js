@@ -1,4 +1,5 @@
 import React,{Component} from 'react';
+import {connect} from 'react-redux';
 import Fab from '@material-ui/core/Fab';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {
@@ -12,6 +13,7 @@ import {
 import {
 	priceOrder
 } from '../../utils/price';
+import {action_toast} from '../../actions/notification';
 import './style.css';
 
 class Statistics extends Component{
@@ -35,7 +37,8 @@ class Statistics extends Component{
 		try
 		{
 			let {status,data} = await findAllSchool();
-			if(status==200){
+			if(status === 200)
+			{
 				this.setState({
 					schools : data
 				})
@@ -43,14 +46,19 @@ class Statistics extends Component{
 		}
 		catch(err)
 		{
-			alert(err);
+			this.props.handleToast({
+				title : 'Error',
+				variant : 'error',
+				open : true
+			})
 		}
 	}
 
 	handleSelectShool(event){
 		let school = event.target.value;
 		this.setState({
-			school
+			school,
+			data : []
 		})
 	}
 
@@ -69,19 +77,47 @@ class Statistics extends Component{
 			})
 			let {school,initDate,endDate} = this.state;
 			let {status,data} =  await findAllShopping(school,initDate,endDate);
-			if(status==200){
+			if(status === 200)
+			{
 				this.setState({
 					data
 				})
-			}else{
+			}
+			else if(status === 204)
+			{
 				this.setState({
 					data : []
+				},()=>{
+					this.props.handleToast({
+						title : 'No se encuentran ordenes',
+						variant : 'info',
+						open : true
+					})
+				})
+			}
+			else if(status === 500)
+			{
+				this.props.handleToast({
+					title : 'Error en el servidor',
+					variant : 'error',
+					open : true
+				})
+			}
+			else{
+				this.props.handleToast({
+					title : data.error,
+					variant : 'warnin',
+					open : true
 				})
 			}
 		}
 		catch(err)
 		{
-			alert(err)
+			this.props.handleToast({
+				title : 'Error',
+				variant : 'error',
+				open : true
+			})
 		}
 		finally
 		{
@@ -205,4 +241,12 @@ class Statistics extends Component{
 	}
 }
 
-export default Statistics;
+const mapDispatchToProps = dispatch =>{
+	return{
+		handleToast(payload){
+			dispatch(action_toast(payload))
+		}
+	}
+}
+
+export default connect(null,mapDispatchToProps)(Statistics);

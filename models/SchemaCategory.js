@@ -22,7 +22,8 @@ const productSchema =  new Schema({
 
 const categorySchema = new Schema({
 	name  : {
-		type : String
+		type : String,
+		lowercase: true
 	},
 	school : {
     	type : Schema.ObjectId, ref: "School"

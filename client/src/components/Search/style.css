@@ -66,16 +66,20 @@ div.search section.ctn div.panel div.ctn-grid div:nth-child(1){
     white-space:nowrap;
     text-overflow: ellipsis;
 }
-div.search section.ctn div.panel div.ctn-grid div:nth-child(2){
+div.search section.ctn div.panel div.ctn-grid > div:nth-child(2){
 	flex:1;
 	text-align: center;
+	overflow:hidden;
+    white-space:nowrap;
+    text-overflow: ellipsis;
 }
 
 div.search section.ctn div.panel div.ctn-grid div:nth-child(3){
 	width: 80px;
 	overflow:hidden;
     white-space:nowrap;
-    text-overflow: ellipsis;
+	text-overflow: ellipsis;
+	text-align: center
 }
 
 div.search section.ctn div.panel div.ctn-grid div:nth-child(4){

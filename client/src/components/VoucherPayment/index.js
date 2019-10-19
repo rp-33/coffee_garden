@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import Fab from '@material-ui/core/Fab';
 import ModalAdd from './ModalAdd';
 import ModalInf from './ModalInf';
+import NoData from '../../presentation/NoData';
 import {
 	findAllMyVoucher
 } from '../../services/api';
@@ -14,6 +15,7 @@ class VoucherPayment extends Component{
 		super(props);
 		this.state = {
 			data : [],
+			result : true,
 			modalAdd : false,
 			modalInf : false,
 			voucher : {
@@ -37,11 +39,33 @@ class VoucherPayment extends Component{
 					data
 				})
 			}
+			else if(status === 204)
+			{
+				this.setState({
+					result:false
+				})
+			}
+			else if(status === 500)
+			{
+				this.props.handleToast({
+					title : 'error en el servidor',
+					variant : 'error',
+					open : true
+				})
+			}
+			else
+			{
+				this.props.handleToast({
+					title : data.error,
+					variant : 'error',
+					open : true
+				})
+			}
 		}
 		catch(err)
 		{
-			this.props.handleErrorServer({
-				title : 'Error en el servidor',
+			this.props.handleToast({
+				title : 'Error',
 				variant : 'error',
 				open : true
 			})
@@ -51,12 +75,19 @@ class VoucherPayment extends Component{
 	handleAddVoucher(image){
 		this.setState(prevState=>{
 			return{
+				result : true,
 				modalAdd : false,
 				data : prevState.data.concat({
 					image,
 					status : false
 				})
 			}
+		},()=>{
+			this.props.handleToast({
+				title : 'Guardado con exito',
+				variant : 'success',
+				open : true
+			})
 		})
 	}
 
@@ -107,6 +138,13 @@ class VoucherPayment extends Component{
                     </div>
                 	
 					<div className="panel">
+
+						{!this.state.result && 
+							<NoData 
+								message = "No ha subido un comprobante"
+							/>
+						}
+
 						{this.state.data.map((item,i)=>
 							<div key = {i} className="item-card">
 								<img src={item.image} alt={item.name} onClick={this.handleSelect.bind(this,item)} />		
@@ -128,11 +166,10 @@ const mapStateToProps = (state,props)=>{
 
 const mapDispatchToProps = dispatch =>{
 	return{
-		handleErrorServer(payload){
+		handleToast(payload){
 			dispatch(action_toast(payload))
 		}
 	}
 }
-
 
 export default connect(mapStateToProps,mapDispatchToProps)(VoucherPayment);

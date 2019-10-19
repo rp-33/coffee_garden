@@ -2,7 +2,6 @@ import React,{Component} from 'react';
 import {connect} from 'react-redux';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
-import EditCi from './EditCi';
 import EditEmail from './EditEmail';
 import EditNames from './EditNames';
 import EditPassword from './EditPassword';
@@ -10,16 +9,14 @@ import {
 	findUser
 } from '../../services/api';
 import {action_toast} from '../../actions/notification';
-import './style.css'
 
-class EditSeller extends Component{
+class EditRepresentative extends Component{
 	constructor(props){
 		super(props);
 		this.state = {
 			type : 'none',
 			names:'',
 			lastNames:'',
-			ci : '',
 			email : ''
 		}
 	}
@@ -34,11 +31,10 @@ class EditSeller extends Component{
 			let {status,data} = await findUser(_id);
 			if(status === 200)
 			{
-				let {names,lastNames,ci,email} = data;
+				let {names,lastNames,email} = data;
 				this.setState({
 					names,
 					lastNames,
-					ci,
 					email
 				})
 			}
@@ -51,19 +47,6 @@ class EditSeller extends Component{
 				open : true
 			})
 		}
-	}
-
-	handleSuccessCi(ci){
-		this.setState({
-			ci,
-			type:'none'
-		},()=>{
-			this.props.handleToast({
-				title:'Guardado con exito',
-				variant : 'success',
-				open : true
-			})
-		})
 	}
 
 	handleSuccessEmail(email){
@@ -132,16 +115,6 @@ class EditSeller extends Component{
       					</IconButton>
 					</div>
 					<div className="ctn-edit">
-						<p>{this.state.ci}</p>
-						<IconButton 
-							onClick={()=>this.setState({type:'ci'})}
-							aria-label="value"
-							color="secondary"
-							>
-        					<EditIcon/>
-      					</IconButton>
-					</div>
-					<div className="ctn-edit">
 						<p>Contraseña</p>
 						<IconButton 
 							onClick={()=>this.setState({type:'password'})}
@@ -152,15 +125,6 @@ class EditSeller extends Component{
       					</IconButton>
 					</div>
 				</form>
-				)
-			case 'ci':
-				return(
-					<EditCi 	
-						value={this.state.ci}	
-						user = {user}
-						handleBack = {(type)=>this.setState({type})}
-						handleSuccess = {this.handleSuccessCi.bind(this)}
-					/>
 				)
 			case 'email':
 				return(
@@ -213,4 +177,4 @@ const mapDispatchToProps = dispatch =>{
 	}
 }
 
-export default connect(null,mapDispatchToProps)(EditSeller);
+export default connect(null,mapDispatchToProps)(EditRepresentative);

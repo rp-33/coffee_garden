@@ -48,7 +48,7 @@ class CreateCanteen extends Component{
 		}
 		catch(err)
 		{
-			this.props.handleErrorServer({
+			this.props.handleToast({
 				title : 'Error en el servidor',
 				variant : 'error',
 				open : true
@@ -75,21 +75,48 @@ class CreateCanteen extends Component{
 			{
 				this.setState(previousState =>{
 					return{
-						modaldelete :false,
-						isLoading:false,
 						data : previousState.data.filter((item,i)=>{
 							return previousState._id !== item._id
 						})
 					}
+				},()=>{
+					this.props.handleToast({
+						title : 'Eliminado con exito',
+						variant : 'success',
+						open : true
+					})
+				})
+			}
+			else if(status === 500)
+			{ 
+				this.props.handleToast({
+					title : 'Error en el servidor',
+					variant : 'error',
+					open : true
+				})
+			}
+			else
+			{
+				this.props.handleToast({
+					title : data.error,
+					variant : 'warnin',
+					open : true
 				})
 			}
 		}
 		catch(err)
 		{
-			this.props.handleErrorServer({
+			this.props.handleToast({
 				title : 'Error en el servidor',
 				variant : 'error',
 				open : true
+			})
+		}
+		finally
+		{
+			this.setState({
+				modaldelete :false,
+				isLoading:false,
 			})
 		}
 	}
@@ -123,6 +150,12 @@ class CreateCanteen extends Component{
                     ...previoState.data.slice(index + 1)
                 ]
 			}
+		},()=>{
+			this.props.handleToast({
+				title : 'Guardado con exito',
+				variant : 'success',
+				open : true
+			})
 		})
 	}
 
@@ -218,7 +251,7 @@ class CreateCanteen extends Component{
 
 const mapDispatchToProps = dispatch =>{
 	return{
-		handleErrorServer(payload){
+		handleToast(payload){
 			dispatch(action_toast(payload))
 		}
 	}

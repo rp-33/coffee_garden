@@ -1,10 +1,15 @@
 import React,{Component} from 'react';
+import {connect} from 'react-redux';
+import Button from '@material-ui/core/Button';
+import EyeIcon from '@material-ui/icons/RemoveRedEye';
 import ModalVoucher from './ModalVoucher';
 import ModalBalance from './ModalBalance';
+import NoData from '../../presentation/NoData';
 import {
 	findAllSchool,
 	findAllVoucher
 } from '../../services/api';
+import {action_toast} from '../../actions/notification';
 import './style.css';
 
 class Voucher extends Component{
@@ -14,6 +19,7 @@ class Voucher extends Component{
 			schools : [],
 			school : 'seleccione una cantina',
 			data : [],
+			result : true,
 			modalVoucher : false,
 			modalBalance : false,
 			user : {
@@ -35,16 +41,45 @@ class Voucher extends Component{
 		try
 		{
 			let {status,data} = await findAllVoucher(school);
-			console.log(data)
-			if(status==200){
+			if(status === 200)
+			{
 				this.setState({
-					data
+					data,
+					result : true
 				})
 			}
+			else if(status === 204)
+			{
+				this.setState({
+					data : [],
+					result : false
+				})
+			}
+			else if(status === 500)
+			{
+				this.props.handleToast({
+					title : 'Error en el servidor',
+					variant : 'error',
+					open : true
+				})
+			}
+			else
+			{
+				this.props.handleToast({
+					title : data.error,
+					variant : 'warnin',
+					open : true
+				})
+			}
+
 		}
 		catch(err)
 		{
-			alert(err);
+			this.props.handleToast({
+				title : 'Error',
+				variant : 'error',
+				open : true
+			})
 		}
 	}
 
@@ -52,7 +87,8 @@ class Voucher extends Component{
 		try
 		{
 			let {status,data} = await findAllSchool();
-			if(status==200){
+			if(status === 200)
+			{
 				this.setState({
 					schools : data
 				})
@@ -60,7 +96,11 @@ class Voucher extends Component{
 		}
 		catch(err)
 		{
-			alert(err);
+			this.props.handleToast({
+				title : 'Error',
+				variant : 'error',
+				open : true
+			})
 		}
 	}
 
@@ -99,7 +139,7 @@ class Voucher extends Component{
 			return{
 				modalBalance:false,
 				data : prevState.data.filter((item,i)=>{
-					return item._id != prevState.voucher._id
+					return item._id !== prevState.voucher._id
 				})
 			}
 		})
@@ -152,6 +192,12 @@ class Voucher extends Component{
 					</div>
 
 					<div className="panel">
+
+						{!this.state.result &&
+							<NoData 
+								message = "No hay resultados"
+							/>
+						}
 					
 						{
 							this.state.data.length>0 &&
@@ -159,18 +205,21 @@ class Voucher extends Component{
 								<div className="ctn-grid">
 									<div style={{color:'#e44a4c',fontWeight:'bold'}}>cedula</div>
 									<div style={{color:'#e44a4c',fontWeight:'bold'}}>nombre y apellido</div>
-									<div style={{color:'#e44a4c',fontWeight:'bold'}}>comprobante</div>
+									<div style={{justifyContent: 'flex-end'}}>
+										<EyeIcon fontSize="small" color="secondary" />
+									</div>
 								</div>
 								{
 									this.state.data.map((item,i)=>
 									<div className="ctn-grid" key={item._id}>								
 										<div>{item.user.ci}</div>
 										<div>{item.user.names} {item.user.lastNames}</div>
-										<div 
-											onClick = {this.handleSelectVoucher.bind(this,item)}
-											style={{cursor:'pointer'}}
-										>
-											ver comprobante
+										<div>
+											<Button 
+												onClick = {this.handleSelectVoucher.bind(this,item)}
+											>
+												Ver
+											</Button>
 										</div>									
 									</div>
 								)}
@@ -184,4 +233,12 @@ class Voucher extends Component{
 	}
 }
 
-export default Voucher;
+const mapDispatchToProps = dispatch =>{
+	return{
+		handleToast(payload){
+			dispatch(action_toast(payload))
+		}
+	}
+}
+
+export default connect(null,mapDispatchToProps)(Voucher);
