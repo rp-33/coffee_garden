@@ -4,6 +4,7 @@
   "main": "server.js",
   "private": true,
   "scripts": {
+  	"bcrypt": "npm install bcrypt",
     "client-install": "npm install --prefix client",
     "start": "node server.js",
     "server": "nodemon server.js",
