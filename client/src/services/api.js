@@ -43,7 +43,7 @@ const createSchool = (name,file)=>{
 		method:'post',
 		url : '/app/createSchool',
 		data : formData,
-		headers:{'content-type':'multipart/form-data'}
+		headers:{'content-type':'multipart/form-data','Authorization': "bearer " + getStoreUser().token}
 	})
 	.then((response)=>{return response})
 	.catch((err)=>{return err.response})

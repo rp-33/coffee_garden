@@ -346,7 +346,9 @@ module.exports = {
 		try
 		{
 			let schools = await School.find({});
+			if(schools.length == 0) return res.status(204).send();
 			res.status(200).send(schools);
+
 		}
 		catch(err)
 		{

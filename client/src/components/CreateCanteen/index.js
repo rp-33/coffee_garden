@@ -8,6 +8,7 @@ import {findAllSchool,deleteSchool} from '../../services/api';
 import CardCanteen from './CardCanteen';
 import ModalEditName from './ModalEditName';
 import ModalEditAvatar from './ModalEditAvatar';
+import NoData from '../../presentation/NoData';
 import {action_toast} from '../../actions/notification';
 import './style.css';
 
@@ -20,6 +21,7 @@ class CreateCanteen extends Component{
 			name : '',
 			_id : '',
 			data : [],
+			result : true,
 			isLoading : false,
 			modalEditName : false,
 			modalEditAvatar : false,
@@ -45,11 +47,25 @@ class CreateCanteen extends Component{
 					data
 				})
 			}
+			else if(status === 204)
+			{
+				this.setState({
+					result : false
+				})
+			}
+			else if(status === 500)
+			{
+				this.props.handleToast({
+					title : 'Error en el servidor',
+					variant : 'error',
+					open : true
+				})
+			}
 		}
 		catch(err)
 		{
 			this.props.handleToast({
-				title : 'Error en el servidor',
+				title : 'Error',
 				variant : 'error',
 				open : true
 			})
@@ -77,7 +93,8 @@ class CreateCanteen extends Component{
 					return{
 						data : previousState.data.filter((item,i)=>{
 							return previousState._id !== item._id
-						})
+						}),
+						result : (previousState.data.length - 1 === 0) ? false : true
 					}
 				},()=>{
 					this.props.handleToast({
@@ -121,19 +138,26 @@ class CreateCanteen extends Component{
 		}
 	}
 
-	handleSubmit(data){
+	handleAddCanteen(data){
 		
 		let {_id,name,avatar} = data;
 
 		this.setState(previousState => {
 			return { 
 				modaladd : false,
+				result:true,
 				data : previousState.data.concat({
 					_id,
 					name,
 					avatar
 				})
 			};
+		},()=>{
+			this.props.handleToast({
+				title : 'Guardado con exito',
+				variant : 'success',
+				open : true
+			})
 		});
 	}
 
@@ -172,6 +196,12 @@ class CreateCanteen extends Component{
                     ...previoState.data.slice(index + 1)
                 ]
 			}
+		},()=>{
+			this.props.handleToast({
+				title : 'Guardado con exito',
+				variant : 'success',
+				open : true
+			})
 		})
 	}
 
@@ -180,19 +210,23 @@ class CreateCanteen extends Component{
 		return(
 			<div className="add-canteen">
 
-				<ModalAdd
-					open = {this.state.modaladd}
-					handleClose = {(modaladd)=>this.setState({modaladd})}
-					handleSubmit = {this.handleSubmit.bind(this)}
-				/>
+				{this.state.modaladd &&
+					<ModalAdd
+						open = {this.state.modaladd}
+						handleClose = {(modaladd)=>this.setState({modaladd})}
+						handleSubmit = {this.handleAddCanteen.bind(this)}
+					/>
+				}
 
-				<ModalDelete 
-					name = {this.state.name}
-					open = {this.state.modaldelete}
-					handleClose = {(modaldelete)=>this.setState({modaldelete})}
-					handleDelete = {this.handleDelete.bind(this)}
-					isLoading = {this.state.isLoading}
-				/>
+				{this.state.modaldelete &&
+					<ModalDelete 
+						name = {this.state.name}
+						open = {this.state.modaldelete}
+						handleClose = {(modaldelete)=>this.setState({modaldelete})}
+						handleDelete = {this.handleDelete.bind(this)}
+						isLoading = {this.state.isLoading}
+					/>
+				}
 
 				{this.state.modalEditName &&
 					<ModalEditName 
@@ -212,7 +246,6 @@ class CreateCanteen extends Component{
 					/>
 				}
 
-
 				<section className="ctn">
 					<Fab 
 						onClick = {()=>this.setState({modaladd:true})}
@@ -225,6 +258,11 @@ class CreateCanteen extends Component{
         				Crear Cantinas
      				</Fab>
 					<div className="panel">
+						{!this.state.result &&
+							<NoData 
+								message="No ha creado una cantina"
+							/>
+						}
 						<Grid container style={{flexGrow: 1}} spacing={2}>
 							{this.state.data.map((item,i)=>
 								<Grid key={i} item xs={6} sm={4} md={3} lg={2}>

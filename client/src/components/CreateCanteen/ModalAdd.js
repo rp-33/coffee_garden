@@ -5,6 +5,7 @@ import Fab from '@material-ui/core/Fab';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import CancelIcon from '@material-ui/icons/Cancel';
+import BarMessage from '../../presentation/BarMessage';
 import {createSchool} from '../../services/api';
 import FileReader from '../../services/reader';
 import PropTypes from 'prop-types';
@@ -16,7 +17,8 @@ class ModalAdd extends Component{
 			name : '',
 			file : {},
 			base64 : '',
-			loading : false
+			loading : false,
+			error:''
 		}
 	}
 
@@ -51,23 +53,44 @@ class ModalAdd extends Component{
 		try
 		{
 			event.preventDefault();
-			this.setState({loading:true})
+			this.setState({
+				loading:true,
+				error: ''
+			})
 			let {name,file} = this.state;
 			let {status,data} = await createSchool(name,file);
 			this.setState({
 				name :'',
 				base64 : '',
-				file : {},
-				loading:false
+				file : {}
 			});
-			if(status == 201)
+			if(status === 201)
 			{
 				this.props.handleSubmit(data);
+			}
+			else if(status === 500)
+			{
+				this.setState({
+					error : 'Error en el servidor'
+				})
+			}
+			else{
+				this.setState({
+					error : data.error
+				})
 			}
 		}
 		catch(err)
 		{
-			console.log(err);
+			this.setState({
+				error : 'Error'
+			})
+		}
+		finally
+		{
+			this.setState({
+				loading : false
+			})
 		}
 	}
 
@@ -81,6 +104,9 @@ class ModalAdd extends Component{
                         	<CancelIcon fontSize="large" style={{color:'#e44a4c'}}/>
                     	</div>
          				<h2 style={{textAlign:'center',color:'#e44a4c'}}>Agregar Cantina</h2>
+						<BarMessage 
+							title={this.state.error}
+						/>
          				<form autoComplete="off" onSubmit = {this.handleSubmit.bind(this)}>
          					<div className="ctn-input">
 								<input 

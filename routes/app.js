@@ -101,7 +101,7 @@ router.post('/signup',signup);
 
 router.post('/login',login);
 
-router.post('/createSchool',upload.single('file'),createSchool);
+router.post('/createSchool',Auth,upload.single('file'),createSchool);
 
 router.post('/saveOrder',Auth,saveOrder);
 
