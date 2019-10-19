@@ -648,8 +648,8 @@ module.exports = {
 		{
 			let {category,product} = req.query;
 			let result = await Category.updateOne({name:category},{$pull:{products:{"_id":product} }});
-			if(result.ok>0 && result.n>0) return res.status(204).send({message:'delete product'});
-			res.status(404).send({message:'not found'});
+			if(result.ok>0 && result.n>0) return res.status(204).send();
+			res.status(404).send({error:'Recurso no encontrado'});
 		}
 		catch(err)
 		{
@@ -767,7 +767,7 @@ module.exports = {
 		}
 		catch(err)
 		{
-			res.status(500).send({err})
+			res.status(500).send({error:'Error en el servidor'})
 		}
 	},
 	findAllVoucher : async (req,res)=>{
@@ -850,7 +850,20 @@ module.exports = {
 		{
 			res.status(500).send({error:'Error en el servidor'})
 		}	
-	}
+	},
+	editPhone: async (req,res)=>{
+		try
+		{
+			let {_id,countryCode,phone} = req.query;
+			let user = await User.updateOne({_id},{$set:{countryCode,phone}});
+			if(user.ok>0 && user.n>0) return res.status(201).send({message:'success'});
+			res.status(404).send({error:'Usuario no existe'});	
+		}
+		catch(err)
+		{
+			res.status(500).send({error:'Error en el servidor'})
+		}
+	},
 
 
 }

@@ -9,7 +9,6 @@ import Shopping from '../../components/Shopping/';
 import Orders from '../../components/Orders/';
 import Order from '../../components/Order/';
 import History from '../../components/History/';
-import EditRepresentative from '../../components/EditRepresentative';
 import NoMatch from '../../components/NoMatch';
 import Toast from '../../presentation/ToastOrder';
 import {
@@ -124,7 +123,6 @@ class Represented extends Component{
 					<Route path="/represented/orders/:date" component={Orders}/> 
 					<Route path="/represented/order/:vouched" component={Order}/> 
 					<Route path="/represented/history" component={History}/> 
-					<Route path="/represented/edit/representative/:id" component={EditRepresentative}/> 
 					<Route component={NoMatch} />
 				</Switch>
 

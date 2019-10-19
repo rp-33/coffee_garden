@@ -622,6 +622,21 @@ const editNames = (_id,names,lastNames)=>{
 	.catch((err)=>{return err.response})
 }
 
+const editPhone = (_id,countryCode,phone)=>{
+	return axios({
+		method : 'put',
+		url : '/app/editPhone',
+		params :{
+			_id,
+			countryCode,
+			phone
+		},
+		headers: {'Authorization': "bearer " + getStoreUser().token}
+	})
+	.then((response)=>{return response})
+	.catch((err)=>{return err.response})
+}
+
 export {
 	login,
 	createSchool,
@@ -665,5 +680,6 @@ export {
 	editEmail,
 	editCi,
 	editNames,
-	editPassword
+	editPassword,
+	editPhone
 }

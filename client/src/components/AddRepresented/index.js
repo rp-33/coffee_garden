@@ -196,7 +196,7 @@ class AddRepresented extends Component{
 											<span>{item.names} {item.lastNames}</span>
 										</div>
 										<div className="ctn-icon-option">
-											<Link to={`/represented/edit/representative/${item._id}`}>
+											<Link to={`/representative/edit/represented/${item._id}`}>
 												<IconButton 
 													aria-label="edit"
 													color="primary"

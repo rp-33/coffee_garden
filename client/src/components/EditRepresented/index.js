@@ -2,9 +2,9 @@ import React,{Component} from 'react';
 import {connect} from 'react-redux';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
+import EditEmail from './EditEmail';
 import EditNames from './EditNames';
 import EditPassword from './EditPassword';
-import EditPhone from './EditPhone';
 import {
 	findUser
 } from '../../services/api';
@@ -17,14 +17,12 @@ class EditRepresented extends Component{
 			type : 'none',
 			names:'',
 			lastNames:'',
-			email : '',
-			countryCode : '',
-			phone : ''
+			email : ''
 		}
 	}
 
 	componentDidMount(){
-		this._getUser(this.props.user)
+		this._getUser(this.props.match.params.id)
 	}
 
 	async _getUser(_id){
@@ -33,12 +31,11 @@ class EditRepresented extends Component{
 			let {status,data} = await findUser(_id);
 			if(status === 200)
 			{
-				let {names,lastNames,countryCode,phone} = data;
+				let {names,lastNames,email} = data;
 				this.setState({
 					names,
 					lastNames,
-					countryCode,
-					phone
+					email
 				})
 			}
 		}
@@ -91,20 +88,6 @@ class EditRepresented extends Component{
 		})
 	}
 
-	handleSuccessPhone(countryCode,phone){
-		this.setState({
-			type:'none',
-			countryCode,
-			phone
-		},()=>{
-			this.props.handleToast({
-				title:'Guardado con exito',
-				variant : 'success',
-				open : true
-			})
-		})
-	}
-
 	_typeInput(type,user){
 		switch(type){
 			case 'none':
@@ -112,19 +95,19 @@ class EditRepresented extends Component{
 					<form>
 					<h2 className="title">Editar</h2>
 					<div className="ctn-edit">
-						<p>{this.state.names} {this.state.lastNames}</p>
+						<p>{this.state.email}</p>
 						<IconButton 
-							onClick={()=>this.setState({type:'names'})}
+							onClick={()=>this.setState({type:'email'})}
 							aria-label="value"
 							color="secondary"
-							>
+						>
         					<EditIcon/>
       					</IconButton>
 					</div>
 					<div className="ctn-edit">
-						<p>{this.state.countryCode}{this.state.phone}</p>
+						<p>{this.state.names} {this.state.lastNames}</p>
 						<IconButton 
-							onClick={()=>this.setState({type:'phone'})}
+							onClick={()=>this.setState({type:'names'})}
 							aria-label="value"
 							color="secondary"
 							>
@@ -143,6 +126,15 @@ class EditRepresented extends Component{
 					</div>
 				</form>
 				)
+			case 'email':
+				return(
+					<EditEmail
+						value={this.state.email}	
+						user = {user}
+						handleBack = {(type)=>this.setState({type})}
+						handleSuccess = {this.handleSuccessEmail.bind(this)}	
+					/>
+				)
 			case 'names':
 				return(
 					<EditNames
@@ -153,16 +145,6 @@ class EditRepresented extends Component{
 						handleSuccess = {this.handleSuccessNames.bind(this)}
 					/>
 				)
-			case 'phone':
-					return(
-						<EditPhone
-							user = {user}
-							countryCode = {this.state.countryCode}
-							phone = {this.state.phone}
-							handleBack = {(type)=>this.setState({type})}
-							handleSuccess = {this.handleSuccessPhone.bind(this)}
-						/>
-					)
 			case 'password':
 				return(
 					<EditPassword
@@ -181,16 +163,10 @@ class EditRepresented extends Component{
 	render(){
 		return(
 			<div className="edit-user">
-				{this._typeInput(this.state.type,this.props.user)}
+				{this._typeInput(this.state.type,this.props.match.params.id)}
 			</div>
 		)
 	}
-}
-
-const mapStateToProps = (state,props)=>{
-    return{
-        user : state.user._id
-    }
 }
 
 const mapDispatchToProps = dispatch =>{
@@ -201,4 +177,4 @@ const mapDispatchToProps = dispatch =>{
 	}
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(EditRepresented);
+export default connect(null,mapDispatchToProps)(EditRepresented);

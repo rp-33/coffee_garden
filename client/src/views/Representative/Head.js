@@ -11,6 +11,7 @@ import UserIcon from '@material-ui/icons/Face';
 import MenuIcon from '@material-ui/icons/Menu';
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import MoneyIcon from '@material-ui/icons/AttachMoney';
+import SettingIcon from '@material-ui/icons/SettingsApplications';
 import Tooltip from '@material-ui/core/Tooltip';
 import PropTypes from 'prop-types';
 import logo from '../../assets/logo.png';
@@ -57,6 +58,13 @@ const Head = ({handleDrawer,opacity,handleLogout,balance})=>{
 							<Tooltip title="comprobante de pago" aria-label="voucher">
 								<Fab aria-label="voucher" size="small" style={{backgroundColor:'white',marginLeft:10}}>
                 					<MoneyIcon style={{color:'#fab54f'}}/>     					
+      							</Fab>
+      						</Tooltip>
+      					</Link>
+						<Link to="/representative/edit">	
+							<Tooltip title="Configuracion" aria-label="configuracion">
+								<Fab aria-label="voucher" size="small" style={{backgroundColor:'white',marginLeft:10}}>
+                					<SettingIcon style={{color:'#fab54f'}}/>     					
       							</Fab>
       						</Tooltip>
       					</Link>

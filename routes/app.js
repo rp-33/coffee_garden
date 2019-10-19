@@ -51,7 +51,8 @@ const {
 	editCi,
 	editEmail,
 	editNames,
-	editPassword
+	editPassword,
+	editPhone
 } = require('../controllers/CtrlApp')
 
 /* GET home page. */
@@ -140,7 +141,9 @@ router.put('/editEmail',Auth,editEmail);
 
 router.put('/editNames',Auth,editNames);
 
-router.put('/editPassword',Auth,editPassword)
+router.put('/editPassword',Auth,editPassword);
+
+router.put('/editPhone',Auth,editPhone);
 
 /* DELETE home page. */
 

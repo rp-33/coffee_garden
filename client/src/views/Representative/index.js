@@ -11,6 +11,8 @@ import Orders from '../../components/Orders';
 import Order from '../../components/Order';
 import History from '../../components/History/';
 import VoucherPayment from '../../components/VoucherPayment';
+import EditRepresented from '../../components/EditRepresented';
+import EditRepresentative from '../../components/EditRepresentative';
 import NoMatch from '../../components/NoMatch';
 import Toast from '../../presentation/ToastOrder';
 import {
@@ -125,7 +127,9 @@ class Representative extends Component{
 					<Route path="/representative/orders/:date" component={Orders}/> 
 					<Route path="/representative/order/:vouched" component={Order}/> 
 					<Route path="/representative/history" component={History}/> 
+					<Route path="/representative/edit/represented/:id" component={EditRepresented}/> 
 					<Route path="/representative/voucher/payment" component ={VoucherPayment}/>
+					<Route path="/representative/edit" component ={EditRepresentative}/>
 					<Route component={NoMatch} />
 				</Switch>
 

@@ -51,6 +51,20 @@ div.edit-user form div.ctn-input input{
 	outline: none
 }
 
+div.edit-user form div.ctn-input select{
+	width:100%;
+	border:2px solid #d48945;
+	border-radius: 25px;
+	height: 50px;
+	padding-right: 20px;
+	padding-left: 20px;
+	background-color: white;
+	cursor: pointer;
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+}
+
 
 div.edit-user form div.ctn-btn{
 	margin-top: 20px;
