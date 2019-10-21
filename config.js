@@ -3,7 +3,7 @@ var config = {
 		port : process.env.PORT || 8888
 	},
  	db:{
- 		port: process.env.MONGODB_URI || 'mongodb://localhost/coffee_garden'
+ 		port:'mongodb://coffee_garden:pillow8nic@ds127429.mlab.com:27429/heroku_kmv2jg40'
  	},
  	token :{
  		secret : 'coffee_garden'
