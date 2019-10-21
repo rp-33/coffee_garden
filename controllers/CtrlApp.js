@@ -7,7 +7,7 @@ let	Category = require('../models/SchemaCategory'),
 	Shopping = require('../models/SchemaShopping'),
 	 Voucher = require('../models/SchemaVoucher'),
 	   token = require('../services/token'),
-	  bcrypt = require('bcrypt'),
+	  bcrypt = require('bcrypt-nodejs'),
   randomatic = require('randomatic'),
   cloudinary = require('../configuration/cloudinary');
 
@@ -844,7 +844,7 @@ module.exports = {
 		try
 		{
 			let {_id,password} = req.query;
-			let user = await User.updateOne({_id},{$set:{password : bcrypt.hashSync(password.toLocaleLowerCase(),10) }});
+			let user = await User.updateOne({_id},{$set:{password : bcrypt.hashSync(password.toLocaleLowerCase()) }});
 			if(user.ok>0 && user.n>0) return res.status(201).send({message:'success'});
 			res.status(404).send({error:'Usuario no existe'});	
 		}
