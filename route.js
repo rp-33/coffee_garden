@@ -9,5 +9,5 @@ module.exports ={
         res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
     });
 
-  
+    }
 }
