@@ -3,10 +3,10 @@ var config = {
 		port : 80
 	},
  	db:{
- 		port:'mongodb://coffee_garden:pillow8nic@ds127429.mlab.com:27429/heroku_kmv2jg40'
+ 		port: 'mongodb+srv://rp352429:rp352429@cluster0-psfrv.mongodb.net/test?retryWrites=true&w=majority'
  	},
  	token :{
- 		secret : 'coffee_garden'
+ 		secret : 'coffee_garden_954395164264495_DYJ0jReUd3Ufhp5VAaPEzNL9aCA'
  	},
  	cloudinary : {
 		name : 'coffe-garden',
