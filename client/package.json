@@ -22,7 +22,7 @@
     "validate.js": "^0.13.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "PORT=80 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -30,7 +30,7 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "proxy": "http://localhost:80",
+  "proxy": "http://localhost:8888",
   "browserslist": {
     "production": [
       ">0.2%",

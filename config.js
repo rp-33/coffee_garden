@@ -1,6 +1,6 @@
 var config = {
 	server:{
-		port : 80
+		port : process.env.PORT || 8888
 	},
  	db:{
  		port:'mongodb://coffee_garden:pillow8nic@ds127429.mlab.com:27429/heroku_kmv2jg40'
