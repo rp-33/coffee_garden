@@ -39,9 +39,6 @@
     "eslint-plugin-react-hooks": "^1.7.0",
     "nodemon": "^1.19.1"
   },
-  "devServer": {
-    "port": 9000
-  },
   "engines": {
     "node": "10.15.3",
     "npm": "6.4.1"
