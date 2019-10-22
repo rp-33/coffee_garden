@@ -9,9 +9,9 @@ var config = {
  		secret : 'coffee_garden'
  	},
  	cloudinary : {
-		name : 'dcds5nieu',
-		key : '294112599459225',
-		secret : '7phKXXkkvlDUTwWfSW28tFa6k_Q'
+		name : 'coffe-garden',
+		key : '954395164264495',
+		secret : 'DYJ0jReUd3Ufhp5VAaPEzNL9aCA'
 	},
 	application: {
   		controllers: {
