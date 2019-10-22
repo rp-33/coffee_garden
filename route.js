@@ -2,11 +2,13 @@ module.exports ={
 
     config : (express,app)=>{
 
-    var path = require('path');
+        var path = require('path');
     
-    app.use(express.static(path.join(__dirname,'client', 'build')));
-    app.get('/*', (req, res) => {
-        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-    });
-}
+        app.use(express.static(path.join(__dirname,'public')));
+        app.get('/*', (req, res) => {
+            res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
+        });
+
+    }
+  
 }

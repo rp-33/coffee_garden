@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/static/css/main.a7bc1580.chunk.css",
+    "main.js": "/static/js/main.4ab54ea4.chunk.js",
+    "main.js.map": "/static/js/main.4ab54ea4.chunk.js.map",
+    "runtime~main.js": "/static/js/runtime~main.ea92a0de.js",
+    "runtime~main.js.map": "/static/js/runtime~main.ea92a0de.js.map",
+    "static/js/2.3331f114.chunk.js": "/static/js/2.3331f114.chunk.js",
+    "static/js/2.3331f114.chunk.js.map": "/static/js/2.3331f114.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.9cb05b23d63ca86264f6f119b21c8e1e.js": "/precache-manifest.9cb05b23d63ca86264f6f119b21c8e1e.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/main.a7bc1580.chunk.css.map": "/static/css/main.a7bc1580.chunk.css.map",
+    "static/media/style.css": "/static/media/background.708a0c3c.jpg",
+    "static/media/foto.png": "/static/media/foto.c82a94d7.png",
+    "static/media/logo.png": "/static/media/logo.fe593f49.png",
+    "static/media/seller.png": "/static/media/seller.01a4bec2.png",
+    "static/media/student.png": "/static/media/student.e1a0ff94.png"
+  }
+}
