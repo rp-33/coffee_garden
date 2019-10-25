@@ -42,6 +42,12 @@ div.shopping-day section.ctn div.panel{
 	top:150px;
 }
 
+div.shopping-day section.ctn div.panel div.ctn-vouched{
+	display:flex;
+	align-items: center;
+	justify-content: space-between
+}
+
 div.shopping-day section.ctn div.panel section.ctn-shopping{
 	padding-bottom: 20px;
 	border-bottom:1px solid #eea587;

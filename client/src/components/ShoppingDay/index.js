@@ -5,7 +5,8 @@ import SearchIcon from '@material-ui/icons/Search';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {
 	findAllSchool,
-	queryShoppingDay
+	queryShoppingDay,
+	packOffOrder
 } from '../../services/api';
 import {todayDate} from '../../utils/date';
 import {action_toast} from '../../actions/notification';
@@ -123,6 +124,56 @@ class ShoppingDay extends Component{
 		}
 	}
 
+	async handlePackOffOrder(index,{school,vouched,date,products}){
+		try
+		{
+			let {status,data} = await packOffOrder(school,vouched,date,products); 
+			if(status === 204)
+			{
+				this.setState(previousState=>{
+					return{
+						data:[
+							...previousState.data.slice(0,index),// Copia el objeto antes de modificarlo
+							Object.assign({}, previousState.data[index], {
+								status : true
+							}),
+							...previousState.data.slice(index + 1)
+						]
+					}
+				},()=>{
+					this.props.handleToast({
+						title : 'Despacho exitoso',
+						variant : 'success',
+						open : true
+					})
+				})
+			}
+			else if(status === 500)
+			{
+				this.props.handleToast({
+				title : 'Error en el servidor',
+				variant : 'error',
+				open : true
+			})
+			}
+			else
+			{
+				this.props.handleToast({
+					title : data.error,
+					variant : 'warnin',
+					open : true
+				})
+			}
+		}
+		catch(err)
+		{
+			this.props.handleToast({
+				title : 'Error',
+				variant : 'error',
+				open : true
+			})
+		}
+	}
 
 	render(){
 		return(
@@ -180,9 +231,26 @@ class ShoppingDay extends Component{
 
 						{this.state.data.map((item,i)=>
 						<section key = {i} className="ctn-shopping">
-							<div className="cnt-vouched">
+							<div className="ctn-vouched">
 								<div>
 									<h4 style={{color:'#e44a4c'}}> Comprobante : {item.vouched} </h4> 						
+								</div>
+								<div>
+									{
+										item.status
+										?
+										<span style={{color:'#f26d28'}}>despachado</span>
+										:
+										<Fab 
+                        					variant="extended" 
+                        					size="small"
+                        					color="secondary" 
+                        					className="secondary"
+                        					onClick = {this.handlePackOffOrder.bind(this,i,item)}
+                        				>
+                           					despachar
+                        				</Fab>
+									}
 								</div>
 
 							</div>

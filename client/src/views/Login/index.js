@@ -70,7 +70,7 @@ class Login extends Component{
 			let {email,password} = this.state;
 
 			let {status,data} = await login(email,password);
-
+			console.log(status,data)
 			if(status === 200)
 			{
 				this.props.handleLogin(data);
