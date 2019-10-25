@@ -2,6 +2,7 @@ import React,{Component,Fragment} from 'react';
 import {Link} from 'react-router-dom';
 import SettingIcon from '@material-ui/icons/SettingsApplications';
 import Fade from '@material-ui/core/Fade';
+import StarIcon from '@material-ui/icons/Star';
 import PropTypes from 'prop-types';
 
 class FilterUser extends Component{
@@ -38,12 +39,15 @@ class FilterUser extends Component{
 
 	render(){
 
-		let {item,value} = this.props;
+		let {item} = this.props;
 
 		return(
 		<Fragment>
 			{item.balance<0 &&
 			<div className="ctn-grid">
+				<div>
+					<StarIcon style={{color:item.vip ? "#fab54f" : '#c7c7c7'}} />		
+				</div>
 				<div>{item.ci}</div>
 				<div>{item.names} {item.lastNames}</div>
 				<div>{item.balance}</div>

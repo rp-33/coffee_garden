@@ -2,6 +2,7 @@ import React,{Component} from 'react';
 import {Link} from 'react-router-dom';
 import SettingIcon from '@material-ui/icons/SettingsApplications';
 import Fade from '@material-ui/core/Fade';
+import StarIcon from '@material-ui/icons/Star';
 import PropTypes from 'prop-types';
 
 class ItemUser extends Component{
@@ -38,10 +39,16 @@ class ItemUser extends Component{
 
 	render(){
 
-		let {item,value} = this.props;
+		let {item} = this.props;
 
 		return(
 			<div className="ctn-grid">
+				<div>
+					<StarIcon 
+						fontSize="small" 
+						style={{color:item.vip ? "#fab54f" : '#c7c7c7'}} 
+					/>				
+				</div>
 				<div>{item.ci}</div>
 				<div>{item.names} {item.lastNames}</div>
 				<div>{item.balance}</div>

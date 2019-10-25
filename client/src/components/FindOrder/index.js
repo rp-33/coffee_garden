@@ -1,14 +1,18 @@
 import React,{Component} from 'react';
 import {connect} from 'react-redux';
 import Fab from '@material-ui/core/Fab';
+import Button from '@material-ui/core/Button';
 import SearchIcon from '@material-ui/icons/Search';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {
 	queryOrder,
-	packOffOrder
+	packOffOrder,
+	queryShoppingDay
 } from '../../services/api';
 import {action_toast} from '../../actions/notification';
-import {formatDate} from '../../utils/date';
+import {
+	todayDate
+} from '../../utils/date';
 import './style.css';
 
 class FindOrder extends Component{
@@ -17,11 +21,61 @@ class FindOrder extends Component{
 		this.state = {
 			isLoading : false,
 			input:'',
-			date : '',
-			vouched : '',
-			status : null,
-			products : [],
-			school : '',
+			data : []
+		}
+
+	}
+
+	componentDidMount(){
+		this.handleShoppingDay(this.props.school,todayDate().init)
+	}
+
+	async handleShoppingDay(school,date){
+		try
+		{			
+			let {status,data} = await queryShoppingDay(school,date);
+			if(status === 200)
+			{
+				this.setState({
+					data: data
+				})
+			}
+			else if(status === 204)
+			{
+				this.setState({
+
+				},()=>{
+					this.props.handleToast({
+						title : 'No hay Ordenes',
+						variant : 'info',
+						open : true
+					})
+				})
+			}
+			else if(status === 500)
+			{
+				this.props.handleToast({
+					title : 'Error en el servidor',
+					variant : 'error',
+					open : true
+				})
+			}
+			else 
+			{
+				this.props.handleToast({
+					title : data.error,
+					variant : 'warnin',
+					open : true
+				})
+			}
+		}
+		catch(err)
+		{
+			this.props.handleToast({
+				title : 'Error en el servidor',
+				variant : 'error',
+				open : true
+			})
 		}
 	}
 
@@ -32,29 +86,42 @@ class FindOrder extends Component{
 		})
 	}
 
-	async handlePackOffOrder(){
+	async handlePackOffOrder(index,{school,vouched,date,products}){
 		try
 		{
-			let {vouched,date,products,school} = this.state;
 			let {status,data} = await packOffOrder(school,vouched,date,products); 
 			if(status === 204)
 			{
-				this.setState({
-					status : true
+				this.setState(previousState=>{
+					return{
+						data:[
+							...previousState.data.slice(0,index),// Copia el objeto antes de modificarlo
+							Object.assign({}, previousState.data[index], {
+								status : true
+							}),
+							...previousState.data.slice(index + 1)
+						]
+					}
+				},()=>{
+					this.props.handleToast({
+						title : 'Despacho exitoso',
+						variant : 'success',
+						open : true
+					})
 				})
 			}
 			else if(status === 500)
 			{
-				this.props.handleErrorServer({
-					title : 'Error en el servidor',
-					variant : 'error',
-					open : true
-				})
+				this.props.handleToast({
+				title : 'Error en el servidor',
+				variant : 'error',
+				open : true
+			})
 			}
 			else
 			{
-				this.props.handleErrorServer({
-					title :  data.error,
+				this.props.handleToast({
+					title : data.error,
 					variant : 'warnin',
 					open : true
 				})
@@ -62,8 +129,8 @@ class FindOrder extends Component{
 		}
 		catch(err)
 		{
-			this.props.handleErrorServer({
-				title : 'Error en el servidor',
+			this.props.handleToast({
+				title : 'Error',
 				variant : 'error',
 				open : true
 			})
@@ -80,25 +147,20 @@ class FindOrder extends Component{
 
 			if(status === 200)
 			{
-				let {status,vouched,date,products,school} = data;
 				this.setState({
-					status,
-					vouched,
-					date,
-					products,
-					school
+					data : data
 				})
 			}
 			else if(status === 404)
 			{
-				this.props.handleErrorServer({
+				this.props.handleToast({
 					title : data.error,
 					variant : 'warnin',
 					open : true
 				})
 			}
 			else if(status === 500){
-				this.props.handleErrorServer({
+				this.props.handleToast({
 					title : 'Error en el servidor',
 					variant : 'error',
 					open : true
@@ -106,7 +168,7 @@ class FindOrder extends Component{
 			}
 			else 
 			{
-				this.props.handleErrorServer({
+				this.props.handleToast({
 					title : data.error,
 					variant : 'error',
 					open : true
@@ -115,7 +177,7 @@ class FindOrder extends Component{
 		}
 		catch(err)
 		{
-			this.props.handleErrorServer({
+			this.props.handleToast({
 				title : 'Error',
 				variant : 'error',
 				open : true
@@ -128,6 +190,10 @@ class FindOrder extends Component{
 				input : ''
 			})
 		}
+	}
+
+	handleAllOrders(){
+		this.handleShoppingDay(this.props.school,todayDate().init)
 	}
 
 	render(){
@@ -158,21 +224,18 @@ class FindOrder extends Component{
        						</Fab>
 						}
 					</div>
-						{this.state.products.length!==0 &&
-						<section>
-							<div className="date">
-								<h3 style={{color:'#f5722a'}}>
-									{formatDate(this.state.date)}
-								</h3>
-							</div>
-							<div className="inf">
+					{(this.state.data.length < 2) &&
+						<Button onClick={this.handleAllOrders.bind(this)}>Mostrar todos</Button>
+					}
+					{this.state.data.map((item,i)=>
+						<section key = {i} className="ctn-shopping">
+							<div className="ctn-vouched">
 								<div>
-									<span style={{fontWeight:'bold'}}>Comprobante : </span>
-									<span style={{color:' #e44a4c'}}>{this.state.vouched}</span>
+									<h4 style={{color:'#e44a4c'}}> Comprobante : {item.vouched} </h4> 						
 								</div>
 								<div>
 									{
-										this.state.status
+										item.status
 										?
 										<span style={{color:'#f26d28'}}>despachado</span>
 										:
@@ -181,12 +244,13 @@ class FindOrder extends Component{
                         					size="small"
                         					color="secondary" 
                         					className="secondary"
-                        					onClick = {this.handlePackOffOrder.bind(this)}
+                        					onClick = {this.handlePackOffOrder.bind(this,i,item)}
                         				>
                            					despachar
                         				</Fab>
 									}
 								</div>
+
 							</div>
 							<div className="ctn-grid">
          						<div className="left" style={{fontWeight:'bold'}}>
@@ -199,8 +263,8 @@ class FindOrder extends Component{
          							precio(bss)
          						</div>
          					</div>
-         					{this.state.products.map((product,index)=>
-         					<div key={index} className="ctn-grid">
+         					{item.products.map((product,index)=>
+         						<div key={index} className="ctn-grid">
          						<div className="left">
          							{product.quantity}
          						</div>
@@ -212,9 +276,8 @@ class FindOrder extends Component{
          						</div>
          					</div>
          					)}
-							
-						</section>
-						}
+         				</section>
+						)}
 					</div>
 				</section>
 			</div>
@@ -222,13 +285,20 @@ class FindOrder extends Component{
 	}
 }
 
+
+const mapStateToProps = (state,props)=>{
+    return{
+        school : state.user.school
+    }
+}
+
 const mapDispatchToProps = dispatch =>{
 	return{
-		handleErrorServer(payload){
+		handleToast(payload){
 			dispatch(action_toast(payload))
 		}
 	}
 }
 
 
-export default connect(null,mapDispatchToProps)(FindOrder);
+export default connect(mapStateToProps,mapDispatchToProps)(FindOrder);

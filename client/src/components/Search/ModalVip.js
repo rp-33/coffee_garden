@@ -35,12 +35,12 @@ class ModalBalance extends Component{
 				isLoading:true,
 				error : ''
 			});
-			let {handleClose,user} = this.props;
+			let {user,handleSuccess} = this.props;
 			let vip = this.state.value == 'vip' ? true : false;
 			let {status,data} =  await changeVip(user._id,vip);
 			if(status === 204)
 			{
-				handleClose(false);
+				handleSuccess(user._id,vip);
 			}
 			else if(status === 500)
 			{
@@ -125,6 +125,7 @@ class ModalBalance extends Component{
 ModalBalance.propTypes = {
 	open : PropTypes.bool.isRequired,
 	handleClose :  PropTypes.func.isRequired,
+	handleSuccess : PropTypes.func.isRequired,
 	user : PropTypes.shape({
 		_id : PropTypes.string
 	}).isRequired

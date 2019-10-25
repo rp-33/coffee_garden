@@ -60,13 +60,18 @@ div.search section.ctn div.panel div.ctn-grid div{
 
 }
 
-div.search section.ctn div.panel div.ctn-grid div:nth-child(1){
+div.search section.ctn div.panel div.ctn-grid > div:nth-child(1){
+	width:25px;
+	margin-right:5px;
+}
+
+div.search section.ctn div.panel div.ctn-grid > div:nth-child(2){
 	width: 100px;
 	overflow:hidden;
     white-space:nowrap;
     text-overflow: ellipsis;
 }
-div.search section.ctn div.panel div.ctn-grid > div:nth-child(2){
+div.search section.ctn div.panel div.ctn-grid > div:nth-child(3){
 	flex:1;
 	text-align: center;
 	overflow:hidden;
@@ -74,7 +79,7 @@ div.search section.ctn div.panel div.ctn-grid > div:nth-child(2){
     text-overflow: ellipsis;
 }
 
-div.search section.ctn div.panel div.ctn-grid div:nth-child(3){
+div.search section.ctn div.panel div.ctn-grid > div:nth-child(4){
 	width: 80px;
 	overflow:hidden;
     white-space:nowrap;
@@ -82,7 +87,7 @@ div.search section.ctn div.panel div.ctn-grid div:nth-child(3){
 	text-align: center
 }
 
-div.search section.ctn div.panel div.ctn-grid div:nth-child(4){
+div.search section.ctn div.panel div.ctn-grid > div:nth-child(5){
 	width: 20px;
 	display: flex;
 	justify-content: flex-end;

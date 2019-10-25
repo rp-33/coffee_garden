@@ -193,7 +193,7 @@ class Search extends Component{
 		})
 
 		this.setState(prevState=>{
-				return {
+			return {
                 ...prevState,
                 users : [
                     ...prevState.users.slice(0,position),// Copia el objeto antes de modificarlo
@@ -203,8 +203,28 @@ class Search extends Component{
                     ...prevState.users.slice(position + 1)
                 ], 
 				modalBalance:false,
-           		}
-			})
+           	}
+		})
+	}
+
+	handleSuccessVip(_id,vip){
+		let position = this.state.users.findIndex(item=>{
+			return item._id === _id
+		});
+		
+		this.setState(prevState=>{
+			return {
+                ...prevState,
+                users : [
+                    ...prevState.users.slice(0,position),// Copia el objeto antes de modificarlo
+                    Object.assign({}, prevState.users[position], {
+                    	vip : vip
+                    }),
+                    ...prevState.users.slice(position + 1)
+                ], 
+				modalVip:false,
+           	}
+		})
 	}
 
 
@@ -224,6 +244,7 @@ class Search extends Component{
 					<ModalVip
 						open = {this.state.modalVip}
 						handleClose = {(modalVip)=>this.setState({modalVip})}
+						handleSuccess = {this.handleSuccessVip.bind(this)}
 						user = {this.state.user}
 					/>
 				}
@@ -303,6 +324,7 @@ class Search extends Component{
 						{this.state.users.length>0 &&
 						<section style={{marginTop:'40px'}}>
 							<div className="ctn-grid">
+								<div />
 								<div style={{color:'#e44a4c',fontWeight:'bold'}}>cedula</div>
 								<div style={{color:'#e44a4c',fontWeight:'bold'}}>nombre y apellido</div>
 								<div style={{color:'#e44a4c',fontWeight:'bold'}}>saldo</div>
