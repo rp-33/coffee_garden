@@ -7,10 +7,10 @@ import Fab from '@material-ui/core/Fab';
 import PropTypes from 'prop-types';
 import BarMessage from '../../presentation/BarMessage';
 import {totalPrice} from '../../utils/products';
-import {saveShopping} from '../../services/api';
+import {saveShoppingUser} from '../../services/api';
 import {structureDate} from '../../utils/date';
 
-class ModalPay extends Component{
+class ModalPayUser extends Component{
 	constructor(props){
 		super(props);
 		this.state = {
@@ -26,11 +26,11 @@ class ModalPay extends Component{
 				isLoading:true,
 				error:''
 			});
-			let {date,products,handleSuccess,school} = this.props;
-			let {status,data} = await saveShopping(school,structureDate(date),products);
+			let {date,products,handleSuccess,school,user} = this.props;
+			let {status,data} = await saveShoppingUser(user,school,structureDate(date),products,totalPrice(products));
 			if(status === 201)
 			{
-				handleSuccess(date);
+				handleSuccess(user,data.vouched,data.balance);
 			}
 			else if(status === 500)
 			{
@@ -71,7 +71,7 @@ class ModalPay extends Component{
                    		<div className="icon-close" onClick = {()=>handleClose(false)}>
                         	<CancelIcon fontSize="large" style={{color:'#e44a4c'}}/>
                     	</div>
-         			<h2 style={{color:'#e2474b',textAlign:'center'}}>Procesar pedido</h2>
+         			<h2 style={{color:'#e2474b',textAlign:'center'}}>Procesar pago</h2>
 					<BarMessage 
 						title = {this.state.error}
 					/>
@@ -120,8 +120,9 @@ class ModalPay extends Component{
 	}
 }
 
-ModalPay.propTypes = {
+ModalPayUser.propTypes = {
 	open : PropTypes.func.isRequired,
+	user : PropTypes.string.isRequired,
 	products : PropTypes.arrayOf(
 		PropTypes.shape({
       		quantity : PropTypes.number,
@@ -136,4 +137,4 @@ ModalPay.propTypes = {
 }
 
 
-export default ModalPay;
+export default ModalPayUser;

@@ -31,7 +31,7 @@ class Sell extends Component{
 			let {status,data} = await queryOrder(vouched);
 			if(status === 200)
 			{
-				let {status,vouched,date,products} = data
+				let {status,vouched,date,products} = data[0];
 				this.setState({
 					status,
 					vouched,

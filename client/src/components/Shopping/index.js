@@ -57,15 +57,16 @@ class Shopping extends Component{
 	handleSuccess({balance,vouched},date){
 		this.setState({
 			modalPay : false
+		},()=>{
+			this.props.handleDecrBalance(balance);
+			this.props.handleRemoveShopping(date);
+			socket.emit('balance',{
+				channel : this.props.user,
+				balance,
+				vouched
+			});
+			history.push(`/${this.props.rol}`);
 		});
-		this.props.handleDecrBalance(balance);
-		this.props.handleRemoveShopping(date);
-		socket.emit('balance',{
-			channel : this.props.user,
-			balance,
-			vouched
-		});
-		history.push(`/${this.props.rol}`);
 	}
 
 	render(){

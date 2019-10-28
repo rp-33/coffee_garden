@@ -1,15 +1,25 @@
 import React,{Component} from 'react';
 import {connect} from 'react-redux';
 import Fab from '@material-ui/core/Fab';
+import Button from '@material-ui/core/Button';
+import Chip from '@material-ui/core/Chip';
+import FaceIcon from '@material-ui/icons/Face';
 import ModalProduct from './ModalProduct';
 import ListProduct from './ListProduct';
 import ListShopping from './ListShopping';
 import ModalPay from './ModalPay';
+import ModalPayUser from './ModalPayUser';
+import ModalAddUser from './ModalAddUser';
 import {
 	findAllProducts
 } from '../../services/api';
 import {weekDay} from '../../utils/date';
 import {action_toast} from '../../actions/notification';
+import {
+	action_addShoppingUser,
+    action_removeShoppingUser
+} from '../../actions/shoppingUser';
+import socket from '../../services/socket';
 import './style.css';
 
 class Sell extends Component{
@@ -20,6 +30,8 @@ class Sell extends Component{
 			drawer : false,
 			modal : false,
 			modalPay :false,
+			modalPayUser : false,
+			modalAddUser : false,
 			quantity : 1,
 			selectDate : weekDay()[0],
 			productDetails:{
@@ -147,6 +159,58 @@ class Sell extends Component{
 		})
 	}
 
+	handleSaveUser(user){
+		this.setState({
+			modalAddUser : false			
+		},()=>{
+			this.props.handleSaveUser(user)
+		})
+		
+	}
+
+	handleRemoveUser(){
+		this.setState({
+			shopping : []
+		},()=>{
+			this.props.handleToast({
+				title : 'Ha eliminado el usuario',
+				variant : 'info',
+				open : true
+			})
+			this.props.handleRemoveUser()
+		})
+	}
+
+	handleSuccessPayUser(user,vouched,balance){
+		this.setState({
+			modalPayUser : false,
+			shopping : []
+		},()=>{
+			socket.emit('balance',{
+				channel : user,
+				balance,
+				vouched
+			});
+			this.props.handleToast({
+				title : 'Compra realizada con exito',
+				variant : 'success',
+				open : true
+			})
+			this.props.handleRemoveUser()
+		})
+	}
+
+	handleModalPay(){
+		if(this.props.shoppingUser._id)
+		{
+			this.setState({modalPayUser:true})
+		}
+		else
+		{
+			this.setState({modalPay:true})
+		}
+	}
+
 	render(){
 
 		return(
@@ -174,7 +238,35 @@ class Sell extends Component{
 					/>
 				}
 
+				{this.state.modalPayUser &&
+					<ModalPayUser
+						open = {this.state.modalPayUser}
+						user = {this.props.shoppingUser._id}
+						school = {this.props.school}
+						products = {this.state.shopping}
+						date = {this.state.selectDate.date}
+						handleSuccess = {this.handleSuccessPayUser.bind(this)}
+						handleClose = {(modalPayUser)=>this.setState({modalPayUser})}
+					/>
+				}
+
+				{this.state.modalAddUser &&
+					<ModalAddUser
+						open = {this.state.modalAddUser}
+						handleClose = {(modalAddUser)=>this.setState({modalAddUser})}
+						handleSave = {this.handleSaveUser.bind(this)}
+					/>
+				}
+
 				<section className="ctn">
+					{this.props.shoppingUser._id &&
+						<Chip
+						icon={<FaceIcon />}
+						color = "secondary"
+        				label={`${this.props.shoppingUser.names} ${this.props.shoppingUser.lastNames}`}
+        				onDelete={this.handleRemoveUser.bind(this)}
+      					/>
+					}
 					{this.state.shopping.length>0 &&
 					<div className="ctn-shopping">
 						<div className="item-product">
@@ -185,11 +277,12 @@ class Sell extends Component{
 						</div>
 					</div>
 					}
+
 					<div style={{marginLeft:'10px'}}>
 						{this.state.shopping.length>0
 						?
 							<Fab 
-								onClick = {()=>this.setState({modalPay:true})}
+								onClick = {this.handleModalPay.bind(this)}
                         		variant="extended" 
                         		size="large"
                         		color="secondary" 
@@ -199,9 +292,24 @@ class Sell extends Component{
                            		procesar compra
                         	</Fab>
 						:
-							<h2>Procesar compra</h2>
+							<div>
+								{!this.props.shoppingUser._id &&
+								<div>
+									<h3>¿Usuario dispone de cuenta?</h3>
+									<Button
+									variant="contained" 
+									color="secondary"
+									onClick = {()=>this.setState({modalAddUser:true})}
+									>
+										SI
+									</Button>
+								</div>
+								}
+							</div>
 						}
 					</div>
+
+					
 					<section className="panel">
 					{this.state.categories.map((item,index)=>
 
@@ -227,7 +335,8 @@ class Sell extends Component{
 
 const mapStateToProps = (state,props)=>{
     return{
-        school : state.user.school
+		school : state.user.school,
+		shoppingUser : state.shoppingUser
     }
 }
 
@@ -236,6 +345,12 @@ const mapDispatchToProps = dispatch =>{
 	return{
 		handleToast(payload){
 			dispatch(action_toast(payload))
+		},
+		handleSaveUser(user){
+			dispatch(action_addShoppingUser(user))
+		},
+		handleRemoveUser(){
+			dispatch(action_removeShoppingUser())
 		}
 	}
 }

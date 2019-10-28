@@ -437,11 +437,10 @@ module.exports = {
 		{
 
 			let {products,total,user,date,school} = req.body;
-
-			date = new Date(date);
+			
 			let {balance,vip} = await User.findOne({_id:user},{_id:false,balance:true,vip:true});
 
-			if(!vip && balance < total) return res.status(204).send()
+			if(!vip && balance < total) return res.status(204).send();
 
 			let order = new Order({
 				vouched :  randomatic('0',6),
@@ -612,8 +611,8 @@ module.exports = {
 		try
 		{
 			let {vouched} = req.query;
-			let orders = await Order.findOne({vouched});
-			if(!orders) return res.status(404).send({error:'Pedido no encontrado'});
+			let orders = await Order.find({vouched});
+			if(orders.length === 0) return res.status(404).send({error:'Pedido no encontrado'});
 			res.status(200).send(orders);
 		}
 		catch(err)
@@ -673,6 +672,61 @@ module.exports = {
 			await shopping.save();
 
 			res.status(201).send({message:'compra completada'})
+		}
+		catch(err)
+		{
+			res.status(500).send({error:'Error en el servidor'})
+		}
+	},
+	saveShoppingUser : async (req,res)=>{
+		try
+		{
+
+			let {
+				user,
+				school,
+				date,
+				products,
+				total
+			} = req.body;
+
+			let person = await User.findOne({_id:user},{balance:true,vip:true});
+
+			if(!person.vip && person.balance < total) return res.status(403).send({error:'No dispone de saldo suficiente'});
+
+			date = new Date(date);
+
+			let vouched = randomatic('0',6);
+
+			let order = new Order({
+				vouched,
+				date,
+				user, 
+				products,
+				school,
+				status : true,
+				total : parseInt(total)
+			})
+
+			await order.save();
+
+			let shopping = new Shopping({
+				vouched,
+				date,
+				products,
+				school
+			})
+
+			await shopping.save();
+
+			let balance = person.balance - parseInt(total);
+
+			await User.updateOne({_id:user},{$set:{balance}});
+
+			res.status(201).send({
+				vouched,
+				balance
+			})
 		}
 		catch(err)
 		{

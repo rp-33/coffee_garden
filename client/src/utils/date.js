@@ -33,7 +33,10 @@ const weekDay = ()=>{
 }
 
 const formatDate = (date)=>{
-	return moment(date).format('MM-DD-YYYY')
+	date = date.split('T')[0];
+	date = date.split('-');
+	return date[1] + '-' + date[2] + '-' + date[0];
+	//retorna MM-DD-YYYY
 }
 
 const todayDate = ()=>{

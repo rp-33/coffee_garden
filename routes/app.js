@@ -52,7 +52,8 @@ const {
 	editEmail,
 	editNames,
 	editPassword,
-	editPhone
+	editPhone,
+	saveShoppingUser
 } = require('../controllers/CtrlApp')
 
 /* GET home page. */
@@ -114,6 +115,8 @@ router.post('/saveShopping',Auth,saveShopping);
 router.post('/packOffOrder',Auth,packOffOrder);
 
 router.post('/createVoucherPayment',Auth,upload.single('file'),createVoucherPayment);
+
+router.post('/saveShoppingUser',Auth,saveShoppingUser);
 
 /* PUT home page. */
 

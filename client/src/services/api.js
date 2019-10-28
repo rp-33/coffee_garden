@@ -637,6 +637,23 @@ const editPhone = (_id,countryCode,phone)=>{
 	.catch((err)=>{return err.response})
 }
 
+const saveShoppingUser = (user,school,date,products,total)=>{
+	return axios({
+		method :'post',
+		url : '/app/saveShoppingUser',
+		data : {
+			user,
+			school,
+			date,
+			products,
+			total
+		},
+		headers: {'Authorization': "bearer " + getStoreUser().token}
+	})
+	.then((response)=>{return response})
+	.catch((err)=>{return err.response})
+}
+
 export {
 	login,
 	createSchool,
@@ -681,5 +698,6 @@ export {
 	editCi,
 	editNames,
 	editPassword,
-	editPhone
+	editPhone,
+	saveShoppingUser
 }
