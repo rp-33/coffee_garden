@@ -40,6 +40,8 @@ class ModalPayUser extends Component{
 			}
 			else 
 			{
+				alert(status)
+				alert(data)
 				this.setState({
 					error: data.error
 				})
