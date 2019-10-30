@@ -12,7 +12,7 @@ div.history section.ctn div.panel{
 	position: fixed;
 	top:150px;
 	width: calc(80% - 70px);
-	height: calc(100% - 200px);
+	height: calc(100% - 210px);
 	max-width: 700px;
 	border-radius: 15px;
 	padding: 10px;
@@ -58,6 +58,14 @@ div.history section.ctn div.panel div.ctn-grid div.left{
 div.history section.ctn div.panel div.ctn-grid div.center{
 	display: flex;
 	flex:1;
+	justify-content: center;
+}
+
+div.history section.ctn div.panel div.btn-more{
+	width: 100%;
+	position:fixed;
+	bottom:0px;
+	display: flex;
 	justify-content: center;
 }
 

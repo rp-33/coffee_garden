@@ -483,13 +483,17 @@ module.exports = {
 	findAllHistory : async (req,res)=>{
 		try
 		{	
-			let {user,date} = req.query;
-			let orders = await Order.find({user,status:true}).sort({date:-1});
+			let {user,page} = req.query;
+			let orders = await Order.find({user,status:true})
+									.sort({date:-1})
+									.skip(parseInt(page))
+									.limit(20)
 			if(orders.length>0) res.status(200).send(orders)
 			res.status(204).send()
 		}
 		catch(err)
 		{
+			console.log(err)
 			res.status(500).send({error:'error en el servidor'});
 		}
 	},

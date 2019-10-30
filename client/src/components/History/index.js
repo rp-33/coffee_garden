@@ -1,5 +1,6 @@
 import React,{Component} from 'react';
 import {connect} from 'react-redux';
+import Button from '@material-ui/core/Button';
 import NoData from '../../presentation/NoData';
 import {findAllHistory} from '../../services/api';
 import {formatDate} from '../../utils/date';
@@ -11,23 +12,25 @@ class History extends Component{
 		super(props);
 		this.state = {
 			orders : [],
-			result :  true
+			result :  true,
 		}
 	}
 
 
 	componentDidMount(){
-		this._findAllOrders();
+		this._findAllOrders(this.props.user,this.state.orders.length);
 	}
 
-	async _findAllOrders(){
+	async _findAllOrders(user,page){
 		try
 		{
-			let {status,data} = await findAllHistory(this.props.user);
+			let {status,data} = await findAllHistory(user,page);
 			if(status === 200)
 			{
-				this.setState({
-					orders:data
+				this.setState(prevState=>{
+					return{
+						orders:data
+					}
 				})
 			}
 			else if(status === 204)
@@ -38,7 +41,7 @@ class History extends Component{
 			}
 			else if(status === 500)
 			{
-				this.props.handleErrorServer({
+				this.props.handleToast({
 					title : 'error en el servidor',
 					variant : 'error',
 					open : true
@@ -46,7 +49,7 @@ class History extends Component{
 			}
 			else
 			{
-				this.props.handleErrorServer({
+				this.props.handleToast({
 					title : data.error,
 					variant : 'error',
 					open : true
@@ -55,7 +58,54 @@ class History extends Component{
 		}
 		catch(err)
 		{
-			this.props.handleErrorServer({
+			this.props.handleToast({
+				title : 'Error',
+				variant : 'error',
+				open : true
+			})
+		}
+	}
+
+	async handleMoreDate(){
+		try
+		{
+			let {status,data} = await findAllHistory(this.props.user,this.state.orders.length);
+			if(status === 200)
+			{
+				this.setState(prevState=>{
+					return{
+						orders:prevState.orders.concat(data)
+					}
+				})
+			}
+			else if(status === 204)
+			{
+				this.props.handleToast({
+					title : 'No hay mas datos',
+					variant : 'info',
+					open : true
+				})
+			}
+			else if(status === 500)
+			{
+				this.props.handleToast({
+					title : 'error en el servidor',
+					variant : 'error',
+					open : true
+				})
+			}
+			else
+			{
+				this.props.handleToast({
+					title : data.error,
+					variant : 'error',
+					open : true
+				})
+			}
+		}
+		catch(err)
+		{
+			this.props.handleToast({
 				title : 'Error',
 				variant : 'error',
 				open : true
@@ -108,9 +158,12 @@ class History extends Component{
          					)}
          				</section>
 						)}
-						
-
-					</div>
+						{this.state.result &&
+							<div className="btn-more">
+								<Button onClick={this.handleMoreDate.bind(this)}>Mostrar mas</Button>
+							</div>
+						}
+					</div>				
 				</section>
 			</div>
 		)
@@ -125,7 +178,7 @@ const mapStateToProps = (state,props)=>{
 
 const mapDispatchToProps = dispatch =>{
 	return{
-		handleErrorServer(payload){
+		handleToast(payload){
 			dispatch(action_toast(payload))
 		}
 	}

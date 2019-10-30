@@ -419,12 +419,13 @@ const packOffOrder = (school,vouched,date,products)=>{
 	.catch((err)=>{return err.response})
 }
 
-const findAllHistory = (user)=>{
+const findAllHistory = (user,page)=>{
 	return axios({
 		method : 'get',
 		url : '/app/findAllHistory',
 		params :{
-			user
+			user,
+			page
 		},
 		headers: {'Authorization': "bearer " + getStoreUser().token}
 	})
