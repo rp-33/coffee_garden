@@ -23,9 +23,9 @@ div.search section.ctn  div.ctn-cantina select{
 div.search section.ctn div.panel{
 	background-color: rgba(255,235,208,.65);
 	position: fixed;
-	top:150px;
+	top:140px;
 	width: calc(80% - 70px);
-	height: calc(100% - 200px);
+	height: calc(100% - 210px);
 	border-radius: 15px;
 	padding: 10px;
 	box-shadow: 0 0 6px rgba(0,0,0,.4);
@@ -129,6 +129,14 @@ div.search section.ctn div.panel .ctn-grid div.ctn-menu div.eyelash{
 	border-width: 10px;
 	border-color: transparent transparent white transparent;
 	border-style: solid
+}
+
+div.search section.ctn div.panel div.btn-more{
+	width: 100%;
+	position:fixed;
+	bottom:0px;
+	display: flex;
+	justify-content: center;
 }
 
 /*modal-vip*/

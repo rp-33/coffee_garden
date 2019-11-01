@@ -11,7 +11,7 @@ div.find-order section.ctn div.panel{
 	background-color: rgba(255,235,208,.65);
 	position: fixed;
 	width: calc(80% - 70px);
-	height: calc(100% - 160px);
+	height: calc(100% - 180px);
 	max-width: 700px;
 	border-radius: 15px;
 	padding: 10px;
@@ -80,6 +80,13 @@ div.find-order section.ctn div.panel div.ctn-grid div.center{
 	justify-content: center;
 }
 
+div.find-order section.ctn div.panel div.btn-more{
+	width: 100%;
+	position:fixed;
+	bottom:0px;
+	display: flex;
+	justify-content: center;
+}
 
 /*MEDIA QUERIES*/
 

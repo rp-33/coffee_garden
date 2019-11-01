@@ -4,6 +4,7 @@ import Fab from '@material-ui/core/Fab';
 import SearchIcon from '@material-ui/icons/Search';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Switch from '@material-ui/core/Switch';
+import Button from '@material-ui/core/Button';
 import ItemUser from './ItemUser';
 import FilterUser from './FilterUser';
 import ModalBalance from './ModalBalance';
@@ -36,7 +37,6 @@ class Search extends Component{
 		}
 	}
 
-	
 	componentDidMount(){
 		this.getSchool();
 	}
@@ -66,7 +66,7 @@ class Search extends Component{
 	async _findAllUsers(school){
 		try
 		{
-			let {status,data} =  await findAllRepresentative(school);
+			let {status,data} =  await findAllRepresentative(school,0);
 			if(status === 200)
 			{
 				this.setState({
@@ -185,6 +185,10 @@ class Search extends Component{
 		this.setState({
 			[name] : value
 		})
+		if(value.length===0)
+		{
+			this._findAllUsers(this.state.school)
+		}
 	}
 
 	handleSuccessBalance(_id,balance){
@@ -225,6 +229,54 @@ class Search extends Component{
 				modalVip:false,
            	}
 		})
+	}
+
+	async handleMoreData(){
+		try
+		{
+			let {school,users} = this.state;
+			let {status,data} =  await findAllRepresentative(school,users.length);
+			if(status === 200)
+			{
+				this.setState(prevState=>{
+					return{
+						users : prevState.users.concat(data)
+					}
+				})
+			}
+			else if(status === 500)
+			{	
+				this.props.handleToast({
+					title : 'Error en el servidor',
+					variant : 'error',
+					open : true
+				})
+			}
+			else if(status === 204)
+			{
+				this.props.handleToast({
+					title : 'No hay mas representantes',
+					variant : 'info',
+					open : true
+				})
+			}
+			else
+			{
+				this.props.handleToast({
+					title : data.error,
+					variant : 'warnin',
+					open : true
+				})
+			}
+		}
+		catch(err)
+		{
+			this.props.handleToast({
+				title : 'Error',
+				variant : 'error',
+				open : true
+			})
+		}
 	}
 
 
@@ -350,6 +402,12 @@ class Search extends Component{
 								
 							)}
 						</section>
+						}
+						
+						{this.state.users.length>1 &&
+							<div className="btn-more">
+								<Button onClick={this.handleMoreData.bind(this)}>Mostrar mas</Button>
+							</div>
 						}
 					</div>
 				</section>

@@ -42,6 +42,49 @@ div.voucher-payment section.ctn div.panel div.item-card img{
 	border-radius: 12px;
 }
 
+/*MODAL-BANK*/
+
+div.voucher-payment div.modal-bank{
+	display:flex;
+	background-color:rgba(252,180,160,0.45);
+	width: 100%;
+	height: 100%;
+	justify-content: center;
+	align-items: center;
+	position: fixed;
+	top:0;
+	bottom:0;
+	z-index: 10000;
+	overflow-y: auto;
+}
+
+
+div.voucher-payment div.modal-bank .form-control{
+	background-color: #f7f3f0;
+	width: calc(80% - 50px);
+	border-radius: 20px;
+	padding: 5px 25px 30px 25px;
+	max-width: 260px;
+	position: relative;
+	box-shadow: 0 0 4px #737373;
+	position: relative;
+}
+
+div.voucher-payment div.modal-bank .form-control div.icon-close{
+	width: 30px;
+	height: 30px;
+	background-color: white;
+	position: absolute;
+	top: -7px;
+	right: -7px;
+	border-radius: 50%;
+	z-index: 1000;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+}
+
 /*MODAL-ADD*/
 
 div.voucher-payment div.modal-add{

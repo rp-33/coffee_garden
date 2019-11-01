@@ -4,6 +4,8 @@ import Fab from '@material-ui/core/Fab';
 import Button from '@material-ui/core/Button';
 import SearchIcon from '@material-ui/icons/Search';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Chip from '@material-ui/core/Chip';
+import FaceIcon from '@material-ui/icons/Face';
 import {
 	queryOrder,
 	packOffOrder,
@@ -27,13 +29,13 @@ class FindOrder extends Component{
 	}
 
 	componentDidMount(){
-		this.handleShoppingDay(this.props.school,todayDate().init)
+		this.handleShoppingDay(this.props.school,todayDate().init,this.state.data.length);
 	}
 
-	async handleShoppingDay(school,date){
+	async handleShoppingDay(school,date,length){
 		try
 		{			
-			let {status,data} = await queryShoppingDay(school,date);
+			let {status,data} = await queryShoppingDay(school,date,length);
 			if(status === 200)
 			{
 				this.setState({
@@ -46,7 +48,7 @@ class FindOrder extends Component{
 
 				},()=>{
 					this.props.handleToast({
-						title : 'No hay Ordenes',
+						title : 'No hay ordenes',
 						variant : 'info',
 						open : true
 					})
@@ -113,10 +115,10 @@ class FindOrder extends Component{
 			else if(status === 500)
 			{
 				this.props.handleToast({
-				title : 'Error en el servidor',
-				variant : 'error',
-				open : true
-			})
+					title : 'Error en el servidor',
+					variant : 'error',
+					open : true
+				})
 			}
 			else
 			{
@@ -196,11 +198,57 @@ class FindOrder extends Component{
 		this.handleShoppingDay(this.props.school,todayDate().init)
 	}
 
+	async handleMoreData(){
+		try
+		{			
+			let {status,data} = await queryShoppingDay(this.props.school,todayDate().init,this.state.data.length);
+			if(status === 200)
+			{
+				this.setState(prevState=>{
+					return{
+						data : prevState.data.concat(data)
+					}
+				})
+			}
+			else if(status === 204)
+			{
+				this.props.handleToast({
+					title : 'No hay mas ordenes',
+					variant : 'info',
+					open : true
+				})
+			}
+			else if(status === 500)
+			{
+				this.props.handleToast({
+					title : 'Error en el servidor',
+					variant : 'error',
+					open : true
+				})
+			}
+			else 
+			{
+				this.props.handleToast({
+					title : data.error,
+					variant : 'warnin',
+					open : true
+				})
+			}
+		}
+		catch(err)
+		{
+			this.props.handleToast({
+				title : 'Error en el servidor',
+				variant : 'error',
+				open : true
+			})
+		}
+	}
+
 	render(){
 		return(
 			<div className="find-order">
 				<section className="ctn">
-					
 					<div className="panel">
 					<div className="ctn-input">
 						<input 
@@ -229,10 +277,17 @@ class FindOrder extends Component{
 					}
 					{this.state.data.map((item,i)=>
 						<section key = {i} className="ctn-shopping">
+							<div style={{textAlign:'right',width:'100%'}}>
+								<h4 style={{color:'#e44a4c'}}> Comprobante : {item.vouched} </h4> 						
+							</div>
+							
 							<div className="ctn-vouched">
-								<div>
-									<h4 style={{color:'#e44a4c'}}> Comprobante : {item.vouched} </h4> 						
-								</div>
+								<Chip
+									icon={<FaceIcon />}
+									variant = "outline"
+									color = "default"
+        							label={`${item.user.names} ${item.user.lastNames}`}
+      							/>
 								<div>
 									{
 										item.status
@@ -278,9 +333,14 @@ class FindOrder extends Component{
          					)}
          				</section>
 						)}
+						{this.state.data.length>1 &&
+							<div className="btn-more">
+								<Button onClick={this.handleMoreData.bind(this)}>Mostrar mas</Button>
+							</div>
+						}
 					</div>
 				</section>
-			</div>
+			</div> 
 		)
 	}
 }

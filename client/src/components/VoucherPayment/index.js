@@ -1,8 +1,12 @@
 import React,{Component} from 'react';
 import {connect} from 'react-redux';
+import Tooltip from '@material-ui/core/Tooltip';
 import Fab from '@material-ui/core/Fab';
+import UploadIcon from '@material-ui/icons/CloudUpload';
+import InformationIcon from '@material-ui/icons/AccountBalance';
 import ModalAdd from './ModalAdd';
 import ModalInf from './ModalInf';
+import ModalBank from './ModalBank';
 import NoData from '../../presentation/NoData';
 import {
 	findAllMyVoucher
@@ -18,6 +22,7 @@ class VoucherPayment extends Component{
 			result : true,
 			modalAdd : false,
 			modalInf : false,
+			modalBank : false,
 			voucher : {
 				image:'',
 				status:false
@@ -121,20 +126,36 @@ class VoucherPayment extends Component{
 						voucher = {this.state.voucher}
 						handleClose = {(modalInf)=>this.setState({modalInf})}
 					/>
+				}
 
+				{this.state.modalBank &&
+					<ModalBank
+						open = {this.state.modalBank}
+						handleClose = {(modalBank)=>this.setState({modalBank})}
+					/>
 				}
 
 				<section className="ctn">
 					<div className="ctn-btn">
-						<Fab 
-						onClick = {()=>this.setState({modalAdd:true})}
-                        variant="extended" 
-                        color="secondary" 
-                        className="secondary" 
-                        style = {{marginLeft:'10px'}}
-                   	 	>
-                        	cargar comprobante
-                    	</Fab>
+						<Tooltip title="Subir comprobante de pago" aria-label="vouched payment">
+							<Fab 
+							onClick = {()=>this.setState({modalAdd:true})}
+                        	color="secondary" 
+                        	className="secondary" 
+                        	style = {{marginLeft:'10px'}}	
+							>
+  								<UploadIcon />
+							</Fab>
+						</Tooltip>
+						<Tooltip title="Bancos a depositar" aria-label="information">
+							<Fab 
+							onClick = {()=>this.setState({modalBank:true})}
+							color="default" 
+							style = {{marginLeft:'20px'}}	
+							>
+  								<InformationIcon />
+							</Fab>
+						</Tooltip>
                     </div>
                 	
 					<div className="panel">

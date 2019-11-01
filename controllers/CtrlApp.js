@@ -487,21 +487,30 @@ module.exports = {
 			let orders = await Order.find({user,status:true})
 									.sort({date:-1})
 									.skip(parseInt(page))
-									.limit(20)
+									.limit(50)
 			if(orders.length>0) res.status(200).send(orders)
 			res.status(204).send()
 		}
 		catch(err)
 		{
-			console.log(err)
 			res.status(500).send({error:'error en el servidor'});
 		}
 	},
 	findAllRepresentative : async (req,res)=>{
 		try
 		{
-			let {school} =  req.query;
-			let users = await User.find({school,rol:'representative'},{password:false,codeCi:false,rol:false});
+			let {school,page} =  req.query;
+			let users = await User.find({
+											school,
+											rol:'representative'
+										},
+										{
+											password:false,
+											codeCi:false,
+											rol:false
+										})
+										.skip(parseInt(page))
+										.limit(50)
 			if(users.length>0) return res.status(200).send(users);
 			res.status(204).send();
 		}
@@ -617,6 +626,7 @@ module.exports = {
 			let {vouched} = req.query;
 			let orders = await Order.find({vouched});
 			if(orders.length === 0) return res.status(404).send({error:'Pedido no encontrado'});
+			await User.populate([orders],{path:'user',select:["names","lastNames"]});
 			res.status(200).send(orders);
 		}
 		catch(err)
@@ -754,14 +764,17 @@ module.exports = {
 	findAllShopping : async (req,res)=>{
 		try
 		{
-			let {school,initDate,endDate} = req.query;
+			let {school,initDate,endDate,page} = req.query;
 			initDate = new Date(initDate);
 			endDate = new Date(endDate);
 			let shopping =  await Shopping.find({school,
 												date:{
 													$gte : initDate,
 													$lte : endDate
-												}}).sort({date:-1})
+												}})
+												.sort({date:-1})
+												.skip(parseInt(page))
+												.limit(50)
 			
 			if(shopping.length>0) return res.status(200).send(shopping);
 			res.status(204).send();
@@ -774,9 +787,13 @@ module.exports = {
 	queryShoppingDay : async(req,res)=>{
 		try
 		{
-			let {school,date} = req.query;			
+			let {school,date,page} = req.query;			
 			date = new Date(date)
-			let orders =  await Order.find({school,date}).sort({date:-1})
+			let orders =  await Order.find({school,date})
+									.sort({date:-1})
+									.skip(parseInt(page))
+									.limit(50)
+			await User.populate([orders],{path:'user',select:["names","lastNames"]});
 			if(orders.length>0) return res.status(200).send(orders);
 			res.status(204).send();
 		}

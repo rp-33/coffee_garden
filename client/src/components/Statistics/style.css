@@ -111,6 +111,14 @@ div.statistics section.ctn div.panel div.total span{
 	border-top:1px solid #c5bbac;
 }
 
+div.statistics section.ctn div.panel div.btn-more{
+	width: 100%;
+	position:fixed;
+	bottom:0px;
+	display: flex;
+	justify-content: center;
+}
+
 /*MEDIA QUERIES*/
 
 @media screen and (max-width: 600px) {

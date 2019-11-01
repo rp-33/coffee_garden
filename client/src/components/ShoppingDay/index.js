@@ -3,6 +3,9 @@ import {connect} from 'react-redux';
 import Fab from '@material-ui/core/Fab';
 import SearchIcon from '@material-ui/icons/Search';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Chip from '@material-ui/core/Chip';
+import FaceIcon from '@material-ui/icons/Face';
+import Button from '@material-ui/core/Button';
 import {
 	findAllSchool,
 	queryShoppingDay,
@@ -18,7 +21,7 @@ class ShoppingDay extends Component{
 		this.state = {
 			schools : [],
 			school : 'seleccione una cantina',
-			data : [],
+			shoppings : [],
 			date :  todayDate().init,
 			isLoading : false
 		}
@@ -54,7 +57,7 @@ class ShoppingDay extends Component{
 		let school = event.target.value;
 		this.setState({
 			school,
-			data : []
+			shoppings : []
 		})
 	}
 
@@ -71,18 +74,17 @@ class ShoppingDay extends Component{
 		{
 			this.setState({isLoading:true});
 			let {date,school} = this.state;
-
-			let {status,data} = await queryShoppingDay(school,date);
+			let {status,data} = await queryShoppingDay(school,date,0);
 			if(status === 200)
 			{
 				this.setState({
-					data
+					shoppings :	data
 				})
 			}
 			else if(status === 204)
 			{
 				this.setState({
-					data:[]
+					shoppings:[]
 				},()=>{
 					this.props.handleToast({
 						title : 'No hay compras',
@@ -130,14 +132,14 @@ class ShoppingDay extends Component{
 			let {status,data} = await packOffOrder(school,vouched,date,products); 
 			if(status === 204)
 			{
-				this.setState(previousState=>{
+				this.setState(prevState=>{
 					return{
-						data:[
-							...previousState.data.slice(0,index),// Copia el objeto antes de modificarlo
-							Object.assign({}, previousState.data[index], {
+						shoppings:[
+							...prevState.shoppings.slice(0,index),// Copia el objeto antes de modificarlo
+							Object.assign({}, prevState.shoppings[index], {
 								status : true
 							}),
-							...previousState.data.slice(index + 1)
+							...prevState.shoppings.slice(index + 1)
 						]
 					}
 				},()=>{
@@ -151,10 +153,10 @@ class ShoppingDay extends Component{
 			else if(status === 500)
 			{
 				this.props.handleToast({
-				title : 'Error en el servidor',
-				variant : 'error',
-				open : true
-			})
+					title : 'Error en el servidor',
+					variant : 'error',
+					open : true
+				})
 			}
 			else
 			{
@@ -169,6 +171,54 @@ class ShoppingDay extends Component{
 		{
 			this.props.handleToast({
 				title : 'Error',
+				variant : 'error',
+				open : true
+			})
+		}
+	}
+
+	async handleMoreData(){
+		try
+		{
+			let {date,school,shoppings} = this.state;
+			let {status,data} = await queryShoppingDay(school,date,shoppings.length);
+			if(status === 200)
+			{
+				this.setState(prevState=>{
+					return{
+						shoppings : prevState.shoppings.concat(data)
+					}
+				})
+			}
+			else if(status === 204)
+			{
+				this.props.handleToast({
+					title : 'No hay mas compras',
+					variant : 'info',
+					open : true
+				})
+			}
+			else if(status === 500)
+			{
+				this.props.handleToast({
+					title : 'Error en el servidor',
+					variant : 'error',
+					open : true
+				})
+			}
+			else 
+			{
+				this.props.handleToast({
+					title : data.error,
+					variant : 'warnin',
+					open : true
+				})
+			}
+		}
+		catch(err)
+		{
+			this.props.handleToast({
+				title : 'Error en el servidor',
 				variant : 'error',
 				open : true
 			})
@@ -229,12 +279,18 @@ class ShoppingDay extends Component{
 						</div>
 						}
 
-						{this.state.data.map((item,i)=>
+						{this.state.shoppings.map((item,i)=>
 						<section key = {i} className="ctn-shopping">
+							<div style={{textAlign:'right',width:'100%'}}>
+								<h4 style={{color:'#e44a4c'}}> Comprobante : {item.vouched} </h4> 						
+							</div>
 							<div className="ctn-vouched">
-								<div>
-									<h4 style={{color:'#e44a4c'}}> Comprobante : {item.vouched} </h4> 						
-								</div>
+								<Chip
+									icon={<FaceIcon />}
+									variant = "outline"
+									color = "default"
+        							label={`${item.user.names} ${item.user.lastNames}`}
+      							/>
 								<div>
 									{
 										item.status
@@ -280,8 +336,11 @@ class ShoppingDay extends Component{
          					)}
          				</section>
 						)}
-						
-
+						{this.state.shoppings.length>1 &&
+							<div className="btn-more">
+								<Button onClick={this.handleMoreData.bind(this)}>Mostrar mas</Button>
+							</div>
+						}
 					</div>
 				</section>
 			</div>

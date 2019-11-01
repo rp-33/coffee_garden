@@ -279,12 +279,13 @@ const findAllOrders = (user,date)=>{
 
 }
 
-const findAllRepresentative = (school)=>{
+const findAllRepresentative = (school,page)=>{
 		return axios({
 		method : 'get',
 		url : '/app/findAllRepresentative',
 		params :{
-			school
+			school,
+			page
 		},
 		headers: {'Authorization': "bearer " + getStoreUser().token}
 	})
@@ -478,14 +479,15 @@ const changeVip = (_id,vip)=>{
 	.catch((err)=>{return err.response})
 }
 
-const findAllShopping = (school,initDate,endDate)=>{
+const findAllShopping = (school,initDate,endDate,page)=>{
 	return axios({
 		method : 'get',
 		url : '/app/findAllShopping',
 		params :{
 			school,
 			initDate,
-			endDate
+			endDate,
+			page
 		},
 		headers: {'Authorization': "bearer " + getStoreUser().token}
 	})
@@ -494,13 +496,14 @@ const findAllShopping = (school,initDate,endDate)=>{
 
 }
 
-const queryShoppingDay = (school,date)=>{
+const queryShoppingDay = (school,date,page)=>{
 		return axios({
 		method : 'get',
 		url : '/app/queryShoppingDay',
 		params :{
 			school,
-			date
+			date,
+			page
 		},
 		headers: {'Authorization': "bearer " + getStoreUser().token}
 	})

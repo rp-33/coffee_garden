@@ -2,6 +2,7 @@ import React,{Component} from 'react';
 import {connect} from 'react-redux';
 import Fab from '@material-ui/core/Fab';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Button from '@material-ui/core/Button';
 import {
 	findAllSchool,
 	findAllShopping
@@ -24,7 +25,7 @@ class Statistics extends Component{
 			school : 'seleccione una cantina',
 			initDate : todayDate().init,
 			endDate : todayDate().end,
-			data : [],
+			shoppings : [],
 			isLoading : false
 		}
 	}
@@ -58,7 +59,7 @@ class Statistics extends Component{
 		let school = event.target.value;
 		this.setState({
 			school,
-			data : []
+			shoppings : []
 		})
 	}
 
@@ -76,17 +77,17 @@ class Statistics extends Component{
 				isLoading:true
 			})
 			let {school,initDate,endDate} = this.state;
-			let {status,data} =  await findAllShopping(school,initDate,endDate);
+			let {status,data} =  await findAllShopping(school,initDate,endDate,0);
 			if(status === 200)
 			{
 				this.setState({
-					data
+					shoppings : data
 				})
 			}
 			else if(status === 204)
 			{
 				this.setState({
-					data : []
+					shoppings : []
 				},()=>{
 					this.props.handleToast({
 						title : 'No se encuentran ordenes',
@@ -125,6 +126,53 @@ class Statistics extends Component{
 				isLoading:false
 			})
 		}
+	}
+
+	async handleMoreData(){
+		try{ 
+			let {school,initDate,endDate,shoppings} = this.state;
+			let {status,data} =  await findAllShopping(school,initDate,endDate,shoppings.length);
+			if(status === 200)
+			{
+				this.setState(prevState =>{
+					return{
+						shoppings : prevState.shoppings.concat(data)
+					}
+				})
+			}
+			else if(status === 204)
+			{
+				this.props.handleToast({
+					title : 'No hay mas ordenes',
+					variant : 'info',
+					open : true
+				})
+			}
+			else if(status === 500)
+			{
+				this.props.handleToast({
+					title : 'Error en el servidor',
+					variant : 'error',
+					open : true
+				})
+			}
+			else{
+				this.props.handleToast({
+					title : data.error,
+					variant : 'warnin',
+					open : true
+				})
+			}
+		}
+		catch(err)
+		{
+			this.props.handleToast({
+				title : 'Error',
+				variant : 'error',
+				open : true
+			})
+		}
+
 	}
 
 
@@ -196,7 +244,7 @@ class Statistics extends Component{
       					</div>
       					}
 
-      					{this.state.data.map((item,i)=>
+      					{this.state.shoppings.map((item,i)=>
 						<section key = {i} className="ctn-shopping">
 							<div className="cnt-vouched">
 								<div>
@@ -232,8 +280,13 @@ class Statistics extends Component{
          					</div>
          				</section>
 						)}
-						
 
+						{this.state.shoppings.length>0 &&
+							<div className="btn-more">
+								<Button onClick={this.handleMoreData.bind(this)}>Mostrar mas</Button>
+							</div>
+						}
+						
 					</div>
 				</section>
 			</div>
