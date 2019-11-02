@@ -333,6 +333,19 @@ const queryUser = (ci)=>{
 	.catch((err)=>{return err.response})
 }
 
+const filterQueryUser = (value)=>{
+	return axios({
+		method : 'get',
+		url : '/app/filterQueryUser',
+		params :{
+			value
+		},
+		headers: {'Authorization': "bearer " + getStoreUser().token}
+	})
+	.then((response)=>{return response})
+	.catch((err)=>{return err.response})
+}
+
 const findUser = (_id)=>{
 	return axios({
 		method : 'get',
@@ -684,6 +697,7 @@ export {
 	addBalance,
 	findAllOrdersUser,
 	queryUser,
+	filterQueryUser,
 	createSeller,
 	findAllSeller,
 	deleteSeller,

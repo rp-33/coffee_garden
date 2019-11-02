@@ -546,6 +546,13 @@ module.exports = {
 			res.status(500).send({err})
 		}
 	},
+	filterQueryUser : async (req,res)=>{
+			let {value} = req.query;
+			let values = value.split(' ');
+			let users = await User.find( { $or: [ { ci : {$regex : `^${value}`} }, { names : values[0] },{lastNames : values[1]} ],rol:'representative' },{password:false} )
+			if(users.length>0) return res.status(200).send(users)
+			res.status(404).send({error:'Usuario no existe'})
+	},
 	queryUser : async (req,res)=>{
 		try
 		{
@@ -853,7 +860,7 @@ module.exports = {
 		try
 		{
 			let {school,page} = req.query;
-			let voucher = await Voucher.find({school,status:false})
+			let voucher = await Voucher.find({school:req.query.school,status:false})
 										.skip(parseInt(page))
 										.limit(50)
 			await User.populate([voucher],{path:'user',select:["names","lastNames","email","ci","balance"]});

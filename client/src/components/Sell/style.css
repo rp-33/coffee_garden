@@ -70,7 +70,7 @@ div.sell div.modal-add-user .form-control div.ctn-find-user{
 	max-height: 150px;
 }
 
-div.sell div.modal-add-user .form-control div.ctn-find-user > div{
+div.sell div.modal-add-user .form-control div.ctn-find-user > section div{
 	margin-top:20px;
 	margin-bottom:20px;
 	display:flex;

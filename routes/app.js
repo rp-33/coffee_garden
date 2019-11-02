@@ -53,7 +53,8 @@ const {
 	editNames,
 	editPassword,
 	editPhone,
-	saveShoppingUser
+	saveShoppingUser,
+	filterQueryUser
 } = require('../controllers/CtrlApp')
 
 /* GET home page. */
@@ -91,6 +92,8 @@ router.get('/queryShoppingDay',Auth,queryShoppingDay);
 router.get('/findAllMyVoucher',Auth,findAllMyVoucher);
 
 router.get('/findAllVoucher',Auth,findAllVoucher);
+
+router.get('/filterQueryUser',Auth,filterQueryUser)
 
 /* POST home page. */
 

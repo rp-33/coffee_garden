@@ -4,7 +4,7 @@ import Slide from '@material-ui/core/Slide';
 import CancelIcon from '@material-ui/icons/Cancel';
 import Button from '@material-ui/core/Button';
 import BarMessage from '../../presentation/BarMessage';
-import {queryUser} from '../../services/api';
+import {filterQueryUser} from '../../services/api';
 import PropTypes from 'prop-types';
 
 class ModalAddUser extends Component{
@@ -26,7 +26,7 @@ class ModalAddUser extends Component{
                 [name] : value
             })
             if(value.length<3) return;
-            let {status,data} = await queryUser(value);
+            let {status,data} = await filterQueryUser(value);
             if(status === 200)
             {
                 this.setState({
@@ -82,6 +82,8 @@ class ModalAddUser extends Component{
 						</div>
                         <div className="ctn-find-user">
                             {this.state.data.map((item,i)=>
+                                <section>
+                                {item._id &&
                                 <div key = {i}>
                                     <span>{item.names} {item.lastNames}</span>
                                     <Button 
@@ -91,6 +93,8 @@ class ModalAddUser extends Component{
                                       Guardar
                                     </Button>
                                 </div>
+                                }
+                                </section>
                             )}
                         </div>
                     </Paper>
