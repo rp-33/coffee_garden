@@ -4,6 +4,9 @@ import Paper from '@material-ui/core/Paper';
 import Slide from '@material-ui/core/Slide';
 import CancelIcon from '@material-ui/icons/Cancel';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import IconButton from '@material-ui/core/IconButton';
+import ArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
+import ArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 import photoImg from '../../assets/foto.png';
 import FileReader from '../../services/reader';
 import BarMessage from '../../presentation/BarMessage';
@@ -17,7 +20,9 @@ class ModalAddProduct extends Component{
 			file : {},
 			base64 : '',
 			isLoading : false,
-			error : ''
+			error : '',
+			position : 0,
+			banks : ['banesco','provincial','zeller']
 		}
 	}
 
@@ -54,11 +59,11 @@ class ModalAddProduct extends Component{
 				error : '',
 				isLoading:true
 			});
-			let {file} = this.state;
-			let {status,data} = await createVoucherPayment(this.props.user,this.props.school,file);
+			let {file,position,banks} = this.state;
+			let {status,data} = await createVoucherPayment(this.props.user,this.props.school,file,banks[position]);
 			if(status === 201)
 			{
-				this.props.handleSubmit(data.image);
+				this.props.handleSubmit(data.image,data.bank);
 			}
 			else if(status === 500)
 			{
@@ -90,6 +95,21 @@ class ModalAddProduct extends Component{
 		}
 	}
 
+	handleNextBank(){
+		this.setState(prevState=>{
+			return{
+				position : prevState.position + 1
+			}
+		})
+	}
+
+	handleBackBank(){
+		this.setState(prevState=>{
+			return{
+				position : prevState.position - 1
+			}
+		})
+	}
 
 	render(){
 		let {open,handleClose} = this.props;
@@ -126,7 +146,28 @@ class ModalAddProduct extends Component{
          						<img src={this.state.base64} alt="image"/>
          						<CancelIcon fontSize="small" className="icon" onClick={this.removeImage.bind(this)}/>					
          					</div>
-         				}
+						 }
+						<div className="ctn-input">
+							<IconButton 
+								aria-label="back" 
+								style={{color:'#e2474b'}}
+								disabled = {this.state.position===0} 
+								onClick = {this.handleBackBank.bind(this)}
+								>
+                            	<ArrowLeftIcon fontSize="large" />
+                        	</IconButton>
+                        	<div className="input">
+                        		<span style={{fontWeight:'bold'}}>{this.state.banks[this.state.position]}</span>
+                        	</div>
+							<IconButton 
+								aria-label="next" 
+								style={{color:'#e2474b'}}
+								disabled = {this.state.position===2}  
+								onClick = {this.handleNextBank.bind(this)}
+								>
+                            	<ArrowRightIcon fontSize="large" />
+                            </IconButton>  
+                    	</div>
          				{this.state.base64 &&
          					<div className="ctn-btn">
          						{this.state.isLoading	

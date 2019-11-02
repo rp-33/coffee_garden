@@ -78,6 +78,15 @@ div.voucher section.ctn div.panel div.ctn-grid div:nth-child(3){
 	width: 50px;
 }
 
+div.voucher section.ctn div.panel div.btn-more{
+	width: 100%;
+	position:fixed;
+	bottom:0px;
+	display: flex;
+	justify-content: center;
+}
+
+
 /*MODAL-VOUCHER*/
 div.voucher div.modal-inf{
 	display:flex;
@@ -126,6 +135,7 @@ div.voucher div.modal-inf .form-control div.ctn-img{
 	height: 190px;
 	border-radius: 10px;
 	position: relative;
+	margin-bottom:20px
 }
 
 div.voucher div.modal-inf .form-control div.ctn-img img{
@@ -140,7 +150,22 @@ div.voucher div.modal-inf .form-control div.ctn-btn{
 	width: 100%;
 	justify-content: center;
 	align-items: center;
-	margin-top: 20px
+	margin-top: 20px;
+}
+
+div.voucher div.modal-inf .form-control div.ctn-input div{
+	display: flex;
+	flex:1;
+	background-color: #f1f1f1;
+	height: 30px;
+	border:1px;
+	border-radius: 5px;
+	border:1px solid #c7c7c7;
+	color:#e2474b;
+	align-items: center;
+	justify-content: center;
+	padding: 3px 0;
+	font-weight: bold
 }
 
 /*MODAL-BALANCE*/

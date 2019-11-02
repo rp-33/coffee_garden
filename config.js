@@ -1,9 +1,9 @@
 var config = {
 	server:{
-		port : 80
+		port : 8888
 	},
  	db:{
- 		port:  'mongodb://localhost/coffee_garden' || 'mongodb+srv://rp352429:rp352429@cluster0-psfrv.mongodb.net/test?retryWrites=true&w=majority'
+ 		port: 'mongodb://localhost/coffee_garden' || 'mongodb+srv://rp352429:rp352429@cluster0-psfrv.mongodb.net/test?retryWrites=true&w=majority'
  	},
  	token :{
  		secret : 'coffee_garden_954395164264495_DYJ0jReUd3Ufhp5VAaPEzNL9aCA_'

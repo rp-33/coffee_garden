@@ -14,6 +14,10 @@ const voucherSchema = new Schema({
 		type:Boolean,
 		default : false
 	},
+	bank : {
+		type : String,
+		enum : ['banesco','provincial','zeller']
+	},
 	school : {
     	type : Schema.ObjectId, ref: "School"
     }

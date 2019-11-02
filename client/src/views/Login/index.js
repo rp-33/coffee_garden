@@ -87,7 +87,7 @@ class Login extends Component{
 			else
 			{
 				this.setState({
-					errorLogin : data.error
+					errorLogin : data.error || 'Error'
 				})	
 			}
 		}

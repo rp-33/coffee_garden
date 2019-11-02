@@ -19,6 +19,10 @@ const ModalVoucher = ({open,handleClose,voucher,handleBalance})=>{
          				<img src={voucher.image} alt="image"/>
          			</div>
 
+					<div className="ctn-input">
+						<div>{voucher.bank}</div>
+         			</div>
+
          			 <div className="ctn-btn">
                         <Fab 
                         	onClick = {()=>handleBalance()}

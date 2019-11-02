@@ -25,7 +25,8 @@ class VoucherPayment extends Component{
 			modalBank : false,
 			voucher : {
 				image:'',
-				status:false
+				status:false,
+				bank : ''
 			}
 		}
 	}
@@ -77,14 +78,15 @@ class VoucherPayment extends Component{
 		}
 	}
 
-	handleAddVoucher(image){
+	handleAddVoucher(image,bank){
 		this.setState(prevState=>{
 			return{
 				result : true,
 				modalAdd : false,
 				data : prevState.data.concat({
 					image,
-					status : false
+					status : false,
+					bank
 				})
 			}
 		},()=>{
@@ -96,12 +98,13 @@ class VoucherPayment extends Component{
 		})
 	}
 
-	handleSelect({image,status}){
+	handleSelect({image,status,bank}){
 		this.setState({
 			modalInf :true,
 			voucher : {
 				image,
-				status
+				status,
+				bank
 			}
 		})
 	}

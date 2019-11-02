@@ -24,6 +24,9 @@ const ModalInf = ({open,voucher,handleClose})=>{
          					<div>solicitud en espera</div>
          				}
          			</div>
+					<div className="ctn-input">
+						<div>{voucher.bank}</div>
+         			</div>
          		</Paper>
          	</div>
          </Slide>
@@ -34,7 +37,8 @@ ModalInf.propTypes = {
 	open : PropTypes.func.isRequired,
 	voucher : PropTypes.shape({
 		image: PropTypes.string,
-		status : PropTypes.bool
+		status : PropTypes.bool,
+		bank : PropTypes.string
 	}),
 	handleClose : PropTypes.func.isRequired
 }

@@ -809,13 +809,15 @@ module.exports = {
 			const newVoucher = new Voucher({
 				user : req.body.user,
 				school : req.body.school,
-				image : image.secure_url
+				image : image.secure_url,
+				bank : req.body.bank
 			})
 
 			const voucher = await newVoucher.save();
 			res.status(201).send({
 				_id: voucher._id,
-				image : voucher.image
+				image : voucher.image,
+				bank : voucher.bank
 			})
 		}
 		catch(err)
@@ -850,7 +852,10 @@ module.exports = {
 	findAllVoucher : async (req,res)=>{
 		try
 		{
-			let voucher = await Voucher.find({school:req.query.school,status:false});
+			let {school,page} = req.query;
+			let voucher = await Voucher.find({school,status:false})
+										.skip(parseInt(page))
+										.limit(50)
 			await User.populate([voucher],{path:'user',select:["names","lastNames","email","ci","balance"]});
 			if(voucher.length>0) return res.status(200).send(voucher);
 			res.status(204).send();

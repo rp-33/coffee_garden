@@ -28,7 +28,8 @@ class Voucher extends Component{
 			},
 			voucher :{
 				_id : '',
-				image : ''
+				image : '',
+				bank : ''
 			}
 		}
 	}
@@ -40,7 +41,7 @@ class Voucher extends Component{
 	async _findAllVoucher(school){
 		try
 		{
-			let {status,data} = await findAllVoucher(school);
+			let {status,data} = await findAllVoucher(school,0);
 			if(status === 200)
 			{
 				this.setState({
@@ -113,12 +114,13 @@ class Voucher extends Component{
 		})
 	}
 
-	handleSelectVoucher({_id,user,image}){
+	handleSelectVoucher({_id,user,image,bank}){
 		this.setState({
 			modalVoucher:true,
 			voucher : {
 				_id,
-				image
+				image,
+				bank
 			},
 			user : {
 				_id :user._id,
@@ -143,6 +145,55 @@ class Voucher extends Component{
 				})
 			}
 		})
+	}
+
+	async handleMoreData(){
+		try
+		{
+			let {status,data} = await findAllVoucher(this.state.school,this.state.data.length);
+			if(status === 200)
+			{
+				this.setState(prevState=>{
+					return{
+						data : prevState.data.concat(data),
+						result : true
+					}
+				})
+			}
+			else if(status === 204)
+			{
+				this.props.handleToast({
+					title : 'No hay mas comprobantes',
+					variant : 'info',
+					open : true
+				})
+			}
+			else if(status === 500)
+			{
+				this.props.handleToast({
+					title : 'Error en el servidor',
+					variant : 'error',
+					open : true
+				})
+			}
+			else
+			{
+				this.props.handleToast({
+					title : data.error,
+					variant : 'warnin',
+					open : true
+				})
+			}
+
+		}
+		catch(err)
+		{
+			this.props.handleToast({
+				title : 'Error',
+				variant : 'error',
+				open : true
+			})
+		}
 	}
 
 	render(){
@@ -224,6 +275,12 @@ class Voucher extends Component{
 									</div>
 								)}
 							</section>
+						}
+
+						{this.state.data.length>0 &&
+							<div className="btn-more">
+								<Button onClick={this.handleMoreData.bind(this)}>Mostrar mas</Button>
+							</div>
 						}
 								
 					</div>

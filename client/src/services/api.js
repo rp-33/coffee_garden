@@ -511,12 +511,13 @@ const queryShoppingDay = (school,date,page)=>{
 	.catch((err)=>{return err.response})
 }
 
-const createVoucherPayment = (user,school,file)=>{
+const createVoucherPayment = (user,school,file,bank)=>{
 
 	let formData = new FormData();
 	formData.append('file',file);
 	formData.append('user',user);
 	formData.append('school',school);
+	formData.append('bank',bank);
 	return axios({
 		method:'post',
 		url : '/app/createVoucherPayment',
@@ -541,12 +542,13 @@ const findAllMyVoucher = (user)=>{
 }
 
 
-const findAllVoucher = (school)=>{
+const findAllVoucher = (school,page)=>{
 		return axios({
 		method : 'get',
 		url : '/app/findAllVoucher',
 		params : {
-			school
+			school,
+			page
 		},
 		headers: {'Authorization': "bearer " + getStoreUser().token}
 	})
