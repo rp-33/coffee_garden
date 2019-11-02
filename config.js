@@ -1,6 +1,6 @@
 var config = {
 	server:{
-		port : 8888
+		port : 80
 	},
  	db:{
  		port: 'mongodb://localhost/coffee_garden' || 'mongodb+srv://rp352429:rp352429@cluster0-psfrv.mongodb.net/test?retryWrites=true&w=majority'
