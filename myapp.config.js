@@ -1,7 +1,7 @@
 module.exports = {
     apps : [{
       name        : "myapp",
-      script      : "node server.js",
+      script      : "sudo node server.js",
       watch       : true,
       env: {
         "NODE_ENV": "development",
