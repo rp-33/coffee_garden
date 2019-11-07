@@ -3,9 +3,8 @@ import Fab from '@material-ui/core/Fab';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
 import BarMessage from '../../presentation/BarMessage';
-import {
-	editEmail
-} from '../../services/api';
+import {editEmail} from '../../services/api';
+import PropTypes from 'prop-types';
 
 class EditEmail extends Component{
 	constructor(props){
@@ -99,6 +98,14 @@ class EditEmail extends Component{
 			</form>
 		)
 	}
+}
+
+
+EditEmail.propTypes = {
+	value : PropTypes.string.isRequired,	
+	user : PropTypes.string.isRequired,
+	handleBack : PropTypes.func.isRequired,
+	handleSuccess : PropTypes.func.isRequired,
 }
 
 export default EditEmail;

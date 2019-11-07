@@ -158,8 +158,10 @@ class ModalAddProduct extends Component{
 
 
 ModalAddProduct.propTypes = {
-    open : PropTypes.bool.isRequired,
-    handleClose : PropTypes.func.isRequired
+	open : PropTypes.bool.isRequired,
+	_id : PropTypes.string.isRequired,
+	handleClose : PropTypes.func.isRequired,
+	handleSubmit : PropTypes.func.isRequired
 }
 
 export default ModalAddProduct;

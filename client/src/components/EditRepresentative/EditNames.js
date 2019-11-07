@@ -3,9 +3,9 @@ import Fab from '@material-ui/core/Fab';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
 import BarMessage from '../../presentation/BarMessage';
-import {
-	editNames
-} from '../../services/api';
+import {editNames} from '../../services/api';
+import PropTypes from 'prop-types';
+
 
 class EditNames extends Component{
 	constructor(props){
@@ -111,6 +111,14 @@ class EditNames extends Component{
 			</form>
 		)
 	}
+}
+
+EditNames.propTypes = {
+	names : PropTypes.string.isRequired,
+	lastNames : PropTypes.string.isRequired,	
+	user : PropTypes.string.isRequired,
+	handleBack : PropTypes.func.isRequired,
+	handleSuccess : PropTypes.func.isRequired,
 }
 
 export default EditNames;

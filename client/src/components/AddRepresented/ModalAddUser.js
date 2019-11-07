@@ -6,6 +6,7 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import BarMessage from '../../presentation/BarMessage'
 import {saveRepresented} from '../../services/api';
+import PropTypes from 'prop-types';
 
 class ModalAddUser extends Component{
 	constructor(props){
@@ -139,6 +140,13 @@ class ModalAddUser extends Component{
 		)
 	}
 
+}
+
+ModalAddUser.propTypes = {
+	school : PropTypes.string.isRequired,
+	open : PropTypes.bool.isRequired,
+	handleSave : PropTypes.func.isRequired,
+	handleClose : PropTypes.func.isRequired
 }
 
 export default ModalAddUser;

@@ -74,6 +74,9 @@ div.create-seller div.modal-add-user .form-control{
 	border-radius: 20px;
 	padding: 5px 10px 30px 10px;
 	max-width: 260px;
+	max-height: 460px;
+	overflow-y: auto;
+	overflow-x: hidden;
 	position: relative;
 	box-shadow: 0 0 4px #737373;
 	position: relative;
@@ -116,8 +119,8 @@ div.create-seller div.modal-add-user .form-control div.icon-close{
 	height: 30px;
 	background-color: white;
 	position: absolute;
-	top: -7px;
-	right: -7px;
+	top: 1px;
+	right: 1px;
 	border-radius: 50%;
 	display: flex;
 	align-items: center;

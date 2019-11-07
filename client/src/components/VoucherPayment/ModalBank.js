@@ -32,7 +32,7 @@ class ModalBank extends Component{
 									<ol>
 										<li>Nro : 0134-1203-11-0001000994</li>
 										<li>V-22329827</li>
-										<li>JORGE GALINDEZ</li>
+										<li>Jorge Galindez</li>
 									</ol>								
 								</div>
         					</ExpansionPanelDetails>
@@ -64,7 +64,12 @@ class ModalBank extends Component{
           						<p style={{fontWeight:'bold'}}>zelle</p>
        						</ExpansionPanelSummary>
         					<ExpansionPanelDetails>
-         						<p>correo@gmail.com</p>
+								<div>
+									<ol>
+										<li>Jorge Galindez</li>
+										<li>jorgeciti00@gmail.com</li>
+									</ol>								
+								</div>
         					</ExpansionPanelDetails>
       					</ExpansionPanel>
 					 </Paper>
